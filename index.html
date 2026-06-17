@@ -1,769 +1,416 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>brightertoms — photographe</title>
-<meta name="description" content="Portfolio photographique de brightertoms — portraits, lieux et détails. Shooté à l’iPhone 14 Pro, retouché sur Lightroom.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>brightertoms — Mise au point en cours</title>
+<meta name="description" content="Le site de brightertoms est en cours de mise au point. De retour très vite.">
+<meta name="theme-color" content="#0c0a09">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%230c0a09'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='6'%20fill='none'%20stroke='%23e3994a'%20stroke-width='2'/%3E%3Ccircle%20cx='16'%20cy='16'%20r='2'%20fill='%23e3994a'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#14100d; --bg2:#1d1712; --panel:#241c15;
-  --paper:#efe7db; --muted:#9c8e7b; --faint:#5e5346;
-  --amber:#c9924b; --oxblood:#8a343a;
-  --line:rgba(239,231,219,.13);
-  --d:Fraunces,Georgia,serif; --b:"Hanken Grotesk",system-ui,sans-serif; --m:"JetBrains Mono",monospace;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--paper);font-family:var(--b);font-weight:300;
-  line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-img{display:block;max-width:100%;height:auto}
-a{color:inherit;text-decoration:none}
+  :root{
+    --ink:#0c0a09;
+    --safelight:#e3994a;
+    --safelight-soft:#f2bd7c;
+    --ember:#bb4a2c;
+    --paper:#efe7da;
+    --paper-dim:#9d9082;
+    --line:rgba(239,231,218,.12);
+    --font-display:"Fraunces", Georgia, "Times New Roman", serif;
+    --font-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
 
-/* film grain + vignette overlay */
-.grain{position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.vig{position:fixed;inset:0;z-index:8;pointer-events:none;
-  background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(0,0,0,.45) 100%)}
+  *{box-sizing:border-box;margin:0;padding:0}
 
-/* nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;
-  justify-content:space-between;padding:22px clamp(18px,4vw,52px);
-  transition:background .4s ease,padding .4s ease,border-color .4s ease;border-bottom:1px solid transparent}
-.nav.solid{background:rgba(20,16,13,.82);backdrop-filter:blur(10px);padding-top:14px;padding-bottom:14px;border-color:var(--line)}
-.nav .mark{font-family:var(--d);font-weight:900;font-size:20px;letter-spacing:-.02em}
-.nav .mark b{color:var(--amber);font-weight:900}
-.nav ul{display:flex;gap:clamp(14px,2.4vw,30px);list-style:none;align-items:center}
-.nav ul a{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);transition:color .25s}
-.nav ul a:hover{color:var(--paper)}
-.nav ul a.soc{color:var(--amber)}
-.nav-links--mob{display:none}
+  html,body{height:100%}
 
-/* hero */
-.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;
-  padding:clamp(96px,13vh,150px) clamp(18px,4vw,52px) clamp(40px,7vh,80px)}
-.hero::before{content:"";position:absolute;z-index:-1;width:min(820px,95vw);height:min(820px,95vw);
-  left:clamp(-160px,-8vw,-20px);top:22%;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,146,75,.15),transparent 62%)}
-.hero-inner{width:100%;max-width:1100px;opacity:0;transform:translateY(28px);
-  animation:heroIn 1s cubic-bezier(.2,.7,.2,1) .12s forwards}
-@keyframes heroIn{to{opacity:1;transform:none}}
-.hero .eyebrow{font-family:var(--m);font-size:clamp(10px,1.4vw,12px);letter-spacing:.34em;
-  text-transform:uppercase;color:var(--amber);margin-bottom:clamp(14px,3vh,26px)}
-.wordmark{font-family:var(--d);font-weight:900;letter-spacing:-.035em;line-height:.86;
-  font-size:clamp(56px,15vw,210px);font-optical-sizing:auto}
-.wordmark .dot{color:var(--amber)}
-.hero .tagline{font-family:var(--d);font-style:italic;font-weight:500;color:var(--paper);
-  font-size:clamp(18px,3.2vw,34px);margin-top:clamp(16px,3vh,26px);max-width:18ch;line-height:1.18}
-.hero .meta{display:flex;gap:22px;flex-wrap:wrap;margin-top:clamp(22px,4vh,40px);
-  font-family:var(--m);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.hero .meta span{position:relative;padding-left:16px}
-.hero .meta span::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--amber)}
+  body{
+    min-height:100svh;
+    background:
+      radial-gradient(140% 120% at 50% 30%, rgba(227,153,74,.07), transparent 55%),
+      var(--ink);
+    color:var(--paper);
+    font-family:var(--font-mono);
+    -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(26px,4vw,42px);
+    position:relative;
+    overflow-x:hidden;
+  }
 
-/* about */
-.about{padding:clamp(80px,14vh,160px) clamp(18px,4vw,52px);max-width:1200px;margin:0 auto;
-  display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,6vw,90px);align-items:start}
-.eyebrow{font-family:var(--m);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--amber)}
-.about-l .eyebrow{margin-bottom:24px}
-.about h2{font-family:var(--d);font-weight:600;font-size:clamp(28px,4.6vw,52px);line-height:1.06;
-  letter-spacing:-.02em}
-.about h2 em{font-style:italic;font-weight:500;color:var(--amber)}
-.about p{color:var(--muted);font-size:clamp(15px,1.5vw,17px);margin-top:22px;max-width:54ch}
-.about p strong{color:var(--paper);font-weight:500}
-.about-meta{margin-top:30px;font-family:var(--m);font-size:11px;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--faint);border-top:1px solid var(--line);padding-top:18px}
+  /* ── Decorative print frame + crop marks ───────────────── */
+  .frame{position:fixed;inset:14px;border:1px solid var(--line);pointer-events:none;z-index:30}
+  .crop{position:fixed;width:14px;height:14px;pointer-events:none;z-index:31;opacity:.6}
+  .crop::before,.crop::after{content:"";position:absolute;background:var(--safelight);opacity:.55}
+  .crop::before{width:14px;height:1px;top:0;left:0}
+  .crop::after{width:1px;height:14px;top:0;left:0}
+  .crop.tl{top:14px;left:14px}
+  .crop.tr{top:14px;right:14px;transform:scaleX(-1)}
+  .crop.bl{bottom:14px;left:14px;transform:scaleY(-1)}
+  .crop.br{bottom:14px;right:14px;transform:scale(-1)}
 
-/* chapters */
-.chapter{padding:clamp(30px,7vh,80px) clamp(18px,4vw,52px) clamp(40px,8vh,90px)}
-.chapter-head{position:relative;border-top:1px solid var(--line);padding-top:26px;margin-bottom:38px;
-  display:grid;grid-template-columns:auto 1fr auto;gap:14px 26px;align-items:baseline}
-.chapter-num{font-family:var(--m);font-size:12px;color:var(--amber);letter-spacing:.1em}
-.chapter-title{font-family:var(--d);font-weight:900;font-size:clamp(34px,7vw,84px);
-  letter-spacing:-.03em;line-height:.9;grid-column:1/2;grid-row:2}
-.chapter-blurb{grid-column:2/3;grid-row:2;color:var(--muted);max-width:40ch;font-size:15px;align-self:end}
-.chapter-count{grid-column:3/4;grid-row:2;font-family:var(--m);font-size:11px;color:var(--faint);
-  letter-spacing:.14em;text-transform:uppercase;align-self:end;white-space:nowrap}
+  /* ── Grain + vignette atmosphere ───────────────────────── */
+  .grain{
+    position:fixed;inset:-12%;pointer-events:none;z-index:24;opacity:.05;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='180'%20height='180'%3E%3Cfilter%20id='n'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.85'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='100%25'%20height='100%25'%20filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size:180px 180px;
+    animation:grain 1.1s steps(4) infinite;
+  }
+  .vignette{
+    position:fixed;inset:0;pointer-events:none;z-index:25;
+    background:radial-gradient(125% 120% at 50% 40%, transparent 52%, rgba(0,0,0,.6) 100%);
+  }
 
-/* frames */
-.frame{break-inside:avoid;margin-bottom:clamp(16px,2vw,26px);position:relative}
-.frame-btn{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;
-  overflow:hidden;position:relative;line-height:0}
-.frame-btn img{width:100%;filter:saturate(1.01) contrast(1.01);transition:transform .9s cubic-bezier(.2,.7,.2,1),filter .5s}
-.frame-btn::after{content:"";position:absolute;inset:0;background:rgba(20,16,13,.0);transition:background .5s}
-.frame-btn:hover img{transform:scale(1.04)}
-.frame-btn:hover::after{background:rgba(20,16,13,.12)}
-.frame-btn:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
-.frame figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;
-  margin-top:9px;font-family:var(--m);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase}
-.frame .fno{color:var(--amber)}
-.frame .ftag{color:var(--faint)}
-.feature{margin-bottom:clamp(20px,3vw,38px)}
-.feature .frame-btn img{max-height:86vh;object-fit:cover;width:100%}
-.feature figcaption{font-size:11.5px}
+  /* ── Top bar ───────────────────────────────────────────── */
+  .topbar{
+    position:relative;z-index:10;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;
+  }
+  .wordmark{
+    font-family:var(--font-mono);font-weight:500;font-size:.92rem;
+    letter-spacing:.32em;text-transform:lowercase;color:var(--paper);
+  }
+  .wordmark .dot{color:var(--safelight)}
+  .status{
+    display:inline-flex;align-items:center;gap:.6em;
+    font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--paper-dim);white-space:nowrap;
+  }
+  .status .led{
+    width:7px;height:7px;border-radius:50%;background:var(--safelight);
+    box-shadow:0 0 8px 1px rgba(227,153,74,.8);
+    animation:blink 2.6s ease-in-out infinite;
+  }
 
-.masonry{columns:3;column-gap:clamp(16px,2vw,26px)}
-@media(max-width:1000px){ .masonry{columns:2} .about{grid-template-columns:1fr} }
-@media(max-width:600px){ .masonry{columns:1}
-  .chapter-head{grid-template-columns:1fr;gap:8px}
-  .chapter-title,.chapter-blurb,.chapter-count{grid-column:1}
-  .chapter-title{grid-row:auto}.chapter-blurb{grid-row:auto}.chapter-count{grid-row:auto}
-  .nav-links--desk{display:none} .nav-links--mob{display:flex}
-}
+  /* ── Stage ─────────────────────────────────────────────── */
+  .stage{
+    flex:1;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:clamp(20px,3.4vh,34px);
+    padding:clamp(20px,5vh,48px) 0;
+    position:relative;z-index:10;
+  }
 
-/* footer / contact */
-.contact{padding:clamp(90px,16vh,180px) clamp(18px,4vw,52px) clamp(50px,9vh,90px);
-  border-top:1px solid var(--line);text-align:center;position:relative}
-.contact .eyebrow{margin-bottom:26px}
-.contact h2{font-family:var(--d);font-weight:900;font-size:clamp(40px,10vw,120px);
-  letter-spacing:-.035em;line-height:.92}
-.contact h2 em{font-style:italic;font-weight:500;color:var(--amber)}
-.contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:clamp(34px,6vh,56px)}
-.contact-links a{font-family:var(--m);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
-  border:1px solid var(--line);padding:15px 26px;border-radius:100px;color:var(--paper);
-  transition:border-color .3s,color .3s,background .3s}
-.contact-links a:hover{border-color:var(--amber);color:var(--amber)}
-.contact-links a.primary{background:var(--amber);color:var(--bg);border-color:var(--amber)}
-.contact-links a.primary:hover{background:transparent;color:var(--amber)}
-.colophon{margin-top:clamp(50px,9vh,90px);display:flex;justify-content:space-between;gap:14px;
-  flex-wrap:wrap;font-family:var(--m);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint)}
+  /* lens */
+  .lens{position:relative;width:clamp(186px,38vmin,290px);aspect-ratio:1}
+  .halo{
+    position:absolute;inset:-65%;z-index:0;pointer-events:none;filter:blur(10px);
+    background:radial-gradient(circle, rgba(227,153,74,.22) 0%, rgba(227,153,74,.06) 38%, transparent 66%);
+    animation:pulse 6.5s ease-in-out infinite;
+  }
+  .glow{
+    position:absolute;inset:9%;z-index:1;border-radius:50%;pointer-events:none;filter:blur(2px);
+    background:radial-gradient(circle, var(--safelight-soft) 0%, rgba(227,153,74,.6) 28%, rgba(187,74,44,.18) 54%, transparent 72%);
+    animation:pulse 6.5s ease-in-out infinite;
+  }
+  .iris{position:relative;z-index:2;width:100%;height:100%;display:block;overflow:visible}
+  .iris .ring{fill:none}
+  .iris .ring-out{stroke:rgba(227,153,74,.22);stroke-width:1.4}
+  .iris .ring-edge{stroke:rgba(227,153,74,.5);stroke-width:1.2}
+  .iris .mask{stroke:none}
+  .iris .hex{fill:none;stroke:var(--safelight);stroke-width:1.5;stroke-linejoin:round;filter:drop-shadow(0 0 3px rgba(227,153,74,.55))}
+  .iris .blade{stroke:rgba(227,153,74,.32);stroke-width:1;stroke-linecap:round}
 
-/* reveal */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
-.reveal.in{opacity:1;transform:none}
+  /* headline */
+  .headline{
+    font-family:var(--font-display);font-weight:500;
+    font-size:clamp(2.5rem,8.5vw,5rem);line-height:.98;letter-spacing:-.018em;
+    color:var(--paper);max-width:14ch;
+  }
+  .headline em{display:block;font-style:italic;font-weight:400;color:var(--safelight-soft)}
 
-/* lightbox */
-.lb{position:fixed;inset:0;z-index:50;background:rgba(12,9,7,.96);backdrop-filter:blur(6px);
-  display:none;align-items:center;justify-content:center;padding:clamp(14px,4vw,48px)}
-.lb.open{display:flex}
-.lb img{max-width:100%;max-height:84vh;object-fit:contain;box-shadow:0 30px 90px rgba(0,0,0,.6)}
-.lb-cap{position:absolute;left:0;right:0;bottom:clamp(16px,3vh,30px);text-align:center;
-  font-family:var(--m);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.lb-cap b{color:var(--amber);font-weight:500}
-.lb-btn{position:absolute;background:none;border:1px solid var(--line);color:var(--paper);
-  width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;
-  align-items:center;justify-content:center;transition:border-color .3s,color .3s}
-.lb-btn:hover{border-color:var(--amber);color:var(--amber)}
-.lb-close{top:clamp(16px,3vh,28px);right:clamp(16px,4vw,40px)}
-.lb-prev{left:clamp(10px,2vw,30px);top:50%;transform:translateY(-50%)}
-.lb-next{right:clamp(10px,2vw,30px);top:50%;transform:translateY(-50%)}
-@media(max-width:600px){ .lb-prev{left:10px} .lb-next{right:10px} .lb-btn{width:42px;height:42px} }
+  .subtext{
+    font-family:var(--font-mono);font-weight:300;
+    font-size:clamp(.82rem,2.1vw,.98rem);line-height:1.65;letter-spacing:.01em;
+    color:var(--paper-dim);max-width:46ch;
+  }
+  .subtext .net{color:var(--paper)}
 
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important;scroll-behavior:auto!important}
-  .reveal{opacity:1;transform:none;transition:none}
-  .frame-btn img{transition:none}
-  .hero-inner{opacity:1;transform:none}
-}
+  /* countdown */
+  .countdown{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .cd-label{
+    font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--paper-dim);
+  }
+  .cd-grid{display:flex;align-items:stretch}
+  .cd-unit{
+    display:flex;flex-direction:column;align-items:center;gap:7px;
+    padding:0 clamp(14px,4vw,26px);position:relative;
+  }
+  .cd-unit + .cd-unit::before{
+    content:"";position:absolute;left:0;top:14%;bottom:14%;width:1px;background:var(--line);
+  }
+  .cd-num{
+    font-family:var(--font-mono);font-weight:400;font-variant-numeric:tabular-nums;
+    font-size:clamp(1.9rem,6.5vw,3rem);line-height:1;color:var(--paper);
+  }
+  .cd-tag{font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--paper-dim)}
+  .cd-back{
+    font-family:var(--font-display);font-style:italic;font-weight:400;
+    font-size:clamp(1.1rem,3.4vw,1.45rem);color:var(--safelight-soft);
+  }
 
-/* --- optimisation mobile --- */
-*{-webkit-tap-highlight-color:transparent}
-@media(max-width:600px){
-  .nav{padding:14px 18px}
-  .nav .mark{font-size:18px}
-  .hero{padding-top:clamp(84px,16vh,120px)}
-  .hero .tagline{font-size:clamp(19px,5.4vw,27px)}
-  .hero .meta{gap:14px 18px}
-  .about{padding-top:clamp(64px,10vh,90px);padding-bottom:clamp(18px,5vh,40px)}
-  .chapter{padding-left:16px;padding-right:16px}
-  .chapter-head{padding-top:22px;margin-bottom:28px}
-  .frame figcaption{font-size:10px}
-  .lb{padding:14px}
-  .lb-btn{width:46px;height:46px}
-  .lb-close{top:14px;right:14px}
-  .contact{padding-left:18px;padding-right:18px}
-  .contact h2{font-size:clamp(40px,12.5vw,76px)}
-  .contact-links a{padding:14px 20px;font-size:11px}
-}
+  /* mail */
+  .mail{
+    display:inline-flex;align-items:center;gap:16px;text-decoration:none;color:var(--paper);
+    padding:15px 22px;border:1px solid var(--line);border-radius:2px;
+    background:linear-gradient(180deg, rgba(239,231,218,.025), rgba(239,231,218,0));
+    transition:border-color .35s ease, background .35s ease, transform .35s ease;
+  }
+  .mail:hover,.mail:focus-visible{
+    border-color:rgba(227,153,74,.55);
+    background:linear-gradient(180deg, rgba(227,153,74,.09), rgba(227,153,74,.02));
+    transform:translateY(-2px);
+  }
+  .mail-ic{display:inline-flex;color:var(--safelight)}
+  .mail-ic svg{width:22px;height:22px;display:block}
+  .mail-txt{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left}
+  .mail-top{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--paper-dim)}
+  .mail-addr{font-size:clamp(.92rem,2.6vw,1.06rem);letter-spacing:.01em;color:var(--paper)}
+  .mail-arrow{color:var(--paper-dim);font-size:1rem;transition:transform .35s ease, color .35s ease}
+  .mail:hover .mail-arrow,.mail:focus-visible .mail-arrow{transform:translate(3px,-3px);color:var(--safelight)}
 
-/* === corrections d'affichage (ajout) === */
-.feature .frame-btn{display:flex;justify-content:center;background:#100c09}
-.feature .frame-btn img{max-height:88vh;width:auto;max-width:100%;object-fit:contain}
+  /* social */
+  .social{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+  .chip{
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+    color:var(--paper-dim);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;
+    padding:9px 15px;border:1px solid var(--line);border-radius:100px;
+    transition:color .3s ease, border-color .3s ease, transform .3s ease;
+  }
+  .chip svg{width:16px;height:16px;display:block}
+  .chip:hover,.chip:focus-visible{color:var(--paper);border-color:rgba(227,153,74,.5);transform:translateY(-2px)}
+  .handle{font-size:.66rem;letter-spacing:.26em;color:var(--paper-dim);opacity:.7}
 
-/* --- section crédits --- */
-.credits{padding:clamp(30px,7vh,80px) clamp(18px,4vw,52px) clamp(40px,8vh,90px)}
-.credit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(14px,2vw,22px);margin-top:6px}
-.credit-card{display:flex;flex-direction:column;gap:7px;padding:clamp(24px,3.4vw,40px);
-  border:1px solid var(--line);border-radius:16px;background:var(--bg2);
-  transition:border-color .35s,transform .35s,background .35s}
-.credit-card:hover{border-color:var(--amber);transform:translateY(-3px);background:var(--panel)}
-.credit-card:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
-.credit-name{font-family:var(--d);font-weight:600;font-size:clamp(26px,3.2vw,38px);letter-spacing:-.02em}
-.credit-ig{font-family:var(--m);font-size:13px;color:var(--muted)}
-.credit-go{font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-top:8px}
+  /* footer */
+  .footer{
+    position:relative;z-index:10;text-align:center;
+    font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--paper-dim);opacity:.65;
+  }
 
-/* --- optimisation mobile uniquement (<=768px) : iPhone & co --- */
-@media(max-width:768px){
-  .nav-links--desk{display:none}.nav-links--mob{display:flex}
-  .wordmark{font-size:clamp(40px,12vw,80px);letter-spacing:-.045em}
-  .nav{padding-top:max(13px,env(safe-area-inset-top));
-       padding-left:max(18px,env(safe-area-inset-left));
-       padding-right:max(18px,env(safe-area-inset-right))}
-  .contact{padding-bottom:max(54px,calc(env(safe-area-inset-bottom) + 44px))}
-}
-@media(max-width:600px){.credit-grid{grid-template-columns:1fr}}
+  /* focus ring */
+  a:focus-visible{outline:2px solid var(--safelight);outline-offset:4px}
 
-/* --- section newsletter --- */
-.news{padding:clamp(10px,3vh,40px) clamp(18px,4vw,52px) clamp(40px,8vh,80px)}
-.news-card{max-width:760px;margin:0 auto;padding:clamp(30px,4.5vw,56px);
-  border:1px solid var(--line);border-radius:22px;
-  background:linear-gradient(160deg,var(--bg2),var(--panel));
-  position:relative;overflow:hidden}
-.news-card::after{content:"";position:absolute;top:-40%;right:-20%;width:55%;height:160%;
-  background:radial-gradient(circle,rgba(201,146,75,.16),transparent 70%);pointer-events:none}
-.news-title{font-family:var(--d);font-weight:600;font-size:clamp(30px,4.4vw,52px);
-  letter-spacing:-.02em;margin:10px 0 6px;line-height:1.05}
-.news-title em{font-style:italic;color:var(--amber)}
-.news-sub{color:var(--muted);max-width:48ch;margin-bottom:clamp(20px,3vh,30px)}
-.news-form{position:relative;z-index:1}
-.news-row{display:flex;gap:12px;margin-bottom:14px}
-.news-input{flex:1;min-width:0;background:rgba(20,16,13,.6);color:var(--paper);
-  border:1px solid var(--line);border-radius:12px;padding:15px 18px;
-  font-family:var(--b);font-size:15px;transition:border-color .3s,background .3s}
-.news-input::placeholder{color:var(--faint)}
-.news-input:focus{outline:none;border-color:var(--amber);background:rgba(20,16,13,.85)}
-.news-consent{display:flex;gap:11px;align-items:flex-start;margin-bottom:20px;
-  font-size:12.5px;color:var(--muted);line-height:1.5;cursor:pointer}
-.news-consent input{margin-top:2px;accent-color:var(--amber);width:16px;height:16px;flex:none}
-.news-btn{font-family:var(--m);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
-  background:var(--amber);color:var(--bg);border:1px solid var(--amber);
-  padding:15px 34px;border-radius:100px;cursor:pointer;
-  transition:background .3s,color .3s}
-.news-btn:hover{background:transparent;color:var(--amber)}
-.news-ok{margin-top:16px;color:var(--amber);font-family:var(--m);font-size:13px}
-@media(max-width:600px){
-  .news-row{flex-direction:column;gap:10px}
-  .news-btn{width:100%}
-}
+  /* ── Intro reveals ─────────────────────────────────────── */
+  @keyframes focusPull{
+    from{filter:blur(16px);opacity:0;transform:translateY(8px)}
+    55%{opacity:1}
+    to{filter:blur(0);opacity:1;transform:none}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes lensIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.9;transform:scale(1.06)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.28}}
+  @keyframes grain{
+    0%{transform:translate(0,0)}25%{transform:translate(-4%,2%)}
+    50%{transform:translate(3%,-3%)}75%{transform:translate(-2%,4%)}100%{transform:translate(0,0)}
+  }
+
+  .topbar{animation:rise .9s ease both .25s}
+  .lens{animation:lensIn 1.2s cubic-bezier(.16,1,.3,1) both}
+  .headline{animation:focusPull 1.7s cubic-bezier(.16,1,.3,1) both}
+  .subtext{animation:rise .9s ease both .95s}
+  .countdown{animation:rise .9s ease both 1.2s}
+  .mail{animation:rise .9s ease both 1.45s}
+  .social{animation:rise .9s ease both 1.65s}
+  .handle{animation:rise .9s ease both 1.8s}
+  .footer{animation:rise .9s ease both 1.95s}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important}
+    .topbar,.lens,.headline,.subtext,.countdown,.mail,.social,.handle,.footer{opacity:1;transform:none;filter:none}
+    .glow,.halo{opacity:.7}
+  }
+
+  @media (max-width:420px){
+    .wordmark{letter-spacing:.22em}
+    .status{font-size:.55rem;letter-spacing:.22em}
+  }
 </style>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
-<div class="vig" aria-hidden="true"></div>
 
-<nav class="nav" id="nav">
-  <a href="#top" class="mark">brighter<b>toms</b></a>
-  <ul class="nav-links--desk">
-    <li><a href="#portraits">Portraits</a></li>
-    <li><a href="#lieux">Lieux</a></li>
-    <li><a href="#details">Détails</a></li>
-    <li><a href="#credits">Crédits</a></li>
-    <li><a href="#newsletter">Newsletter</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a class="soc" href="https://instagram.com/brightertoms" target="_blank" rel="noopener">Instagram</a></li>
-    <li><a class="soc" href="https://tiktok.com/@brightertoms" target="_blank" rel="noopener">TikTok</a></li>
-  </ul>
-  <ul class="nav-links--mob">
-    <li><a class="soc" href="https://instagram.com/brightertoms" target="_blank" rel="noopener">IG</a></li>
-    <li><a class="soc" href="https://tiktok.com/@brightertoms" target="_blank" rel="noopener">TT</a></li>
-  </ul>
-</nav>
+  <div class="frame" aria-hidden="true"></div>
+  <span class="crop tl" aria-hidden="true"></span>
+  <span class="crop tr" aria-hidden="true"></span>
+  <span class="crop bl" aria-hidden="true"></span>
+  <span class="crop br" aria-hidden="true"></span>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
 
-<header class="hero" id="top">
-  <div class="hero-inner">
-    <p class="eyebrow">Photographe · iPhone 14 Pro · Lightroom</p>
-    <h1 class="wordmark">brightertoms<span class="dot">.</span></h1>
-    <p class="tagline">La lumière, le grain, le détail.</p>
-    <div class="meta">
-      <span>Portraits</span><span>Lieux</span><span>Détails</span>
+  <header class="topbar">
+    <span class="wordmark">brightertoms<span class="dot">.</span></span>
+    <span class="status"><span class="led" aria-hidden="true"></span>En développement</span>
+  </header>
+
+  <main class="stage">
+
+    <div class="lens">
+      <div class="halo" aria-hidden="true"></div>
+      <div class="glow" aria-hidden="true"></div>
+      <svg class="iris" viewBox="0 0 200 200" role="img" aria-label="Objectif photographique en cours de mise au point">
+        <defs>
+          <radialGradient id="blade" gradientUnits="userSpaceOnUse" cx="100" cy="100" r="92">
+            <stop offset="0" stop-color="#0c0a09"/>
+            <stop offset="0.55" stop-color="#130f0d"/>
+            <stop offset="0.85" stop-color="#1d1611"/>
+            <stop offset="1" stop-color="#281d16"/>
+          </radialGradient>
+        </defs>
+        <circle cx="100" cy="100" r="96" class="ring ring-out"/>
+        <circle cx="100" cy="100" r="90.5" class="ring ring-edge"/>
+        <g id="irisG"></g>
+        <circle cx="100" cy="100" r="90" class="ring ring-edge"/>
+      </svg>
     </div>
-  </div>
-</header>
 
-<section class="about" id="about">
-  <div class="about-l reveal">
-    <p class="eyebrow">À propos</p>
-    <h2>Je regarde le monde comme on regarde un <em>vêtement</em>.</h2>
-  </div>
-  <div class="about-r reveal">
-    <p>Derrière <strong>brightertoms</strong>, il y a Tom — Thomas à l’état civil, mais tout le monde dit Tom. 21 ans, un œil formé à la coupe et au tissu, qui cherche partout la même chose : une intention, une texture, une silhouette.</p>
-    <p>Portraits, façades baroques, dorures, objets oubliés. Chaque image part d’un même réflexe : trouver la lumière juste et le grain qui raconte. Juste l’instant.</p>
-    <p><strong>Tout est shooté à l’iPhone 14 Pro</strong> — aucun appareil pro — et retouché sur Lightroom.</p>
-    <div class="about-meta">55 images · 3 chapitres · iPhone 14 Pro × Lightroom</div>
-  </div>
-</section>
+    <h1 class="headline">Mise au point <em>en cours</em></h1>
 
-<section class="chapter" id="portraits">
-  <header class="chapter-head reveal">
-    <span class="chapter-num">01</span>
-    <h2 class="chapter-title">Portraits</h2>
-    <p class="chapter-blurb">Visages, attitudes, contre-jours. Là où le vêtement rencontre la peau.</p>
-    <span class="chapter-count">26 images</span>
-  </header>
-  <figure class="frame feature" data-i="18">
-  <button class="frame-btn" data-i="18" aria-label="Ouvrir l’image 18">
-    <img src="image18/18.jpg" alt="portraits — golden hour" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.18</span><span class="ftag">golden hour</span></figcaption>
-</figure>
-  <div class="masonry">
-  <figure class="frame" data-i="1">
-  <button class="frame-btn" data-i="1" aria-label="Ouvrir l’image 01">
-    <img src="images1/01.jpg" alt="portraits — lumière" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.01</span><span class="ftag">lumière</span></figcaption>
-</figure>
-<figure class="frame" data-i="2">
-  <button class="frame-btn" data-i="2" aria-label="Ouvrir l’image 02">
-    <img src="images1/02.jpg" alt="portraits — lumière" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.02</span><span class="ftag">lumière</span></figcaption>
-</figure>
-<figure class="frame" data-i="3">
-  <button class="frame-btn" data-i="3" aria-label="Ouvrir l’image 03">
-    <img src="images1/03.jpg" alt="portraits — duo" loading="lazy" width="1124" height="899">
-  </button>
-  <figcaption><span class="fno">F.03</span><span class="ftag">duo</span></figcaption>
-</figure>
-<figure class="frame" data-i="4">
-  <button class="frame-btn" data-i="4" aria-label="Ouvrir l’image 04">
-    <img src="images1/04.jpg" alt="portraits — intérieur" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.04</span><span class="ftag">intérieur</span></figcaption>
-</figure>
-<figure class="frame" data-i="5">
-  <button class="frame-btn" data-i="5" aria-label="Ouvrir l’image 05">
-    <img src="images1/05.jpg" alt="portraits — rue" loading="lazy" width="1280" height="1600">
-  </button>
-  <figcaption><span class="fno">F.05</span><span class="ftag">rue</span></figcaption>
-</figure>
-<figure class="frame" data-i="6">
-  <button class="frame-btn" data-i="6" aria-label="Ouvrir l’image 06">
-    <img src="images1/06.jpg" alt="portraits — studio" loading="lazy" width="1280" height="1600">
-  </button>
-  <figcaption><span class="fno">F.06</span><span class="ftag">studio</span></figcaption>
-</figure>
-<figure class="frame" data-i="7">
-  <button class="frame-btn" data-i="7" aria-label="Ouvrir l’image 07">
-    <img src="images2/07.jpg" alt="portraits — rue" loading="lazy" width="1280" height="1600">
-  </button>
-  <figcaption><span class="fno">F.07</span><span class="ftag">rue</span></figcaption>
-</figure>
-<figure class="frame" data-i="8">
-  <button class="frame-btn" data-i="8" aria-label="Ouvrir l’image 08">
-    <img src="images2/08.jpg" alt="portraits — argentique" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.08</span><span class="ftag">argentique</span></figcaption>
-</figure>
-<figure class="frame" data-i="9">
-  <button class="frame-btn" data-i="9" aria-label="Ouvrir l’image 09">
-    <img src="images2/09.jpg" alt="portraits — nature" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.09</span><span class="ftag">nature</span></figcaption>
-</figure>
-<figure class="frame" data-i="10">
-  <button class="frame-btn" data-i="10" aria-label="Ouvrir l’image 10">
-    <img src="images2/10.jpg" alt="portraits — voiture" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.10</span><span class="ftag">voiture</span></figcaption>
-</figure>
-<figure class="frame" data-i="11">
-  <button class="frame-btn" data-i="11" aria-label="Ouvrir l’image 11">
-    <img src="images2/11.jpg" alt="portraits — voiture" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.11</span><span class="ftag">voiture</span></figcaption>
-</figure>
-<figure class="frame" data-i="12">
-  <button class="frame-btn" data-i="12" aria-label="Ouvrir l’image 12">
-    <img src="images2/12.jpg" alt="portraits — voiture" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.12</span><span class="ftag">voiture</span></figcaption>
-</figure>
-<figure class="frame" data-i="13">
-  <button class="frame-btn" data-i="13" aria-label="Ouvrir l’image 13">
-    <img src="images3/13.jpg" alt="portraits — mouvement" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.13</span><span class="ftag">mouvement</span></figcaption>
-</figure>
-<figure class="frame" data-i="14">
-  <button class="frame-btn" data-i="14" aria-label="Ouvrir l’image 14">
-    <img src="images3/14.jpg" alt="portraits — toit" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.14</span><span class="ftag">toit</span></figcaption>
-</figure>
-<figure class="frame" data-i="15">
-  <button class="frame-btn" data-i="15" aria-label="Ouvrir l’image 15">
-    <img src="image15/15.jpg" alt="portraits — nature" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.15</span><span class="ftag">nature</span></figcaption>
-</figure>
-<figure class="frame" data-i="16">
-  <button class="frame-btn" data-i="16" aria-label="Ouvrir l’image 16">
-    <img src="images3/16.jpg" alt="portraits — panorama" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.16</span><span class="ftag">panorama</span></figcaption>
-</figure>
-<figure class="frame" data-i="17">
-  <button class="frame-btn" data-i="17" aria-label="Ouvrir l’image 17">
-    <img src="images3/17.jpg" alt="portraits — soleil" loading="lazy" width="1600" height="1200">
-  </button>
-  <figcaption><span class="fno">F.17</span><span class="ftag">soleil</span></figcaption>
-</figure>
-<figure class="frame" data-i="19">
-  <button class="frame-btn" data-i="19" aria-label="Ouvrir l’image 19">
-    <img src="images4/19.jpg" alt="portraits — forêt" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.19</span><span class="ftag">forêt</span></figcaption>
-</figure>
-<figure class="frame" data-i="20">
-  <button class="frame-btn" data-i="20" aria-label="Ouvrir l’image 20">
-    <img src="images4/20.jpg" alt="portraits — argentique" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.20</span><span class="ftag">argentique</span></figcaption>
-</figure>
-<figure class="frame" data-i="21">
-  <button class="frame-btn" data-i="21" aria-label="Ouvrir l’image 21">
-    <img src="images4/21.jpg" alt="portraits — sépia" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.21</span><span class="ftag">sépia</span></figcaption>
-</figure>
-<figure class="frame" data-i="22">
-  <button class="frame-btn" data-i="22" aria-label="Ouvrir l’image 22">
-    <img src="images4/22.jpg" alt="portraits — noir &amp; blanc" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.22</span><span class="ftag">noir &amp; blanc</span></figcaption>
-</figure>
-<figure class="frame" data-i="23">
-  <button class="frame-btn" data-i="23" aria-label="Ouvrir l’image 23">
-    <img src="images4/23.jpg" alt="portraits — ride" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.23</span><span class="ftag">ride</span></figcaption>
-</figure>
-<figure class="frame" data-i="24">
-  <button class="frame-btn" data-i="24" aria-label="Ouvrir l’image 24">
-    <img src="images4/24.jpg" alt="portraits — contre-plongée" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.24</span><span class="ftag">contre-plongée</span></figcaption>
-</figure>
-<figure class="frame" data-i="25">
-  <button class="frame-btn" data-i="25" aria-label="Ouvrir l’image 25">
-    <img src="images5/25.jpg" alt="portraits — casque" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.25</span><span class="ftag">casque</span></figcaption>
-</figure>
-<figure class="frame" data-i="26">
-  <button class="frame-btn" data-i="26" aria-label="Ouvrir l’image 26">
-    <img src="images5/26.jpg" alt="portraits — intime" loading="lazy" width="898" height="1600">
-  </button>
-  <figcaption><span class="fno">F.26</span><span class="ftag">intime</span></figcaption>
-</figure>
-  </div>
-</section>
-<section class="chapter" id="lieux">
-  <header class="chapter-head reveal">
-    <span class="chapter-num">02</span>
-    <h2 class="chapter-title">Lieux</h2>
-    <p class="chapter-blurb">Musées, façades, ciels — l’architecture et ses ors.</p>
-    <span class="chapter-count">13 images</span>
-  </header>
-  <figure class="frame feature" data-i="35">
-  <button class="frame-btn" data-i="35" aria-label="Ouvrir l’image 35">
-    <img src="images6/35.jpg" alt="lieux — intérieur" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.35</span><span class="ftag">intérieur</span></figcaption>
-</figure>
-  <div class="masonry">
-  <figure class="frame" data-i="27">
-  <button class="frame-btn" data-i="27" aria-label="Ouvrir l’image 27">
-    <img src="images5/27.jpg" alt="lieux — gare" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.27</span><span class="ftag">gare</span></figcaption>
-</figure>
-<figure class="frame" data-i="28">
-  <button class="frame-btn" data-i="28" aria-label="Ouvrir l’image 28">
-    <img src="images5/28.jpg" alt="lieux — Provence" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.28</span><span class="ftag">Provence</span></figcaption>
-</figure>
-<figure class="frame" data-i="29">
-  <button class="frame-btn" data-i="29" aria-label="Ouvrir l’image 29">
-    <img src="images5/29.jpg" alt="lieux — lac" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.29</span><span class="ftag">lac</span></figcaption>
-</figure>
-<figure class="frame" data-i="30">
-  <button class="frame-btn" data-i="30" aria-label="Ouvrir l’image 30">
-    <img src="images5/30.jpg" alt="lieux — nuit" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.30</span><span class="ftag">nuit</span></figcaption>
-</figure>
-<figure class="frame" data-i="31">
-  <button class="frame-btn" data-i="31" aria-label="Ouvrir l’image 31">
-    <img src="images6/31.jpg" alt="lieux — Arles" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.31</span><span class="ftag">Arles</span></figcaption>
-</figure>
-<figure class="frame" data-i="32">
-  <button class="frame-btn" data-i="32" aria-label="Ouvrir l’image 32">
-    <img src="images6/32.jpg" alt="lieux — musée" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.32</span><span class="ftag">musée</span></figcaption>
-</figure>
-<figure class="frame" data-i="33">
-  <button class="frame-btn" data-i="33" aria-label="Ouvrir l’image 33">
-    <img src="images6/33.jpg" alt="lieux — musée" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.33</span><span class="ftag">musée</span></figcaption>
-</figure>
-<figure class="frame" data-i="34">
-  <button class="frame-btn" data-i="34" aria-label="Ouvrir l’image 34">
-    <img src="images6/34.jpg" alt="lieux — baroque" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.34</span><span class="ftag">baroque</span></figcaption>
-</figure>
-<figure class="frame" data-i="36">
-  <button class="frame-btn" data-i="36" aria-label="Ouvrir l’image 36">
-    <img src="images6/36.jpg" alt="lieux — coupole" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.36</span><span class="ftag">coupole</span></figcaption>
-</figure>
-<figure class="frame" data-i="37">
-  <button class="frame-btn" data-i="37" aria-label="Ouvrir l’image 37">
-    <img src="images7/37.jpg" alt="lieux — verrière" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.37</span><span class="ftag">verrière</span></figcaption>
-</figure>
-<figure class="frame" data-i="38">
-  <button class="frame-btn" data-i="38" aria-label="Ouvrir l’image 38">
-    <img src="images7/38.jpg" alt="lieux — façade" loading="lazy" width="1200" height="1600">
-  </button>
-  <figcaption><span class="fno">F.38</span><span class="ftag">façade</span></figcaption>
-</figure>
-<figure class="frame" data-i="39">
-  <button class="frame-btn" data-i="39" aria-label="Ouvrir l’image 39">
-    <img src="images7/39.jpg" alt="lieux — ciel" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.39</span><span class="ftag">ciel</span></figcaption>
-</figure>
-  </div>
-</section>
-<section class="chapter" id="details">
-  <header class="chapter-head reveal">
-    <span class="chapter-num">03</span>
-    <h2 class="chapter-title">Détails</h2>
-    <p class="chapter-blurb">Matières, objets, fresques. Ce qu’on ne remarque qu’au second regard.</p>
-    <span class="chapter-count">16 images</span>
-  </header>
-  <figure class="frame feature" data-i="50">
-  <button class="frame-btn" data-i="50" aria-label="Ouvrir l’image 50">
-    <img src="images9/50.jpg" alt="details — fresque" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.50</span><span class="ftag">fresque</span></figcaption>
-</figure>
-  <div class="masonry">
-  <figure class="frame" data-i="40">
-  <button class="frame-btn" data-i="40" aria-label="Ouvrir l’image 40">
-    <img src="image40/40.jpg" alt="details — maroquinerie" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.40</span><span class="ftag">maroquinerie</span></figcaption>
-</figure>
-<figure class="frame" data-i="41">
-  <button class="frame-btn" data-i="41" aria-label="Ouvrir l’image 41">
-    <img src="image41/41.jpg" alt="details — vitrine" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.41</span><span class="ftag">vitrine</span></figcaption>
-</figure>
-<figure class="frame" data-i="42">
-  <button class="frame-btn" data-i="42" aria-label="Ouvrir l’image 42">
-    <img src="image42/42.jpg" alt="details — collage" loading="lazy" width="1280" height="1600">
-  </button>
-  <figcaption><span class="fno">F.42</span><span class="ftag">collage</span></figcaption>
-</figure>
-<figure class="frame" data-i="43">
-  <button class="frame-btn" data-i="43" aria-label="Ouvrir l’image 43">
-    <img src="images8/43.jpg" alt="details — instant" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.43</span><span class="ftag">instant</span></figcaption>
-</figure>
-<figure class="frame" data-i="44">
-  <button class="frame-btn" data-i="44" aria-label="Ouvrir l’image 44">
-    <img src="images8/44.jpg" alt="details — faïence" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.44</span><span class="ftag">faïence</span></figcaption>
-</figure>
-<figure class="frame" data-i="45">
-  <button class="frame-btn" data-i="45" aria-label="Ouvrir l’image 45">
-    <img src="images8/45.jpg" alt="details — cristal" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.45</span><span class="ftag">cristal</span></figcaption>
-</figure>
-<figure class="frame" data-i="46">
-  <button class="frame-btn" data-i="46" aria-label="Ouvrir l’image 46">
-    <img src="images8/46.jpg" alt="details — flammes" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.46</span><span class="ftag">flammes</span></figcaption>
-</figure>
-<figure class="frame" data-i="47">
-  <button class="frame-btn" data-i="47" aria-label="Ouvrir l’image 47">
-    <img src="images8/47.jpg" alt="details — dorures" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.47</span><span class="ftag">dorures</span></figcaption>
-</figure>
-<figure class="frame" data-i="48">
-  <button class="frame-btn" data-i="48" aria-label="Ouvrir l’image 48">
-    <img src="images8/48.jpg" alt="details — plafond" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.48</span><span class="ftag">plafond</span></figcaption>
-</figure>
-<figure class="frame" data-i="49">
-  <button class="frame-btn" data-i="49" aria-label="Ouvrir l’image 49">
-    <img src="images9/49.jpg" alt="details — applique" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.49</span><span class="ftag">applique</span></figcaption>
-</figure>
-<figure class="frame" data-i="51">
-  <button class="frame-btn" data-i="51" aria-label="Ouvrir l’image 51">
-    <img src="images9/51.jpg" alt="details — fresque" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.51</span><span class="ftag">fresque</span></figcaption>
-</figure>
-<figure class="frame" data-i="52">
-  <button class="frame-btn" data-i="52" aria-label="Ouvrir l’image 52">
-    <img src="images9/52.jpg" alt="details — fresque" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.52</span><span class="ftag">fresque</span></figcaption>
-</figure>
-<figure class="frame" data-i="53">
-  <button class="frame-btn" data-i="53" aria-label="Ouvrir l’image 53">
-    <img src="images9/53.jpg" alt="details — couture" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.53</span><span class="ftag">couture</span></figcaption>
-</figure>
-<figure class="frame" data-i="54">
-  <button class="frame-btn" data-i="54" aria-label="Ouvrir l’image 54">
-    <img src="images9/54.jpg" alt="details — verre" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.54</span><span class="ftag">verre</span></figcaption>
-</figure>
-<figure class="frame" data-i="55">
-  <button class="frame-btn" data-i="55" aria-label="Ouvrir l’image 55">
-    <img src="images10/55.jpg" alt="details — chrome" loading="lazy" width="900" height="1600">
-  </button>
-  <figcaption><span class="fno">F.55</span><span class="ftag">chrome</span></figcaption>
-</figure>
-  </div>
-</section>
+    <p class="subtext">Je développe quelques détails en chambre noire. Le site revient très vite — <span class="net">plus net que jamais.</span></p>
 
-<section class="credits" id="credits">
-  <header class="chapter-head reveal">
-    <span class="chapter-num">04</span>
-    <h2 class="chapter-title">Crédits</h2>
-    <p class="chapter-blurb">Devant l’objectif — merci à celles qui ont posé.</p>
-    <span class="chapter-count">2 muses</span>
-  </header>
-  <div class="credit-grid reveal">
-    <a class="credit-card" href="https://instagram.com/prn.axel" target="_blank" rel="noopener">
-      <span class="credit-name">Axelle</span>
-      <span class="credit-ig">@prn.axel</span>
-      <span class="credit-go">Instagram ↗</span>
-    </a>
-    <a class="credit-card" href="https://instagram.com/marine._dtg" target="_blank" rel="noopener">
-      <span class="credit-name">Marine</span>
-      <span class="credit-ig">@marine._dtg</span>
-      <span class="credit-go">Instagram ↗</span>
-    </a>
-  </div>
-</section>
-
-<section class="news" id="newsletter">
-  <div class="news-card reveal">
-    <p class="eyebrow">Newsletter ♡</p>
-    <h2 class="news-title">Reste dans la <em>boucle</em></h2>
-    <p class="news-sub">Les nouveautés, les mises à jour du site et les prochaines sorties — avant tout le monde.</p>
-
-    <form class="news-form" id="newsForm"
-          action="https://1b35c34a.sibforms.com/serve/MUIFADkpjCzg_1qjop-F4bxA1Bf6Wi2GWb0POxftDl86JG-PhGPEyuDnkfIyDc-AD_E3TWKv4BdXgCZorIXjPCMtP6x__Ta5WTiEBKFDuOrr0k3PIY62NAf5gEcJRGOyPop1qmux8EmZBbh-L7qVX9dYSl9hXgw8iE-v9eXENlncw3lPPsT4axjmRNErn66OSqz79TPGP0icXTzppw=="
-          method="POST" target="news_sink">
-      <div class="news-row">
-        <input class="news-input" type="text" name="FIRSTNAME" placeholder="Ton prénom (ou ton surnom)" autocomplete="given-name" required>
-        <input class="news-input" type="email" name="EMAIL" placeholder="Ton adresse e-mail" autocomplete="email" required>
+    <div class="countdown" id="countdown">
+      <span class="cd-label">De retour dans</span>
+      <div class="cd-grid">
+        <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-tag">jours</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-tag">heures</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-tag">min</span></div>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-tag">sec</span></div>
       </div>
-      <label class="news-consent">
-        <input type="checkbox" name="CONSENTEMENT" value="1" required>
-        <span>J’accepte de recevoir les nouveautés et mises à jour par e-mail. Désinscription possible à tout moment.</span>
-      </label>
-      <!-- anti-spam honeypot (ne pas remplir) -->
-      <input type="text" name="email_address_check" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-      <input type="hidden" name="locale" value="fr">
-      <button class="news-btn" type="submit">S’inscrire</button>
-      <p class="news-ok" id="newsOk" hidden>Bienvenue ♡ Inscription enregistrée — surveille ta boîte mail.</p>
-    </form>
-  </div>
-  <iframe name="news_sink" title="newsletter" aria-hidden="true" style="display:none"></iframe>
-</section>
+    </div>
 
-<footer class="contact" id="contact">
-  <p class="eyebrow">Contact</p>
-  <h2>On crée <em>quelque chose</em> ?</h2>
-  <div class="contact-links">
-    <a class="primary" href="https://instagram.com/brightertoms" target="_blank" rel="noopener">Instagram · @brightertoms</a>
-    <a href="https://tiktok.com/@brightertoms" target="_blank" rel="noopener">TikTok · @brightertoms</a>
-  </div>
-  <div class="colophon">
-    <span>© 2026 brightertoms</span>
-    <span>Portraits · Lieux · Détails</span>
-    <span>iPhone 14 Pro · Lightroom</span>
-  </div>
-</footer>
+    <a class="mail" href="mailto:contact@brightertoms.fr?subject=Une%20question%20pour%20brightertoms">
+      <span class="mail-ic" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6.5 12 12.5 20.5 6.5"/>
+        </svg>
+      </span>
+      <span class="mail-txt">
+        <span class="mail-top">Une question ? Écris-moi</span>
+        <span class="mail-addr">contact@brightertoms.fr</span>
+      </span>
+      <span class="mail-arrow" aria-hidden="true">↗</span>
+    </a>
 
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image agrandie">
-  <button class="lb-btn lb-close" id="lbClose" aria-label="Fermer">✕</button>
-  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Précédente">‹</button>
-  <img id="lbImg" src="" alt="">
-  <button class="lb-btn lb-next" id="lbNext" aria-label="Suivante">›</button>
-  <div class="lb-cap" id="lbCap"></div>
-</div>
+    <nav class="social" aria-label="Réseaux sociaux">
+      <a class="chip" href="https://www.instagram.com/brightertoms" target="_blank" rel="noopener" aria-label="Instagram, @brightertoms">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>Instagram</span>
+      </a>
+      <a class="chip" href="https://www.tiktok.com/@brightertoms" target="_blank" rel="noopener" aria-label="TikTok, @brightertoms">
+        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <path d="M14.2 3.5c.32 2.2 1.78 3.85 3.95 4.06v2.62c-1.43.03-2.74-.41-3.92-1.21v5.36a5.05 5.05 0 1 1-5.05-5.05c.26 0 .52.02.77.06v2.72a2.36 2.36 0 1 0 1.66 2.27V3.5h2.59z"/>
+        </svg>
+        <span>TikTok</span>
+      </a>
+    </nav>
+
+    <p class="handle">@brightertoms</p>
+
+  </main>
+
+  <footer class="footer">© 2026 brightertoms — Marseille, France</footer>
 
 <script>
-const DATA=[...document.querySelectorAll('.frame-btn')].map(b=>{
-  const fc=b.closest('figure').querySelector('figcaption');
-  const no=fc.querySelector('.fno').textContent.trim();
-  const tg=fc.querySelector('.ftag').textContent.trim();
-  return {i:+b.dataset.i, src:b.querySelector('img').src, cap:no+' · '+tg};
-});
-// nav solid on scroll
-const nav=document.getElementById('nav');
-addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
-// reveal
-const ro=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
-// auto-reveal chapter heads already covered; add frames subtle stagger via reveal class
-// lightbox
-const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
-let cur=0;
-function byI(i){return DATA.findIndex(d=>d.i===i)}
-function show(idx){cur=(idx+DATA.length)%DATA.length;const d=DATA[cur];
-  lbImg.src=d.src;lbImg.alt=d.cap;
-  lbCap.innerHTML='<b>'+d.cap.split(' · ')[0]+'</b> · '+d.cap.split(' · ').slice(1).join(' · ')+'  —  '+(cur+1)+' / '+DATA.length;}
-function open(i){show(byI(i));lb.classList.add('open');document.body.style.overflow='hidden'}
-function close(){lb.classList.remove('open');document.body.style.overflow=''}
-document.querySelectorAll('.frame-btn').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.i)));
-document.getElementById('lbClose').onclick=close;
-document.getElementById('lbPrev').onclick=()=>show(cur-1);
-document.getElementById('lbNext').onclick=()=>show(cur+1);
-lb.addEventListener('click',e=>{if(e.target===lb)close()});
-addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
-  if(e.key==='Escape')close();if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1)});
-
-let _tsx=0,_tsy=0;
-lb.addEventListener('touchstart',e=>{_tsx=e.changedTouches[0].clientX;_tsy=e.changedTouches[0].clientY},{passive:true});
-lb.addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-_tsx, dy=e.changedTouches[0].clientY-_tsy;
-  if(Math.abs(dx)>45 && Math.abs(dx)>Math.abs(dy)){ dx<0?show(cur+1):show(cur-1); }
-},{passive:true});
-
-/* newsletter : confirmation sans redirection */
 (function(){
-  const f=document.getElementById('newsForm');
-  if(!f) return;
-  f.addEventListener('submit',()=>{
-    if(!f.checkValidity()) return;
-    const ok=document.getElementById('newsOk');
-    setTimeout(()=>{ ok.hidden=false; f.querySelector('.news-btn').textContent='Merci ♡';
-      f.FIRSTNAME.value=''; f.EMAIL.value=''; },400);
-  });
+  "use strict";
+
+  /* ─────────────────────────────────────────────────────────────
+     DATE DE RETOUR — change juste la ligne ci-dessous quand tu veux.
+     Format : "AAAA-MM-JJTHH:MM:SS"  (heure locale, ici Marseille)
+     Exemple : le 30 juin 2026 à 10h00 du matin.
+  ───────────────────────────────────────────────────────────── */
+  var DATE_DE_RETOUR = new Date("2026-06-30T10:00:00");
+
+
+  /* ── Diaphragme (généré et animé) ───────────────────────────── */
+  var irisG = document.getElementById("irisG");
+  var DEG = Math.PI / 180, C = 100, Rb = 90, N = 6;
+
+  function buildIris(r){
+    var half = Math.sqrt(Math.max(1, Rb*Rb - r*r));
+    var Rh = r / Math.cos(Math.PI / N);
+    var verts = [];
+    for (var k = 0; k < N; k++){
+      var va = (-90 + k*(360/N) + (360/N)/2) * DEG;
+      verts.push([C + Rh*Math.cos(va), C + Rh*Math.sin(va)]);
+    }
+    var disk = "M " + (C-Rb) + " " + C +
+               " A " + Rb + " " + Rb + " 0 1 0 " + (C+Rb) + " " + C +
+               " A " + Rb + " " + Rb + " 0 1 0 " + (C-Rb) + " " + C + " Z";
+    var hex = "M " + verts.map(function(v){ return v[0].toFixed(2)+" "+v[1].toFixed(2); }).join(" L ") + " Z";
+
+    var lines = "";
+    for (var j = 0; j < N; j++){
+      var a = (-90 + j*(360/N)) * DEG, ca = Math.cos(a), sa = Math.sin(a);
+      var Tx = C + r*ca, Ty = C + r*sa, dx = -sa, dy = ca;
+      var Ax = Tx - half*dx, Ay = Ty - half*dy, Bx = Tx + half*dx, By = Ty + half*dy;
+      var vv = (-90 + j*(360/N) + (360/N)/2) * DEG;
+      var Vx = C + Rh*Math.cos(vv), Vy = C + Rh*Math.sin(vv);
+      var dA = (Ax-Vx)*(Ax-Vx) + (Ay-Vy)*(Ay-Vy);
+      var dB = (Bx-Vx)*(Bx-Vx) + (By-Vy)*(By-Vy);
+      var Ex = dA < dB ? Ax : Bx, Ey = dA < dB ? Ay : By;
+      lines += '<line x1="'+Vx.toFixed(2)+'" y1="'+Vy.toFixed(2)+'" x2="'+Ex.toFixed(2)+'" y2="'+Ey.toFixed(2)+'" class="blade"/>';
+    }
+
+    irisG.innerHTML =
+      '<path d="' + disk + " " + hex + '" fill-rule="evenodd" fill="url(#blade)" class="mask"/>' +
+      '<path d="' + hex + '" class="hex"/>' +
+      lines;
+  }
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var baseR = 34, amp = 4, period = 6500, introDur = 1700, start = performance.now();
+
+  function frame(now){
+    var t = now - start, r;
+    if (t < introDur){
+      var p = t / introDur, e = 1 - Math.pow(1 - p, 3);   // ouverture grande → mise au point
+      r = 74 + (baseR - 74) * e;
+    } else {
+      r = baseR + amp * Math.sin((now / period) * Math.PI * 2);  // respiration douce
+    }
+    buildIris(r);
+    requestAnimationFrame(frame);
+  }
+
+  if (reduce){ buildIris(baseR); } else { requestAnimationFrame(frame); }
+
+
+  /* ── Compte à rebours ───────────────────────────────────────── */
+  var elD = document.getElementById("cd-d"),
+      elH = document.getElementById("cd-h"),
+      elM = document.getElementById("cd-m"),
+      elS = document.getElementById("cd-s"),
+      box = document.getElementById("countdown"),
+      timer;
+
+  function pad(v){ return String(v).padStart(2, "0"); }
+
+  function tick(){
+    var diff = Math.floor((DATE_DE_RETOUR.getTime() - Date.now()) / 1000);
+    if (diff <= 0){
+      box.innerHTML = '<p class="cd-back">D’un instant à l’autre…</p>';
+      if (timer) clearInterval(timer);
+      return;
+    }
+    var d = Math.floor(diff / 86400); diff -= d * 86400;
+    var h = Math.floor(diff / 3600);  diff -= h * 3600;
+    var m = Math.floor(diff / 60);    var s = diff - m * 60;
+    elD.textContent = pad(d);
+    elH.textContent = pad(h);
+    elM.textContent = pad(m);
+    elS.textContent = pad(s);
+  }
+
+  tick();
+  timer = setInterval(tick, 1000);
 })();
 </script>
 </body>
