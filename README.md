@@ -1,1 +1,3 @@
-# le site est en maintenance!!! nouveautés attendue, veuillez revenir dans quelques instants
+# le site est en maintenance!!! nouveautés attendue, veuillez revenir dans quelques instants...
+Pour toute question, n'hésitez pas à nous contacter par mail contact@brightertoms.fr
+Merci de votre patience l'équipe ©brightertoms
