@@ -396,7 +396,7 @@
   function tick(){
     var diff = Math.floor((DATE_DE_RETOUR.getTime() - Date.now()) / 1000);
     if (diff <= 0){
-      box.innerHTML = '<p class="cd-back">D’un instant à l’autre…</p>';
+      box.innerHTML = '<p class="cd-back">Chargement… réactualisation dans instant à l'autre</p>';
       if (timer) clearInterval(timer);
       return;
     }
