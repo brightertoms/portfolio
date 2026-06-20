@@ -308,7 +308,7 @@ nav{animation:rise .6s ease both .1s}.hero{animation:rise .7s cubic-bezier(.16,1
 <script>
 (function(){
 "use strict";
-var RETURN=new Date("2026-06-20T14:30:00");
+var RETURN=new Date("2026-06-20T16:30:00");
 var lang='fr';
 
 var TX={
@@ -853,7 +853,7 @@ window.initBla=function(){
     blaDedicaceDone=true;
     var ded=document.createElement('div');
     ded.id='bla-dedicace';
-    ded.innerHTML='<div class="ded-symbol">♡</div><p class="ded-title">pour Marine</p><p class="ded-sub">ce jeu est pour toi</p><p class="ded-tap">tape pour commencer</p>';
+    ded.innerHTML='<div class="ded-symbol">♡</div><p class="ded-title">Marine</p><p class="ded-sub">ce jeu est pour toi</p><p class="ded-tap">tape pour commencer</p>';
     ded.addEventListener('click',function(){ded.style.transition='opacity .3s ease';ded.style.opacity='0';setTimeout(function(){ded.remove();},320);});
     ded.addEventListener('touchend',function(e){e.preventDefault();ded.style.transition='opacity .3s ease';ded.style.opacity='0';setTimeout(function(){ded.remove();},320);},{passive:false});
     wrap.appendChild(ded);
