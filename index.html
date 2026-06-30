@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>brightertoms — photographe</title>
+<meta name="description" content="Portfolio photographique de brightertoms — portraits, lieux et détails. Shooté à l’iPhone 14 Pro, retouché sur Lightroom.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,360;1,9..144,400&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   brightertoms — L'HEURE VIOLETTE
+   Refonte complète de la direction artistique (violet)
+   ============================================================ */
+:root{
+  --bg:#191320; --bg2:#1F1630; --panel:#271C36; --panel2:#2C2040;
+  --paper:#F5F2FA; --mauve:#B6A9CC; --muted:#9A8AB5; --faint:#6E6385;
+  --violet:#6E4FC0; --violet-deep:#4A2F8F; --lavande:#C4ADF5; --lavande-soft:#D9CCF7;
+  --amber:#6E4FC0; /* alias: remappe les anciennes réfs inline vers le violet */
+  --line:rgba(196,173,245,.14); --line-2:rgba(196,173,245,.26);
+  --d:"Fraunces",Georgia,serif; --b:"Hanken Grotesk",system-ui,sans-serif; --m:"JetBrains Mono",monospace;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+html,body{height:auto}
+body{background:var(--bg);color:var(--paper);font-family:var(--b);font-weight:300;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;line-height:1.5}
+::selection{background:var(--violet);color:#fff}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+em{font-style:italic}
+
+/* ---------- ambient twilight + film ---------- */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(60% 42% at 50% 0%, rgba(110,79,192,.30), transparent 70%),
+    radial-gradient(45% 38% at 88% 18%, rgba(196,173,245,.10), transparent 72%),
+    radial-gradient(50% 40% at 8% 80%, rgba(74,47,143,.22), transparent 75%);
+  animation:aura 16s ease-in-out infinite}
+.grain{position:fixed;inset:-10%;pointer-events:none;z-index:2;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-repeat:repeat;
+  animation:gr 1.1s steps(4) infinite}
+.vig{position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(135% 125% at 50% 30%,transparent 46%,rgba(0,0,0,.62) 100%)}
+.edge{position:fixed;inset:14px;border:1px solid var(--line);border-radius:3px;pointer-events:none;z-index:40}
+.crop{position:fixed;width:13px;height:13px;pointer-events:none;z-index:41}
+.crop::before,.crop::after{content:"";position:absolute;background:var(--lavande);opacity:.55}
+.crop::before{width:13px;height:1px;top:0;left:0}.crop::after{width:1px;height:13px;top:0;left:0}
+.crop.tl{top:14px;left:14px}.crop.tr{top:14px;right:14px;transform:scaleX(-1)}
+.crop.bl{bottom:14px;left:14px;transform:scaleY(-1)}.crop.br{bottom:14px;right:14px;transform:scale(-1)}
+.exif{position:fixed;left:30px;bottom:26px;z-index:41;font-family:var(--m);font-weight:500;font-size:9px;
+  letter-spacing:.22em;color:var(--faint);opacity:.7;pointer-events:none}
+
+@keyframes gr{0%{transform:translate(0,0)}25%{transform:translate(-4%,2%)}50%{transform:translate(3%,-3%)}75%{transform:translate(-2%,4%)}100%{transform:translate(0,0)}}
+@keyframes aura{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes shine{to{background-position:220% center}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes focus{0%,100%{transform:scale(.965)}50%{transform:scale(1)}}
+@keyframes glow{0%,100%{opacity:.20}50%{opacity:.48}}
+@keyframes heroIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* shared diaphragme */
+.aperture{width:clamp(78px,11vw,128px);aspect-ratio:1;margin:0 auto;
+  animation:focus 5.5s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(110,79,192,.45))}
+.iris{width:100%;height:100%;display:block;animation:spin 46s linear infinite;transform-origin:50% 50%}
+.iris .glow{opacity:.26;animation:glow 4.2s ease-in-out infinite}
+
+/* shared signature */
+.sig-mark{width:clamp(150px,22vw,230px);height:auto;color:var(--lavande);opacity:.9;margin:0 auto}
+
+/* ---------- splash ---------- */
+#langSplash{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:clamp(24px,4.5vh,44px);padding:clamp(24px,5vw,60px);
+  animation:heroIn .6s var(--ease) both}
+#langSplash::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(55% 45% at 50% 38%,rgba(110,79,192,.28),transparent 70%)}
+#langSplash .sl-mark{position:relative;font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;
+  font-size:clamp(38px,9vw,92px);letter-spacing:-.025em;line-height:.86}
+#langSplash .sl-mark b{font-weight:600}
+#langSplash .sl-mark span{color:var(--lavande) !important}
+#langSplash .sl-prompt{position:relative;font-family:var(--m);font-weight:500;font-size:11px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--mauve);text-align:center}
+#langSplash .sl-btns{position:relative;display:flex;gap:13px;flex-wrap:wrap;justify-content:center}
+#langSplash .sl-btn{font-family:var(--m);font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid var(--line);padding:15px 40px;border-radius:100px;color:var(--paper);background:none;cursor:pointer;
+  transition:border-color .3s,color .3s,background .3s}
+#langSplash .sl-btn:hover{border-color:var(--violet);color:var(--lavande)}
+#langSplash .sl-btn.primary{background:var(--violet);color:#fff;border-color:var(--violet)}
+#langSplash .sl-btn.primary:hover{background:transparent;color:var(--lavande)}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:clamp(16px,2.3vw,26px) clamp(22px,4vw,48px);transition:background .4s,backdrop-filter .4s,border-color .4s,padding .4s;
+  border-bottom:1px solid transparent}
+.nav.solid{background:rgba(25,19,32,.72);backdrop-filter:blur(14px) saturate(1.1);border-bottom:1px solid var(--line);
+  padding-top:clamp(12px,1.6vw,18px);padding-bottom:clamp(12px,1.6vw,18px)}
+.nav .mark{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;font-size:21px;letter-spacing:-.01em}
+.nav .mark b{font-weight:600}
+.nav-links--desk{list-style:none;display:flex;align-items:center;gap:clamp(14px,1.8vw,28px)}
+.nav-links--desk>li>a{font-family:var(--m);font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mauve);position:relative;padding:4px 0;transition:color .25s}
+.nav-links--desk>li>a::after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:1px;
+  background:var(--lavande);transition:right .3s var(--ease)}
+.nav-links--desk>li>a:hover{color:var(--lavande)}
+.nav-links--desk>li>a:hover::after{right:0}
+.nav-lang{display:flex;gap:4px;align-items:center}
+.nav-lang button{font-family:var(--m);font-weight:500;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  background:none;border:1px solid transparent;color:var(--mauve);cursor:pointer;padding:5px 10px;border-radius:100px;transition:all .25s}
+.nav-lang button.active{background:var(--violet);color:#fff;border-color:var(--violet)}
+.nav-lang button:hover:not(.active){color:var(--paper);border-color:var(--line)}
+.nav-right-mob{display:none;align-items:center;gap:10px}
+.nav-burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;
+  border:1px solid var(--line);border-radius:50%;background:none;cursor:pointer;transition:border-color .3s}
+.nav-burger span{display:block;width:16px;height:1.6px;background:var(--lavande);margin:0 auto;transition:transform .3s,opacity .3s}
+.nav-burger:hover{border-color:var(--violet)}
+.nav-burger.open span:nth-child(1){transform:translateY(6.6px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-6.6px) rotate(-45deg)}
+.nav-drawer{position:fixed;top:0;right:0;bottom:0;width:min(80vw,320px);z-index:49;background:rgba(31,22,48,.96);
+  backdrop-filter:blur(16px);border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;
+  gap:6px;padding:40px 34px;transform:translateX(100%);transition:transform .5s var(--ease)}
+.nav-drawer.open{transform:none}
+.drawer-link{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;font-size:clamp(26px,6vw,34px);
+  color:var(--paper);padding:8px 0;border-bottom:1px solid var(--line);transition:color .25s,padding-left .25s}
+.drawer-link:hover{color:var(--lavande);padding-left:8px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;z-index:10;min-height:100svh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px clamp(22px,6vw,80px) 80px}
+.hero-inner{display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.4vh,26px)}
+.hero .aperture{animation:focus 5.5s ease-in-out infinite, heroIn 1s var(--ease) both}
+.hero .eyebrow{font-family:var(--m);font-weight:500;font-size:clamp(.6rem,1.4vw,.72rem);letter-spacing:.34em;
+  text-transform:uppercase;color:var(--lavande);opacity:.85;animation:heroIn .9s var(--ease) .15s both}
+.wordmark{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;
+  font-size:clamp(3.4rem,13vw,9rem);line-height:.9;letter-spacing:-.035em;animation:heroIn 1s var(--ease) .25s both}
+.wordmark .dot{background:linear-gradient(120deg,#C4ADF5,#8E6FE0,#C4ADF5);-webkit-background-clip:text;
+  background-clip:text;color:transparent;background-size:220% auto;animation:shine 5s linear infinite}
+.tagline{font-family:var(--d);font-style:italic;font-weight:360;font-size:clamp(1rem,2.4vw,1.5rem);
+  color:var(--lavande-soft);animation:heroIn 1s var(--ease) .4s both}
+.hero .meta{display:flex;gap:clamp(14px,3vw,30px);margin-top:6px;animation:heroIn 1s var(--ease) .55s both}
+.hero .meta span{font-family:var(--m);font-weight:500;font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--mauve);position:relative}
+.hero .meta span+span::before{content:"·";position:absolute;left:calc(-1*clamp(8px,1.6vw,16px));color:var(--violet)}
+
+/* ---------- about ---------- */
+.about{position:relative;z-index:10;display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,80px);
+  max-width:1200px;margin:0 auto;padding:clamp(50px,9vh,120px) clamp(22px,5vw,56px)}
+.eyebrow{font-family:var(--m);font-weight:500;font-size:.64rem;letter-spacing:.32em;text-transform:uppercase;color:var(--lavande);margin-bottom:16px}
+.about-l h2{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 120;font-size:clamp(1.8rem,4.4vw,3.1rem);
+  line-height:1.06;letter-spacing:-.02em}
+.about-l h2 em{font-style:italic;font-weight:360;background:linear-gradient(110deg,#C4ADF5,#8E6FE0 55%,#C4ADF5);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.about-r p{font-size:clamp(.92rem,1.4vw,1.02rem);line-height:1.8;color:var(--mauve);margin-bottom:16px}
+.about-r p strong{color:var(--paper);font-weight:500}
+.about-meta{margin-top:22px;font-family:var(--m);font-weight:500;font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint);padding-top:18px;border-top:1px solid var(--line)}
+
+/* ---------- chapters / galleries ---------- */
+.chapter{position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:clamp(30px,6vh,70px) clamp(16px,4vw,48px)}
+.chapter-head{position:relative;margin-bottom:clamp(26px,4vh,46px);padding-left:clamp(0px,1vw,8px)}
+.chapter-num{display:block;font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;
+  font-size:clamp(2.6rem,7vw,4.4rem);line-height:.8;color:transparent;-webkit-text-stroke:1px var(--line-2);opacity:.9}
+.chapter-title{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;font-size:clamp(2rem,5vw,3.4rem);
+  line-height:1;letter-spacing:-.02em;margin-top:-6px}
+.chapter-blurb{font-family:var(--d);font-style:italic;font-weight:360;font-size:clamp(.95rem,1.8vw,1.15rem);
+  color:var(--lavande-soft);max-width:46ch;margin-top:12px}
+.chapter-count{display:inline-block;margin-top:14px;font-family:var(--m);font-weight:500;font-size:.6rem;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--mauve);border:1px solid var(--line);border-radius:100px;padding:6px 14px}
+
+.frame{position:relative;margin:0 0 clamp(14px,2vw,20px);break-inside:avoid}
+.frame.feature{margin-bottom:clamp(16px,2.4vw,24px)}
+.frame-btn{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;position:relative;overflow:hidden;
+  border-radius:7px;border:1px solid var(--line)}
+.frame-btn img{width:100%;height:auto;display:block;
+  background:linear-gradient(135deg,#241a36,#2f2348);
+  transition:transform .8s var(--ease),filter .6s ease}
+.frame-btn::after{content:"";position:absolute;inset:0;border-radius:7px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(25,19,32,0) 55%,rgba(74,47,143,.45) 100%);
+  opacity:.55;transition:opacity .5s ease}
+.frame-btn:hover img{transform:scale(1.045)}
+.frame-btn:hover::after{opacity:.2}
+.frame.feature .frame-btn{border-radius:10px}
+.frame.feature .frame-btn img{max-height:78vh;object-fit:cover}
+figcaption{display:flex;align-items:center;gap:10px;padding:9px 3px 2px}
+.fno{font-family:var(--m);font-weight:600;font-size:.58rem;letter-spacing:.18em;color:var(--lavande)}
+.ftag{font-family:var(--m);font-weight:500;font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.masonry{columns:3;column-gap:clamp(14px,2vw,20px)}
+
+/* reveal-on-scroll (existing .reveal handled by site JS; frames handled by injected JS) */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+.has-js .frame{opacity:0;transform:translateY(24px) scale(.985);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.has-js .frame.in{opacity:1;transform:none}
+.masonry .frame:nth-child(3n+2){transition-delay:.07s}
+.masonry .frame:nth-child(3n){transition-delay:.13s}
+
+/* ---------- credits ---------- */
+.credits{position:relative;z-index:10;max-width:1000px;margin:0 auto;padding:clamp(30px,6vh,70px) clamp(22px,4vw,48px)}
+.credit-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,20px)}
+.credit-card{display:flex;align-items:center;gap:14px;padding:clamp(18px,2.4vw,26px);background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;transition:border-color .3s,transform .3s,background .3s}
+.credit-card:hover{border-color:var(--violet);transform:translateY(-3px);background:var(--panel2)}
+.credit-card svg{color:var(--lavande) !important;flex-shrink:0}
+.credit-ig{font-family:var(--m);font-weight:500;font-size:.9rem;letter-spacing:.04em;color:var(--paper)}
+
+/* ---------- newsletter (Brevo, ré-habillé) ---------- */
+.news{position:relative;z-index:10;max-width:1100px;margin:0 auto;padding:clamp(40px,7vh,90px) clamp(22px,4vw,48px)}
+.news #sib-container,
+.news .sib-form-message-panel{background:var(--panel) !important;border-color:var(--line) !important;border-radius:14px !important;color:var(--paper) !important}
+.news #sib-container{padding:clamp(26px,4vw,46px) !important;max-width:620px !important;margin:0 auto !important;
+  box-shadow:0 30px 80px -40px rgba(74,47,143,.6)}
+.news input.input,.news .input{background:var(--bg2) !important;border:1px solid var(--line) !important;border-radius:10px !important;
+  color:var(--paper) !important;font-family:var(--b) !important;padding:15px 16px !important}
+.news input.input::placeholder{color:var(--faint) !important}
+.news .input:focus{border-color:var(--violet) !important;outline:none !important}
+.news .sib-form-block__button{background:var(--violet) !important;border:0 !important;border-radius:100px !important;
+  color:#fff !important;font-family:var(--m) !important;font-weight:600 !important;letter-spacing:.16em !important;
+  text-transform:uppercase !important;font-size:12px !important;padding:15px 30px !important;transition:background .3s,transform .3s}
+.news .sib-form-block__button:hover{background:var(--violet-deep) !important;transform:translateY(-2px)}
+.news .entry__label,.news .entry__specification{color:var(--mauve) !important;font-family:var(--b) !important}
+.news .checkbox_tick_positive{accent-color:var(--violet)}
+.news #error-message,.news #success-message{display:none}
+.news .sib-icon,.news .sib-notification__icon{width:22px !important;height:22px !important;flex:0 0 auto}
+.news .sib-form-message-panel__inner-text{font-family:var(--b) !important;font-size:14px !important;color:var(--paper) !important}
+.news #sib-form-container{max-width:620px !important}
+.input--hidden{display:none !important}
+.news .sib-hide-loader-icon,.news .sib-form-block__button .icon{display:none !important}
+/* masque le badge flottant reCAPTCHA (mention légale conservée dans le form) */
+.grecaptcha-badge{visibility:hidden !important;opacity:0 !important;pointer-events:none !important}
+
+/* ---------- contact (footer) ---------- */
+.contact{position:relative;z-index:10;text-align:center;padding:clamp(60px,12vh,150px) clamp(22px,5vw,56px) clamp(40px,7vh,80px)}
+.contact .eyebrow{display:block;margin-bottom:16px}
+.contact h2{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;font-size:clamp(2.2rem,7vw,5rem);
+  line-height:1;letter-spacing:-.03em}
+.contact h2 em{font-style:italic;font-weight:360;background:linear-gradient(120deg,#C4ADF5,#8E6FE0,#C4ADF5);
+  -webkit-background-clip:text;background-clip:text;color:transparent;background-size:220% auto;animation:shine 6s linear infinite}
+.contact-links{display:flex;justify-content:center;align-items:center;gap:14px;margin:clamp(26px,4vh,42px) 0}
+.contact-links a{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;
+  justify-content:center;color:var(--mauve);transition:all .3s}
+.contact-links a:hover{border-color:var(--violet);color:var(--lavande);transform:translateY(-3px)}
+.contact-links a.primary{background:var(--violet);color:#fff;border-color:var(--violet)}
+.contact-links a.primary:hover{background:transparent;color:var(--lavande)}
+.colophon{display:flex;flex-direction:column;gap:6px;margin-top:clamp(20px,4vh,40px);
+  font-family:var(--m);font-weight:500;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint)}
+
+/* ---------- merci modal ---------- */
+#merci{position:fixed;inset:0;z-index:998;display:none;align-items:center;justify-content:center;padding:24px;
+  background:rgba(15,11,22,.86);backdrop-filter:blur(10px)}
+#merci.visible{display:flex;animation:heroIn .4s ease both}
+.merci-inner{text-align:center;max-width:440px;background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:clamp(30px,5vw,52px)}
+.merci-symbol{font-size:2.4rem;color:var(--lavande);animation:floaty 3s ease-in-out infinite}
+.merci-title{font-family:var(--d);font-weight:300;font-variation-settings:'opsz' 144;font-size:clamp(1.6rem,4vw,2.4rem);
+  line-height:1.05;margin:14px 0 10px}
+.merci-title em{font-style:italic;color:var(--lavande)}
+.merci-sub{color:var(--mauve);font-size:.95rem;line-height:1.7;margin-bottom:22px}
+.merci-btn{display:inline-block;font-family:var(--m);font-weight:600;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--violet);color:#fff;padding:14px 28px;border-radius:100px;transition:background .3s,transform .3s}
+.merci-btn:hover{background:var(--violet-deep);transform:translateY(-2px)}
+
+/* ---------- lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:clamp(40px,8vh,80px);
+  background:rgba(12,9,17,.94);backdrop-filter:blur(12px)}
+.lb.open{display:flex;animation:heroIn .35s ease both}
+#lbImg{max-width:100%;max-height:86vh;width:auto;height:auto;border-radius:6px;
+  box-shadow:0 40px 120px -30px rgba(0,0,0,.8);animation:heroIn .45s var(--ease) both}
+.lb-btn{position:absolute;background:rgba(31,22,48,.6);border:1px solid var(--line);color:var(--paper);
+  width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center;
+  transition:all .25s;backdrop-filter:blur(6px)}
+.lb-btn:hover{border-color:var(--violet);color:var(--lavande);background:rgba(74,47,143,.4)}
+.lb-close{top:clamp(16px,3vh,28px);right:clamp(16px,4vw,40px)}
+.lb-prev{left:clamp(10px,2vw,30px);top:50%;transform:translateY(-50%)}
+.lb-next{right:clamp(10px,2vw,30px);top:50%;transform:translateY(-50%)}
+.lb-cap{position:absolute;left:0;right:0;bottom:clamp(16px,3vh,30px);text-align:center;
+  font-family:var(--m);font-weight:500;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mauve)}
+.lb-cap b{color:var(--lavande);font-weight:600}
+
+/* ---------- responsive ---------- */
+@media(max-width:860px){
+  .nav-links--desk{display:none}
+  .nav-right-mob{display:flex}
+  .about{grid-template-columns:1fr;gap:24px}
+  .masonry{columns:2}
+  .credit-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  .exif{display:none}
+  .masonry{columns:1}
+  .lb-btn{width:44px;height:44px}
+  .lb-prev{left:8px}.lb-next{right:8px}
+  .hero{padding-top:100px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:.001s !important}
+  .reveal,.has-js .frame{opacity:1;transform:none}}
+
+/* ============ PREMIUM MOTION UPGRADE ============ */
+/* hide reCAPTCHA badge — branding stays in the form text (Google ToS compliant) */
+.grecaptcha-badge{visibility:hidden !important;opacity:0 !important;pointer-events:none !important}
+
+/* scroll progress bar */
+.scroll-prog{position:fixed;top:0;left:0;height:2px;width:100%;transform:scaleX(0);transform-origin:0 50%;z-index:60;
+  background:linear-gradient(90deg,var(--violet),var(--lavande));box-shadow:0 0 12px rgba(196,173,245,.55)}
+
+/* cursor-following ambient glow (desktop) */
+.cursor-glow{position:fixed;left:0;top:0;width:560px;height:560px;border-radius:50%;pointer-events:none;z-index:3;
+  transform:translate(-50%,-50%);transition:transform .3s cubic-bezier(.2,.8,.2,1);mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(110,79,192,.22),rgba(110,79,192,.07) 42%,transparent 66%)}
+
+/* photos come "into focus" on scroll (blur -> sharp) */
+.has-js .frame{opacity:0;transform:translateY(32px) scale(1.05);filter:blur(7px);
+  transition:opacity 1s var(--ease),transform 1.15s var(--ease),filter 1s var(--ease)}
+.has-js .frame.in{opacity:1;transform:none;filter:blur(0)}
+
+/* premium photo hover: zoom + sheen sweep + saturation lift */
+.frame-btn img{filter:saturate(.93) brightness(.97)}
+.frame-btn:hover img{filter:saturate(1.06) brightness(1.03);transform:scale(1.05)}
+.frame-btn::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.10) 47%,rgba(196,173,245,.20) 52%,transparent 68%);
+  transform:translateX(-130%);transition:transform 1s var(--ease)}
+.frame-btn:hover::before{transform:translateX(130%)}
+.frame:hover .fno{color:var(--lavande-soft);text-shadow:0 0 12px rgba(196,173,245,.5)}
+
+/* hero wordmark — letter-by-letter reveal */
+.wordmark.split{animation:none}
+.wordmark .ch{display:inline-block;opacity:0;transform:translateY(42px) rotate(5deg);animation:charIn .9s var(--ease) forwards}
+@keyframes charIn{to{opacity:1;transform:none}}
+
+@media(hover:none){.cursor-glow{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .scroll-prog,.cursor-glow{display:none !important}
+  .has-js .frame{opacity:1 !important;transform:none !important;filter:none !important;transition:none !important}
+  .wordmark .ch{opacity:1 !important;transform:none !important;animation:none !important}
+}
+
+</style>
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+</head>
+<body>
+
+<!-- ░░ SPLASH LANGUE ░░ -->
+<div id="langSplash" role="dialog" aria-modal="true">
+  <div class="sl-mark">brighter<b>toms</b><span style="color:var(--amber)">.</span></div>
+  <p class="sl-prompt">Choisissez votre langue · Choose your language</p>
+  <div class="sl-btns">
+    <button class="sl-btn primary" onclick="chooseLang('fr')">Français</button>
+    <button class="sl-btn" onclick="chooseLang('en')">English</button>
+  </div>
+</div>
+
+<!-- ░░ SWITCHER LANGUE (intégré dans la nav) ░░ -->
+
+<div class="grain" aria-hidden="true"></div>
+<div class="vig" aria-hidden="true"></div><div class="edge" aria-hidden="true"></div><span class="crop tl"></span><span class="crop tr"></span><span class="crop bl"></span><span class="crop br"></span><div class="exif">f/2 &middot; 1/250 &middot; iso 100 &middot; 35mm</div>
+
+<nav class="nav" id="nav">
+  <a href="#top" class="mark">brighter<b>toms</b></a>
+  <ul class="nav-links--desk">
+    <li>
+      <div id="langBar" class="nav-lang" role="group" aria-label="Language">
+        <button id="lbFr" onclick="chooseLang('fr')">FR</button>
+        <button id="lbEn" onclick="chooseLang('en')">EN</button>
+      </div>
+    </li>
+    <li><a href="#portraits">Portraits</a></li>
+    <li><a href="#lieux">Lieux</a></li>
+    <li><a href="#details">Détails</a></li>
+    <li><a href="#credits">Crédits</a></li>
+    <li><a href="#newsletter">Newsletter</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right-mob">
+    <div id="langBarMob" class="nav-lang" role="group" aria-label="Language">
+      <button onclick="chooseLang('fr')" id="lbFrMob">FR</button>
+      <button onclick="chooseLang('en')" id="lbEnMob">EN</button>
+    </div>
+    <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Menu mobile déroulant -->
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <a href="#portraits" class="drawer-link">Portraits</a>
+  <a href="#lieux" class="drawer-link">Lieux</a>
+  <a href="#details" class="drawer-link">Détails</a>
+  <a href="#credits" class="drawer-link">Crédits</a>
+  <a href="#newsletter" class="drawer-link">Newsletter</a>
+  <a href="#contact" class="drawer-link">Contact</a>
+</div>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="aperture"><svg class="iris" viewBox="-120 -120 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="apgM" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6E4FC0"/><stop offset="1" stop-color="#C4ADF5"/></linearGradient></defs><circle class="glow" cx="0" cy="0" r="42" fill="#C4ADF5"/><circle cx="0" cy="0" r="100" fill="none" stroke="url(#apgM)" stroke-width="2.4"/><path d="M 0.00 -46.00 L -39.84 -23.00 L -39.84 23.00 L -0.00 46.00 L 39.84 23.00 L 39.84 -23.00 Z" fill="none" stroke="url(#apgM)" stroke-width="2.4" stroke-linejoin="round"/><line x1="0.00" y1="-46.00" x2="-86.60" y2="-50.00" stroke="url(#apgM)" stroke-width="2.4" stroke-linecap="round"/><line x1="-39.84" y1="-23.00" x2="-86.60" y2="50.00" stroke="url(#apgM)" stroke-width="2.4" stroke-linecap="round"/><line x1="-39.84" y1="23.00" x2="-0.00" y2="100.00" stroke="url(#apgM)" stroke-width="2.4" stroke-linecap="round"/><line x1="-0.00" y1="46.00" x2="86.60" y2="50.00" stroke="url(#apgM)" stroke-width="2.4" stroke-linecap="round"/><line x1="39.84" y1="23.00" x2="86.60" y2="-50.00" stroke="url(#apgM)" stroke-width="2.4" stroke-linecap="round"/><line x1="39.84" y1="-23.00" x2="0.00" y2="-100.00" stroke="url(#apgM)" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+    <p class="eyebrow">Photographe · iPhone 14 Pro · Lightroom</p>
+    <h1 class="wordmark">brightertoms<span class="dot">.</span></h1>
+    <p class="tagline">La lumière, le grain, le détail.</p>
+    <div class="meta">
+      <span>Portraits</span><span>Lieux</span><span>Détails</span>
+    </div>
+  </div>
+</header>
+
+<section class="about" id="about">
+  <div class="about-l reveal">
+    <p class="eyebrow">À propos</p>
+    <h2>Je regarde le monde comme on regarde un <em>vêtement</em>.</h2>
+  </div>
+  <div class="about-r reveal">
+    <p>Derrière <strong>brightertoms</strong>, il y a Tom — Thomas à l’état civil, mais tout le monde dit Tom. 21 ans, un œil formé à la coupe et au tissu, qui cherche partout la même chose : une intention, une texture, une silhouette.</p>
+    <p>Portraits, façades baroques, dorures, objets oubliés. Chaque image part d’un même réflexe : trouver la lumière juste et le grain qui raconte. Juste l’instant.</p>
+    <p><strong>Tout est shooté à l’iPhone 14 Pro</strong> — aucun appareil pro — et retouché sur Lightroom.</p>
+    <div class="about-meta">55 images · 3 chapitres · iPhone 14 Pro × Lightroom</div>
+  </div>
+</section>
+
+<section class="chapter" id="portraits">
+  <header class="chapter-head reveal">
+    <span class="chapter-num">01</span>
+    <h2 class="chapter-title">Portraits</h2>
+    <p class="chapter-blurb">Visages, attitudes, contre-jours. Là où le vêtement rencontre la peau.</p>
+    <span class="chapter-count">26 images</span>
+  </header>
+  <figure class="frame feature" data-i="18">
+  <button class="frame-btn" data-i="18" aria-label="Ouvrir l’image 18">
+    <img src="image18/18.jpg" alt="portraits — golden hour" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.18</span><span class="ftag">golden hour</span></figcaption>
+</figure>
+  <div class="masonry">
+  <figure class="frame" data-i="1">
+  <button class="frame-btn" data-i="1" aria-label="Ouvrir l’image 01">
+    <img src="images1/01.jpg" alt="portraits — lumière" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.01</span><span class="ftag">lumière</span></figcaption>
+</figure>
+<figure class="frame" data-i="2">
+  <button class="frame-btn" data-i="2" aria-label="Ouvrir l’image 02">
+    <img src="images1/02.jpg" alt="portraits — lumière" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.02</span><span class="ftag">lumière</span></figcaption>
+</figure>
+<figure class="frame" data-i="3">
+  <button class="frame-btn" data-i="3" aria-label="Ouvrir l’image 03">
+    <img src="images1/03.jpg" alt="portraits — duo" loading="lazy" width="1124" height="899">
+  </button>
+  <figcaption><span class="fno">F.03</span><span class="ftag">duo</span></figcaption>
+</figure>
+<figure class="frame" data-i="4">
+  <button class="frame-btn" data-i="4" aria-label="Ouvrir l’image 04">
+    <img src="images1/04.jpg" alt="portraits — intérieur" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.04</span><span class="ftag">intérieur</span></figcaption>
+</figure>
+<figure class="frame" data-i="5">
+  <button class="frame-btn" data-i="5" aria-label="Ouvrir l’image 05">
+    <img src="images1/05.jpg" alt="portraits — rue" loading="lazy" width="1280" height="1600">
+  </button>
+  <figcaption><span class="fno">F.05</span><span class="ftag">rue</span></figcaption>
+</figure>
+<figure class="frame" data-i="6">
+  <button class="frame-btn" data-i="6" aria-label="Ouvrir l’image 06">
+    <img src="images1/06.jpg" alt="portraits — studio" loading="lazy" width="1280" height="1600">
+  </button>
+  <figcaption><span class="fno">F.06</span><span class="ftag">studio</span></figcaption>
+</figure>
+<figure class="frame" data-i="7">
+  <button class="frame-btn" data-i="7" aria-label="Ouvrir l’image 07">
+    <img src="images2/07.jpg" alt="portraits — rue" loading="lazy" width="1280" height="1600">
+  </button>
+  <figcaption><span class="fno">F.07</span><span class="ftag">rue</span></figcaption>
+</figure>
+<figure class="frame" data-i="8">
+  <button class="frame-btn" data-i="8" aria-label="Ouvrir l’image 08">
+    <img src="images2/08.jpg" alt="portraits — argentique" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.08</span><span class="ftag">argentique</span></figcaption>
+</figure>
+<figure class="frame" data-i="9">
+  <button class="frame-btn" data-i="9" aria-label="Ouvrir l’image 09">
+    <img src="images2/09.jpg" alt="portraits — nature" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.09</span><span class="ftag">nature</span></figcaption>
+</figure>
+<figure class="frame" data-i="10">
+  <button class="frame-btn" data-i="10" aria-label="Ouvrir l’image 10">
+    <img src="images2/10.jpg" alt="portraits — voiture" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.10</span><span class="ftag">voiture</span></figcaption>
+</figure>
+<figure class="frame" data-i="11">
+  <button class="frame-btn" data-i="11" aria-label="Ouvrir l’image 11">
+    <img src="images2/11.jpg" alt="portraits — voiture" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.11</span><span class="ftag">voiture</span></figcaption>
+</figure>
+<figure class="frame" data-i="12">
+  <button class="frame-btn" data-i="12" aria-label="Ouvrir l’image 12">
+    <img src="images2/12.jpg" alt="portraits — voiture" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.12</span><span class="ftag">voiture</span></figcaption>
+</figure>
+<figure class="frame" data-i="13">
+  <button class="frame-btn" data-i="13" aria-label="Ouvrir l’image 13">
+    <img src="images3/13.jpg" alt="portraits — mouvement" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.13</span><span class="ftag">mouvement</span></figcaption>
+</figure>
+<figure class="frame" data-i="14">
+  <button class="frame-btn" data-i="14" aria-label="Ouvrir l’image 14">
+    <img src="images3/14.jpg" alt="portraits — toit" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.14</span><span class="ftag">toit</span></figcaption>
+</figure>
+<figure class="frame" data-i="15">
+  <button class="frame-btn" data-i="15" aria-label="Ouvrir l’image 15">
+    <img src="image15/15.jpg" alt="portraits — nature" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.15</span><span class="ftag">nature</span></figcaption>
+</figure>
+<figure class="frame" data-i="16">
+  <button class="frame-btn" data-i="16" aria-label="Ouvrir l’image 16">
+    <img src="images3/16.jpg" alt="portraits — panorama" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.16</span><span class="ftag">panorama</span></figcaption>
+</figure>
+<figure class="frame" data-i="17">
+  <button class="frame-btn" data-i="17" aria-label="Ouvrir l’image 17">
+    <img src="images3/17.jpg" alt="portraits — soleil" loading="lazy" width="1600" height="1200">
+  </button>
+  <figcaption><span class="fno">F.17</span><span class="ftag">soleil</span></figcaption>
+</figure>
+<figure class="frame" data-i="19">
+  <button class="frame-btn" data-i="19" aria-label="Ouvrir l’image 19">
+    <img src="images4/19.jpg" alt="portraits — forêt" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.19</span><span class="ftag">forêt</span></figcaption>
+</figure>
+<figure class="frame" data-i="20">
+  <button class="frame-btn" data-i="20" aria-label="Ouvrir l’image 20">
+    <img src="images4/20.jpg" alt="portraits — argentique" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.20</span><span class="ftag">argentique</span></figcaption>
+</figure>
+<figure class="frame" data-i="21">
+  <button class="frame-btn" data-i="21" aria-label="Ouvrir l’image 21">
+    <img src="images4/21.jpg" alt="portraits — sépia" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.21</span><span class="ftag">sépia</span></figcaption>
+</figure>
+<figure class="frame" data-i="22">
+  <button class="frame-btn" data-i="22" aria-label="Ouvrir l’image 22">
+    <img src="images4/22.jpg" alt="portraits — noir &amp; blanc" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.22</span><span class="ftag">noir &amp; blanc</span></figcaption>
+</figure>
+<figure class="frame" data-i="23">
+  <button class="frame-btn" data-i="23" aria-label="Ouvrir l’image 23">
+    <img src="images4/23.jpg" alt="portraits — ride" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.23</span><span class="ftag">ride</span></figcaption>
+</figure>
+<figure class="frame" data-i="24">
+  <button class="frame-btn" data-i="24" aria-label="Ouvrir l’image 24">
+    <img src="images4/24.jpg" alt="portraits — contre-plongée" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.24</span><span class="ftag">contre-plongée</span></figcaption>
+</figure>
+<figure class="frame" data-i="25">
+  <button class="frame-btn" data-i="25" aria-label="Ouvrir l’image 25">
+    <img src="images5/25.jpg" alt="portraits — casque" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.25</span><span class="ftag">casque</span></figcaption>
+</figure>
+<figure class="frame" data-i="26">
+  <button class="frame-btn" data-i="26" aria-label="Ouvrir l’image 26">
+    <img src="images5/26.jpg" alt="portraits — intime" loading="lazy" width="898" height="1600">
+  </button>
+  <figcaption><span class="fno">F.26</span><span class="ftag">intime</span></figcaption>
+</figure>
+  </div>
+</section>
+<section class="chapter" id="lieux">
+  <header class="chapter-head reveal">
+    <span class="chapter-num">02</span>
+    <h2 class="chapter-title">Lieux</h2>
+    <p class="chapter-blurb">Musées, façades, ciels — l’architecture et ses ors.</p>
+    <span class="chapter-count">13 images</span>
+  </header>
+  <figure class="frame feature" data-i="35">
+  <button class="frame-btn" data-i="35" aria-label="Ouvrir l’image 35">
+    <img src="images6/35.jpg" alt="lieux — intérieur" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.35</span><span class="ftag">intérieur</span></figcaption>
+</figure>
+  <div class="masonry">
+  <figure class="frame" data-i="27">
+  <button class="frame-btn" data-i="27" aria-label="Ouvrir l’image 27">
+    <img src="images5/27.jpg" alt="lieux — gare" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.27</span><span class="ftag">gare</span></figcaption>
+</figure>
+<figure class="frame" data-i="28">
+  <button class="frame-btn" data-i="28" aria-label="Ouvrir l’image 28">
+    <img src="images5/28.jpg" alt="lieux — Provence" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.28</span><span class="ftag">Provence</span></figcaption>
+</figure>
+<figure class="frame" data-i="29">
+  <button class="frame-btn" data-i="29" aria-label="Ouvrir l’image 29">
+    <img src="images5/29.jpg" alt="lieux — lac" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.29</span><span class="ftag">lac</span></figcaption>
+</figure>
+<figure class="frame" data-i="30">
+  <button class="frame-btn" data-i="30" aria-label="Ouvrir l’image 30">
+    <img src="images5/30.jpg" alt="lieux — nuit" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.30</span><span class="ftag">nuit</span></figcaption>
+</figure>
+<figure class="frame" data-i="31">
+  <button class="frame-btn" data-i="31" aria-label="Ouvrir l’image 31">
+    <img src="images6/31.jpg" alt="lieux — Arles" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.31</span><span class="ftag">Arles</span></figcaption>
+</figure>
+<figure class="frame" data-i="32">
+  <button class="frame-btn" data-i="32" aria-label="Ouvrir l’image 32">
+    <img src="images6/32.jpg" alt="lieux — musée" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.32</span><span class="ftag">musée</span></figcaption>
+</figure>
+<figure class="frame" data-i="33">
+  <button class="frame-btn" data-i="33" aria-label="Ouvrir l’image 33">
+    <img src="images6/33.jpg" alt="lieux — musée" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.33</span><span class="ftag">musée</span></figcaption>
+</figure>
+<figure class="frame" data-i="34">
+  <button class="frame-btn" data-i="34" aria-label="Ouvrir l’image 34">
+    <img src="images6/34.jpg" alt="lieux — baroque" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.34</span><span class="ftag">baroque</span></figcaption>
+</figure>
+<figure class="frame" data-i="36">
+  <button class="frame-btn" data-i="36" aria-label="Ouvrir l’image 36">
+    <img src="images6/36.jpg" alt="lieux — coupole" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.36</span><span class="ftag">coupole</span></figcaption>
+</figure>
+<figure class="frame" data-i="37">
+  <button class="frame-btn" data-i="37" aria-label="Ouvrir l’image 37">
+    <img src="images7/37.jpg" alt="lieux — verrière" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.37</span><span class="ftag">verrière</span></figcaption>
+</figure>
+<figure class="frame" data-i="38">
+  <button class="frame-btn" data-i="38" aria-label="Ouvrir l’image 38">
+    <img src="images7/38.jpg" alt="lieux — façade" loading="lazy" width="1200" height="1600">
+  </button>
+  <figcaption><span class="fno">F.38</span><span class="ftag">façade</span></figcaption>
+</figure>
+<figure class="frame" data-i="39">
+  <button class="frame-btn" data-i="39" aria-label="Ouvrir l’image 39">
+    <img src="images7/39.jpg" alt="lieux — ciel" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.39</span><span class="ftag">ciel</span></figcaption>
+</figure>
+  </div>
+</section>
+<section class="chapter" id="details">
+  <header class="chapter-head reveal">
+    <span class="chapter-num">03</span>
+    <h2 class="chapter-title">Détails</h2>
+    <p class="chapter-blurb">Matières, objets, fresques. Ce qu’on ne remarque qu’au second regard.</p>
+    <span class="chapter-count">16 images</span>
+  </header>
+  <figure class="frame feature" data-i="50">
+  <button class="frame-btn" data-i="50" aria-label="Ouvrir l’image 50">
+    <img src="images9/50.jpg" alt="details — fresque" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.50</span><span class="ftag">fresque</span></figcaption>
+</figure>
+  <div class="masonry">
+  <figure class="frame" data-i="40">
+  <button class="frame-btn" data-i="40" aria-label="Ouvrir l’image 40">
+    <img src="image40/40.jpg" alt="details — maroquinerie" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.40</span><span class="ftag">maroquinerie</span></figcaption>
+</figure>
+<figure class="frame" data-i="41">
+  <button class="frame-btn" data-i="41" aria-label="Ouvrir l’image 41">
+    <img src="image41/41.jpg" alt="details — vitrine" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.41</span><span class="ftag">vitrine</span></figcaption>
+</figure>
+<figure class="frame" data-i="42">
+  <button class="frame-btn" data-i="42" aria-label="Ouvrir l’image 42">
+    <img src="image42/42.jpg" alt="details — collage" loading="lazy" width="1280" height="1600">
+  </button>
+  <figcaption><span class="fno">F.42</span><span class="ftag">collage</span></figcaption>
+</figure>
+<figure class="frame" data-i="43">
+  <button class="frame-btn" data-i="43" aria-label="Ouvrir l’image 43">
+    <img src="images8/43.jpg" alt="details — instant" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.43</span><span class="ftag">instant</span></figcaption>
+</figure>
+<figure class="frame" data-i="44">
+  <button class="frame-btn" data-i="44" aria-label="Ouvrir l’image 44">
+    <img src="images8/44.jpg" alt="details — faïence" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.44</span><span class="ftag">faïence</span></figcaption>
+</figure>
+<figure class="frame" data-i="45">
+  <button class="frame-btn" data-i="45" aria-label="Ouvrir l’image 45">
+    <img src="images8/45.jpg" alt="details — cristal" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.45</span><span class="ftag">cristal</span></figcaption>
+</figure>
+<figure class="frame" data-i="46">
+  <button class="frame-btn" data-i="46" aria-label="Ouvrir l’image 46">
+    <img src="images8/46.jpg" alt="details — flammes" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.46</span><span class="ftag">flammes</span></figcaption>
+</figure>
+<figure class="frame" data-i="47">
+  <button class="frame-btn" data-i="47" aria-label="Ouvrir l’image 47">
+    <img src="images8/47.jpg" alt="details — dorures" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.47</span><span class="ftag">dorures</span></figcaption>
+</figure>
+<figure class="frame" data-i="48">
+  <button class="frame-btn" data-i="48" aria-label="Ouvrir l’image 48">
+    <img src="images8/48.jpg" alt="details — plafond" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.48</span><span class="ftag">plafond</span></figcaption>
+</figure>
+<figure class="frame" data-i="49">
+  <button class="frame-btn" data-i="49" aria-label="Ouvrir l’image 49">
+    <img src="images9/49.jpg" alt="details — applique" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.49</span><span class="ftag">applique</span></figcaption>
+</figure>
+<figure class="frame" data-i="51">
+  <button class="frame-btn" data-i="51" aria-label="Ouvrir l’image 51">
+    <img src="images9/51.jpg" alt="details — fresque" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.51</span><span class="ftag">fresque</span></figcaption>
+</figure>
+<figure class="frame" data-i="52">
+  <button class="frame-btn" data-i="52" aria-label="Ouvrir l’image 52">
+    <img src="images9/52.jpg" alt="details — fresque" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.52</span><span class="ftag">fresque</span></figcaption>
+</figure>
+<figure class="frame" data-i="53">
+  <button class="frame-btn" data-i="53" aria-label="Ouvrir l’image 53">
+    <img src="images9/53.jpg" alt="details — couture" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.53</span><span class="ftag">couture</span></figcaption>
+</figure>
+<figure class="frame" data-i="54">
+  <button class="frame-btn" data-i="54" aria-label="Ouvrir l’image 54">
+    <img src="images9/54.jpg" alt="details — verre" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.54</span><span class="ftag">verre</span></figcaption>
+</figure>
+<figure class="frame" data-i="55">
+  <button class="frame-btn" data-i="55" aria-label="Ouvrir l’image 55">
+    <img src="images10/55.jpg" alt="details — chrome" loading="lazy" width="900" height="1600">
+  </button>
+  <figcaption><span class="fno">F.55</span><span class="ftag">chrome</span></figcaption>
+</figure>
+  </div>
+</section>
+
+<section class="credits" id="credits">
+  <header class="chapter-head reveal">
+    <span class="chapter-num">04</span>
+    <h2 class="chapter-title">Crédits</h2>
+    <p class="chapter-blurb">Devant l’objectif — merci à celles qui ont posé.</p>
+    <span class="chapter-count">2 muses</span>
+  </header>
+  <div class="credit-grid reveal">
+    <a class="credit-card" href="https://instagram.com/prn.axel" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--amber)"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      <span class="credit-ig">@prn.axel</span>
+    </a>
+    <a class="credit-card" href="https://instagram.com/marine._dtg" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--amber)"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      <span class="credit-ig">@marine._dtg</span>
+    </a>
+  </div>
+</section>
+
+<section class="news" id="newsletter">
+  <div id="sib-form-container" class="sib-form-container" style="max-width:760px;margin:0 auto">
+    <div id="error-message" class="sib-form-message-panel" style="font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#661d1d; background-color:#ffeded; border-color:#ff4949; border-radius:3px; max-width:540px;">
+      <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+        <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+          <path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z" />
+        </svg>
+        <span class="sib-form-message-panel__inner-text">Oups… Ton inscription n’a pas pu être enregistrée. Réessaie dans quelques instants ♡</span>
+      </div>
+    </div>
+    <div></div>
+    <div id="success-message" class="sib-form-message-panel" style="font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#085229; background-color:#e7faf0; border-color:#13ce66; border-radius:3px; max-width:540px;">
+      <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+        <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
+          <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
+        </svg>
+        <span class="sib-form-message-panel__inner-text">Bienvenue ♡  Ton inscription est confirmée. Surveille ta boîte mail pour ne rien manquer.</span>
+      </div>
+    </div>
+    <div></div>
+    <div id="sib-container" class="sib-container--large sib-container--vertical" style="max-width:540px; text-align:center; background-color:rgba(255,255,255,1); border-width:1px; border-style:solid; border-color:#C0CCD9; border-radius:3px; direction:ltr">
+      <form id="sib-form" method="POST" action="https://1b35c34a.sibforms.com/serve/MUIFADkpjCzg_1qjop-F4bxA1Bf6Wi2GWb0POxftDl86JG-PhGPEyuDnkfIyDc-AD_E3TWKv4BdXgCZorIXjPCMtP6x__Ta5WTiEBKFDuOrr0k3PIY62NAf5gEcJRGOyPop1qmux8EmZBbh-L7qVX9dYSl9hXgw8iE-v9eXENlncw3lPPsT4axjmRNErn66OSqz79TPGP0icXTzppw==" data-type="subscription">
+        <div style="padding: 8px 0;">
+          <div class="g-recaptcha" data-sitekey="6Lf2LyMtAAAAAJRvDDvlpL9ilKVxEmctZrPiXK4q" data-callback="invisibleCaptchaCallback" data-size="invisible" onclick="executeCaptcha"></div>
+        </div>
+        <!-- TITRE -->
+        <div style="padding: 8px 0; position:relative;">
+          <div class="sib-form-block" style="font-family:Helvetica, sans-serif; font-size:32px; font-weight:700; text-align:left; color:transparent; background-color:transparent; user-select:none; pointer-events:none; visibility:hidden;">
+            <p>Newsletter♡</p>
+          </div>
+          <div id="news-overlay-title" style="position:absolute;top:8px;left:0;right:0;font-family:var(--d);font-size:clamp(30px,4.4vw,52px);font-weight:600;letter-spacing:-.02em;color:var(--paper);text-align:left;pointer-events:none;">Newsletter♡</div>
+        </div>
+        <!-- DESCRIPTION -->
+        <div style="padding: 8px 0; position:relative;">
+          <div class="sib-form-block" style="font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:transparent; background-color:transparent; user-select:none; pointer-events:none; visibility:hidden;">
+            <div class="sib-text-form-block">
+              <p>Inscris-toi pour recevoir les nouveautés, les mises à jour du site et découvrir les prochaines sorties avant tout le monde.</p>
+            </div>
+          </div>
+          <div id="news-overlay-desc" style="position:absolute;top:8px;left:0;right:0;font-family:var(--b);font-size:15px;color:var(--muted);text-align:left;pointer-events:none;">Inscris-toi pour recevoir les nouveautés, les mises à jour du site et découvrir les prochaines sorties avant tout le monde.</div>
+        </div>
+        <!-- LABEL PRÉNOM -->
+        <div style="padding: 8px 0;">
+          <div class="sib-input sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row" style="position:relative;">
+                <label class="entry__label" style="font-weight:700; text-align:left; font-family:Helvetica, sans-serif; font-size:16px; color:transparent; visibility:hidden;" for="FIRSTNAME" data-required="*">ton prénom</label>
+                <span id="news-overlay-label-firstname" style="position:absolute;top:0;left:0;font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);pointer-events:none;">ton prénom</span>
+                <div class="entry__field">
+                  <input class="input" maxlength="200" type="text" id="FIRSTNAME" name="FIRSTNAME" autocomplete="off" placeholder="FIRSTNAME" data-required="true" required />
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary" style="font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#661d1d; background-color:#ffeded; border-color:#ff4949; border-radius:3px;"></label>
+              <div style="position:relative; min-height:1.4em;">
+                <label class="entry__specification" style="font-family:Helvetica, sans-serif; font-size:12px; text-align:left; color:transparent; visibility:hidden;">
+                  Met ce que tu veux même ton surnom (c&#39;est pas un doc administratif haha :-) )
+                </label>
+                <span id="news-overlay-hint-firstname" style="position:absolute;top:0;left:0;font-family:var(--b);font-size:12px;color:var(--faint);pointer-events:none;">Met ce que tu veux même ton surnom (c’est pas un doc administratif haha :-) )</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- LABEL EMAIL -->
+        <div style="padding: 8px 0;">
+          <div class="sib-input sib-form-block">
+            <div class="form__entry entry_block">
+              <div class="form__label-row" style="position:relative;">
+                <label class="entry__label" style="font-weight:700; text-align:left; font-family:Helvetica, sans-serif; font-size:16px; color:transparent; visibility:hidden;" for="EMAIL" data-required="*">ton adresse e-mail</label>
+                <span id="news-overlay-label-email" style="position:absolute;top:0;left:0;font-family:var(--m);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);pointer-events:none;">ton adresse e-mail</span>
+                <div class="entry__field">
+                  <input class="input" type="text" id="EMAIL" name="EMAIL" autocomplete="off" value="" placeholder="EMAIL" data-required="true" required />
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary" style="font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#661d1d; background-color:#ffeded; border-color:#ff4949; border-radius:3px;"></label>
+              <div style="position:relative; min-height:1.4em;">
+                <label class="entry__specification" style="font-family:Helvetica, sans-serif; font-size:12px; text-align:left; color:transparent; visibility:hidden;">
+                  Entre ton adresse e-mail pour rejoindre la newsletter.
+                </label>
+                <span id="news-overlay-hint-email" style="position:absolute;top:0;left:0;font-family:var(--b);font-size:12px;color:var(--faint);pointer-events:none;">Entre ton adresse e-mail pour rejoindre la newsletter.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- CONSENTEMENT -->
+        <div style="padding: 8px 0;">
+          <div class="sib-optin sib-form-block" data-required="true">
+            <div class="form__entry entry_mcq">
+              <div class="form__label-row">
+                <div class="entry__choice">
+                  <label>
+                    <input type="checkbox" class="input_replaced" value="1" id="CONSENTEMENT" name="CONSENTEMENT" required />
+                    <span class="checkbox checkbox_tick_positive" style="margin-left:"></span>
+                    <span style="font-family:Helvetica, sans-serif; font-size:14px; text-align:left; color:transparent; background-color:transparent; position:relative; display:inline-block;">
+                      <p id="news-overlay-consent" style="color:var(--muted);font-family:var(--b);font-size:13px;">J’accepte de recevoir les nouveautés, mises à jour et communications par e-mail.</p>
+                      <span data-required="*" style="display:inline;" class="entry__label entry__label_optin"></span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+              <label class="entry__error entry__error--primary" style="font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#661d1d; background-color:#ffeded; border-color:#ff4949; border-radius:3px;"></label>
+              <div style="position:relative; min-height:1.4em;">
+                <label class="entry__specification" style="font-family:Helvetica, sans-serif; font-size:12px; text-align:left; color:transparent; visibility:hidden;">
+                  Vous pourrez-vous désinscrire à tout moment via le lien dans la newsletter.
+                </label>
+                <span id="news-overlay-unsub" style="position:absolute;top:0;left:0;font-family:var(--b);font-size:12px;color:var(--faint);pointer-events:none;">Vous pourrez vous désinscrire à tout moment via le lien dans la newsletter.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+                <div style="padding: 8px 0;">
+          <div class="sib-form-block" style="text-align:left">
+            <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-family:Helvetica, sans-serif; font-size:16px; font-weight:700; text-align:left; color:#FFFFFF; background-color:#3E4857; border-width:0px; border-radius:3px;" form="sib-form" type="submit">
+              <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512">
+                <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
+              </svg>
+              SUBSCRIBE
+            </button>
+          </div>
+        </div>
+        <input type="text" name="email_address_check" value="" class="input--hidden">
+        <input type="hidden" name="locale" value="en">
+        <p style="font-family:var(--m);font-size:10px;letter-spacing:.1em;color:var(--faint);margin-top:14px;text-align:left;">
+          Ce formulaire est protégé par reCAPTCHA de Google —
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--faint);text-decoration:underline;">Confidentialité</a> ·
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener" style="color:var(--faint);text-decoration:underline;">Conditions</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ PAGE MERCI (confirmation newsletter) ░░ -->
+<div id="merci" role="dialog" aria-modal="true" aria-label="Inscription confirmée">
+  <div class="merci-inner">
+    <div class="merci-symbol">♡</div>
+    <h2 class="merci-title" id="merciTitle">Bienvenue dans<br>la <em>boucle</em></h2>
+    <p class="merci-sub" id="merciSub">Ton inscription est confirmée — surveille ta boîte mail pour ne rien manquer des prochaines sorties.</p>
+    <a class="merci-btn" id="merciBtn" href="#top" onclick="document.getElementById('merci').classList.remove('visible');history.replaceState(null,'',window.location.pathname)">Retourner au site</a>
+  </div>
+</div>
+
+<footer class="contact" id="contact">
+  <p class="eyebrow">Contact</p>
+  <h2>On crée <em>quelque chose</em> ?</h2>
+  <div class="contact-links">
+    <a class="primary" href="https://instagram.com/brightertoms" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://tiktok.com/@brightertoms" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.05a8.16 8.16 0 0 0 4.77 1.52V7.12a4.85 4.85 0 0 1-1-.43z"/></svg>
+    </a>
+    <a href="mailto:contact@brightertoms.fr" id="contactEmail" aria-label="Email">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+    </a>
+  </div>
+  <div style="display:flex;justify-content:center;margin:clamp(12px,3vh,30px) 0 0"><svg class="sig-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2073 1783" fill="currentColor" fill-rule="evenodd"><path d="M 1922 56 L 1913 46 L 1907 42 L 1905 42 L 1902 40 L 1897 40 L 1895 42 L 1892 42 L 1884 49 L 1878 58 L 1865 73 L 1858 86 L 1855 89 L 1846 105 L 1838 116 L 1836 121 L 1826 136 L 1826 138 L 1823 141 L 1818 152 L 1816 154 L 1816 156 L 1810 164 L 1810 166 L 1807 169 L 1805 174 L 1800 181 L 1797 188 L 1794 191 L 1793 193 L 1794 194 L 1791 197 L 1788 204 L 1782 212 L 1776 224 L 1772 229 L 1770 234 L 1765 241 L 1765 243 L 1761 248 L 1759 253 L 1748 270 L 1748 272 L 1746 274 L 1743 281 L 1741 283 L 1741 285 L 1738 288 L 1731 302 L 1729 304 L 1728 308 L 1722 316 L 1722 318 L 1720 320 L 1717 327 L 1713 332 L 1713 334 L 1709 339 L 1705 348 L 1703 350 L 1702 353 L 1697 358 L 1695 358 L 1691 356 L 1682 356 L 1681 355 L 1655 355 L 1629 332 L 1628 332 L 1621 325 L 1620 325 L 1609 315 L 1608 315 L 1598 306 L 1592 302 L 1586 296 L 1574 288 L 1568 282 L 1562 279 L 1555 273 L 1549 270 L 1545 266 L 1542 265 L 1539 262 L 1536 261 L 1532 257 L 1528 256 L 1521 250 L 1518 249 L 1504 239 L 1501 238 L 1486 228 L 1479 225 L 1472 220 L 1470 220 L 1468 218 L 1466 218 L 1464 216 L 1462 216 L 1457 212 L 1453 211 L 1451 209 L 1444 206 L 1442 204 L 1403 185 L 1401 183 L 1400 184 L 1398 182 L 1392 179 L 1390 179 L 1388 177 L 1386 177 L 1375 171 L 1368 169 L 1366 167 L 1356 164 L 1351 161 L 1348 161 L 1346 159 L 1338 157 L 1333 154 L 1331 154 L 1326 151 L 1316 148 L 1311 145 L 1308 145 L 1306 143 L 1304 143 L 1288 137 L 1285 137 L 1282 135 L 1279 135 L 1276 133 L 1273 133 L 1270 131 L 1267 131 L 1255 126 L 1249 125 L 1242 119 L 1239 118 L 1237 116 L 1235 116 L 1231 114 L 1208 114 L 1206 112 L 1201 112 L 1199 110 L 1193 110 L 1190 108 L 1185 108 L 1182 106 L 1176 106 L 1174 104 L 1168 104 L 1165 102 L 1159 102 L 1155 100 L 1150 100 L 1149 99 L 1141 98 L 1140 97 L 1134 97 L 1130 95 L 1124 95 L 1120 93 L 1112 93 L 1107 91 L 1100 91 L 1095 89 L 1078 88 L 1077 87 L 1073 87 L 1072 86 L 1057 86 L 1054 84 L 1053 85 L 1052 84 L 1037 84 L 1033 82 L 1032 83 L 1031 82 L 1025 82 L 1024 81 L 1009 81 L 1007 79 L 940 78 L 939 77 L 938 78 L 937 77 L 931 77 L 930 78 L 929 77 L 909 77 L 908 78 L 882 78 L 880 80 L 842 81 L 839 83 L 838 82 L 837 83 L 826 83 L 825 84 L 813 84 L 811 86 L 804 86 L 803 87 L 798 87 L 797 88 L 792 88 L 791 89 L 784 89 L 780 91 L 765 92 L 760 94 L 752 94 L 750 96 L 742 96 L 739 98 L 735 98 L 730 100 L 717 101 L 716 102 L 715 101 L 714 102 L 709 99 L 705 98 L 703 96 L 693 91 L 691 91 L 686 88 L 684 88 L 682 86 L 678 85 L 674 82 L 672 82 L 661 76 L 654 74 L 652 72 L 649 72 L 647 70 L 643 70 L 641 68 L 637 68 L 635 66 L 630 66 L 627 64 L 622 64 L 620 62 L 616 62 L 613 60 L 610 60 L 607 58 L 604 58 L 599 56 L 598 57 L 594 55 L 591 55 L 589 53 L 578 53 L 575 51 L 566 51 L 565 50 L 560 50 L 555 48 L 544 48 L 542 46 L 525 46 L 524 45 L 512 45 L 511 44 L 510 45 L 509 44 L 506 44 L 505 43 L 504 44 L 503 43 L 500 45 L 485 45 L 484 44 L 460 44 L 457 46 L 456 45 L 455 46 L 448 46 L 447 45 L 443 47 L 433 47 L 431 49 L 414 50 L 412 52 L 402 52 L 400 54 L 394 54 L 391 56 L 390 55 L 389 56 L 386 56 L 381 58 L 380 57 L 377 59 L 374 59 L 371 61 L 364 62 L 362 64 L 357 64 L 355 66 L 352 66 L 350 68 L 347 68 L 344 70 L 330 74 L 328 76 L 325 76 L 321 79 L 317 79 L 314 82 L 311 82 L 309 84 L 307 84 L 305 86 L 303 86 L 291 94 L 287 95 L 279 100 L 278 99 L 275 102 L 272 103 L 261 111 L 258 112 L 241 128 L 238 129 L 233 134 L 232 134 L 217 149 L 217 150 L 207 162 L 203 169 L 196 176 L 195 180 L 189 188 L 189 191 L 185 196 L 185 199 L 181 204 L 181 207 L 179 209 L 179 212 L 177 214 L 177 217 L 173 225 L 174 226 L 173 227 L 173 231 L 171 234 L 172 236 L 171 237 L 171 242 L 169 244 L 169 255 L 167 260 L 167 272 L 168 273 L 167 274 L 168 275 L 167 276 L 167 281 L 169 283 L 169 298 L 171 300 L 171 307 L 173 309 L 173 313 L 174 314 L 173 315 L 174 316 L 173 317 L 175 319 L 175 321 L 177 324 L 177 327 L 178 328 L 177 329 L 179 331 L 179 333 L 182 338 L 181 339 L 185 344 L 185 347 L 189 354 L 189 356 L 191 358 L 191 361 L 195 366 L 195 368 L 200 377 L 202 379 L 203 382 L 207 386 L 208 390 L 214 397 L 215 402 L 198 423 L 198 425 L 186 438 L 180 446 L 179 449 L 169 461 L 169 463 L 163 469 L 163 471 L 161 475 L 156 480 L 157 481 L 155 483 L 156 484 L 150 490 L 149 494 L 143 502 L 141 507 L 137 512 L 137 514 L 131 522 L 131 525 L 127 529 L 126 533 L 122 538 L 119 545 L 115 551 L 115 553 L 112 558 L 112 560 L 109 564 L 109 567 L 105 572 L 105 575 L 103 578 L 103 580 L 101 582 L 101 585 L 99 587 L 99 589 L 97 592 L 97 595 L 95 597 L 93 601 L 93 603 L 91 605 L 91 608 L 87 614 L 87 617 L 85 619 L 85 622 L 83 625 L 83 628 L 81 630 L 81 633 L 77 640 L 77 645 L 75 648 L 75 651 L 73 654 L 73 657 L 71 661 L 71 665 L 69 668 L 69 670 L 68 671 L 69 672 L 67 675 L 67 678 L 66 679 L 67 680 L 65 683 L 65 686 L 63 690 L 61 701 L 59 704 L 58 713 L 56 716 L 57 717 L 55 721 L 55 725 L 53 730 L 52 743 L 50 746 L 50 756 L 48 760 L 48 767 L 46 769 L 46 784 L 44 786 L 44 798 L 42 800 L 42 817 L 40 819 L 40 909 L 41 910 L 41 915 L 42 916 L 41 917 L 42 918 L 42 929 L 44 934 L 43 935 L 44 936 L 44 941 L 45 942 L 45 958 L 47 960 L 47 970 L 49 973 L 48 974 L 49 975 L 49 986 L 51 988 L 51 998 L 53 1000 L 53 1005 L 55 1007 L 55 1013 L 57 1016 L 57 1021 L 59 1024 L 59 1029 L 61 1032 L 61 1037 L 63 1039 L 63 1044 L 65 1048 L 65 1052 L 67 1055 L 68 1064 L 70 1067 L 70 1071 L 72 1074 L 72 1078 L 74 1081 L 74 1086 L 76 1088 L 76 1090 L 78 1093 L 78 1096 L 80 1098 L 80 1101 L 82 1103 L 82 1106 L 84 1109 L 84 1112 L 88 1118 L 88 1121 L 90 1124 L 90 1127 L 92 1129 L 92 1132 L 94 1134 L 94 1137 L 98 1143 L 98 1147 L 102 1153 L 102 1156 L 104 1158 L 106 1165 L 108 1167 L 108 1169 L 124 1200 L 123 1201 L 126 1203 L 127 1206 L 129 1208 L 129 1211 L 135 1219 L 135 1222 L 138 1225 L 139 1229 L 143 1234 L 143 1236 L 144 1237 L 143 1241 L 136 1248 L 131 1251 L 116 1266 L 115 1266 L 83 1299 L 83 1300 L 76 1308 L 70 1317 L 69 1320 L 66 1323 L 66 1325 L 64 1327 L 64 1329 L 58 1337 L 58 1344 L 56 1346 L 56 1352 L 54 1354 L 54 1380 L 56 1382 L 56 1388 L 58 1390 L 58 1393 L 60 1395 L 60 1398 L 64 1403 L 64 1405 L 79 1423 L 91 1430 L 100 1430 L 101 1431 L 102 1430 L 105 1432 L 107 1432 L 108 1431 L 109 1432 L 110 1431 L 114 1431 L 115 1430 L 123 1430 L 126 1428 L 131 1428 L 132 1427 L 133 1428 L 136 1426 L 139 1426 L 150 1422 L 153 1422 L 156 1420 L 158 1420 L 162 1418 L 165 1418 L 166 1417 L 171 1416 L 174 1414 L 179 1413 L 186 1409 L 188 1409 L 196 1405 L 199 1405 L 206 1401 L 209 1401 L 211 1399 L 213 1399 L 224 1393 L 226 1393 L 237 1387 L 239 1387 L 241 1385 L 243 1385 L 249 1381 L 250 1382 L 251 1381 L 296 1427 L 299 1428 L 311 1440 L 312 1440 L 319 1447 L 320 1447 L 344 1469 L 352 1474 L 356 1478 L 363 1482 L 371 1489 L 377 1492 L 381 1496 L 389 1501 L 397 1508 L 403 1511 L 414 1520 L 419 1522 L 423 1526 L 431 1530 L 436 1534 L 439 1535 L 454 1545 L 456 1545 L 461 1549 L 466 1551 L 471 1555 L 481 1560 L 484 1563 L 491 1566 L 493 1568 L 507 1575 L 516 1581 L 518 1581 L 524 1585 L 526 1585 L 543 1594 L 545 1594 L 547 1596 L 549 1596 L 551 1598 L 553 1598 L 570 1607 L 572 1607 L 578 1611 L 580 1611 L 587 1615 L 589 1615 L 594 1618 L 596 1618 L 601 1621 L 603 1621 L 608 1624 L 610 1624 L 612 1626 L 615 1626 L 618 1628 L 625 1630 L 632 1634 L 635 1634 L 640 1637 L 648 1639 L 651 1641 L 653 1641 L 656 1643 L 658 1643 L 661 1645 L 663 1645 L 676 1651 L 679 1651 L 680 1652 L 685 1653 L 690 1656 L 693 1656 L 696 1658 L 699 1658 L 701 1660 L 705 1660 L 708 1662 L 718 1664 L 724 1667 L 728 1667 L 731 1669 L 734 1669 L 737 1671 L 741 1671 L 744 1673 L 747 1673 L 748 1674 L 751 1674 L 761 1678 L 764 1678 L 767 1680 L 770 1680 L 773 1682 L 777 1682 L 781 1684 L 785 1684 L 788 1686 L 795 1687 L 806 1691 L 812 1691 L 815 1693 L 820 1693 L 823 1695 L 829 1695 L 830 1696 L 833 1696 L 838 1698 L 843 1698 L 847 1700 L 852 1700 L 855 1702 L 859 1702 L 863 1704 L 864 1703 L 872 1706 L 876 1706 L 881 1708 L 890 1709 L 893 1711 L 900 1711 L 902 1713 L 910 1713 L 914 1715 L 921 1715 L 926 1717 L 938 1718 L 943 1720 L 951 1720 L 954 1722 L 963 1722 L 968 1724 L 973 1724 L 974 1725 L 984 1726 L 985 1727 L 993 1727 L 997 1729 L 1008 1729 L 1011 1731 L 1022 1731 L 1023 1732 L 1031 1732 L 1032 1733 L 1037 1733 L 1038 1734 L 1051 1734 L 1052 1735 L 1056 1735 L 1057 1736 L 1069 1736 L 1070 1737 L 1080 1737 L 1081 1738 L 1082 1737 L 1087 1739 L 1107 1739 L 1109 1741 L 1140 1741 L 1141 1742 L 1238 1743 L 1240 1741 L 1262 1741 L 1263 1740 L 1264 1741 L 1265 1740 L 1266 1741 L 1267 1740 L 1283 1740 L 1284 1739 L 1291 1739 L 1292 1738 L 1309 1738 L 1310 1737 L 1311 1738 L 1314 1736 L 1322 1736 L 1323 1735 L 1324 1736 L 1325 1735 L 1329 1735 L 1330 1734 L 1337 1734 L 1342 1732 L 1352 1732 L 1355 1730 L 1365 1730 L 1366 1729 L 1367 1730 L 1369 1728 L 1375 1728 L 1376 1727 L 1384 1726 L 1385 1725 L 1386 1726 L 1390 1724 L 1394 1724 L 1402 1721 L 1403 1722 L 1406 1720 L 1409 1720 L 1420 1716 L 1427 1715 L 1430 1713 L 1433 1713 L 1440 1710 L 1443 1710 L 1446 1708 L 1449 1708 L 1452 1706 L 1455 1706 L 1458 1704 L 1461 1704 L 1465 1701 L 1470 1700 L 1472 1698 L 1475 1698 L 1482 1694 L 1484 1694 L 1486 1692 L 1488 1692 L 1490 1690 L 1492 1690 L 1494 1688 L 1496 1688 L 1503 1684 L 1505 1684 L 1507 1682 L 1511 1681 L 1519 1675 L 1521 1675 L 1527 1671 L 1530 1668 L 1531 1669 L 1545 1657 L 1548 1656 L 1552 1652 L 1557 1649 L 1573 1649 L 1574 1650 L 1575 1649 L 1576 1650 L 1577 1649 L 1596 1649 L 1599 1647 L 1602 1647 L 1605 1645 L 1611 1645 L 1614 1643 L 1621 1641 L 1625 1637 L 1625 1626 L 1624 1625 L 1624 1619 L 1622 1617 L 1622 1615 L 1620 1612 L 1620 1609 L 1618 1607 L 1618 1605 L 1611 1595 L 1601 1586 L 1601 1582 L 1602 1581 L 1603 1574 L 1605 1571 L 1605 1566 L 1607 1564 L 1607 1554 L 1609 1552 L 1608 1551 L 1609 1550 L 1609 1505 L 1607 1503 L 1607 1494 L 1605 1492 L 1605 1483 L 1603 1481 L 1603 1476 L 1601 1473 L 1601 1469 L 1599 1464 L 1598 1456 L 1596 1453 L 1596 1449 L 1594 1446 L 1594 1443 L 1592 1440 L 1592 1437 L 1590 1435 L 1590 1432 L 1585 1423 L 1584 1419 L 1581 1415 L 1581 1413 L 1579 1409 L 1575 1404 L 1575 1402 L 1573 1400 L 1573 1398 L 1570 1395 L 1570 1392 L 1566 1387 L 1562 1378 L 1555 1368 L 1554 1365 L 1539 1345 L 1531 1337 L 1531 1336 L 1514 1319 L 1514 1318 L 1507 1311 L 1507 1310 L 1500 1303 L 1499 1303 L 1480 1283 L 1476 1280 L 1473 1279 L 1461 1268 L 1453 1263 L 1449 1259 L 1443 1256 L 1430 1245 L 1427 1244 L 1419 1237 L 1413 1234 L 1408 1229 L 1404 1227 L 1401 1224 L 1395 1221 L 1391 1217 L 1385 1214 L 1376 1207 L 1363 1200 L 1359 1196 L 1352 1193 L 1346 1188 L 1341 1186 L 1331 1178 L 1323 1178 L 1320 1184 L 1320 1189 L 1322 1194 L 1322 1198 L 1325 1204 L 1325 1207 L 1330 1214 L 1331 1218 L 1336 1223 L 1336 1224 L 1339 1227 L 1348 1233 L 1351 1234 L 1354 1237 L 1361 1240 L 1382 1255 L 1384 1255 L 1390 1260 L 1405 1269 L 1413 1276 L 1421 1280 L 1426 1285 L 1430 1287 L 1446 1300 L 1452 1303 L 1457 1308 L 1464 1312 L 1472 1319 L 1473 1319 L 1479 1325 L 1484 1328 L 1486 1331 L 1487 1331 L 1507 1351 L 1507 1352 L 1530 1375 L 1530 1376 L 1533 1378 L 1533 1380 L 1541 1388 L 1546 1397 L 1548 1399 L 1548 1401 L 1554 1409 L 1554 1411 L 1556 1413 L 1556 1415 L 1558 1417 L 1561 1424 L 1563 1426 L 1563 1428 L 1565 1430 L 1568 1436 L 1568 1438 L 1570 1442 L 1570 1445 L 1572 1449 L 1572 1455 L 1574 1458 L 1574 1462 L 1576 1466 L 1576 1476 L 1578 1478 L 1578 1509 L 1576 1511 L 1576 1524 L 1575 1525 L 1575 1528 L 1572 1535 L 1572 1538 L 1571 1539 L 1569 1547 L 1567 1550 L 1567 1553 L 1565 1555 L 1563 1561 L 1559 1565 L 1557 1569 L 1554 1571 L 1554 1572 L 1549 1577 L 1548 1580 L 1532 1596 L 1531 1595 L 1521 1595 L 1520 1594 L 1519 1595 L 1518 1594 L 1513 1594 L 1512 1593 L 1510 1594 L 1505 1592 L 1495 1592 L 1492 1590 L 1483 1590 L 1481 1588 L 1480 1589 L 1478 1589 L 1477 1588 L 1468 1588 L 1466 1586 L 1453 1585 L 1445 1582 L 1436 1581 L 1433 1579 L 1428 1579 L 1425 1577 L 1420 1577 L 1417 1575 L 1414 1575 L 1407 1572 L 1404 1572 L 1403 1571 L 1401 1571 L 1396 1567 L 1398 1564 L 1402 1562 L 1409 1555 L 1413 1553 L 1425 1540 L 1425 1539 L 1435 1527 L 1444 1509 L 1445 1502 L 1447 1500 L 1447 1496 L 1449 1494 L 1449 1486 L 1451 1484 L 1451 1473 L 1453 1471 L 1453 1449 L 1451 1447 L 1451 1438 L 1449 1436 L 1449 1432 L 1447 1429 L 1447 1425 L 1443 1417 L 1443 1414 L 1440 1409 L 1440 1407 L 1438 1405 L 1438 1403 L 1436 1401 L 1434 1396 L 1430 1391 L 1429 1387 L 1421 1376 L 1407 1362 L 1406 1363 L 1398 1356 L 1390 1352 L 1387 1352 L 1381 1349 L 1376 1349 L 1375 1348 L 1374 1349 L 1371 1347 L 1370 1348 L 1368 1347 L 1367 1348 L 1366 1347 L 1360 1347 L 1357 1349 L 1348 1349 L 1347 1350 L 1341 1351 L 1339 1353 L 1338 1352 L 1326 1358 L 1320 1364 L 1314 1367 L 1304 1377 L 1298 1386 L 1294 1390 L 1294 1392 L 1292 1396 L 1287 1402 L 1284 1408 L 1284 1410 L 1282 1412 L 1282 1415 L 1280 1418 L 1280 1421 L 1278 1424 L 1278 1429 L 1276 1431 L 1276 1441 L 1275 1442 L 1275 1449 L 1274 1450 L 1275 1451 L 1274 1452 L 1274 1466 L 1276 1470 L 1275 1471 L 1276 1484 L 1278 1486 L 1278 1492 L 1280 1494 L 1280 1497 L 1282 1500 L 1282 1503 L 1284 1506 L 1284 1509 L 1287 1514 L 1287 1517 L 1292 1527 L 1297 1534 L 1299 1539 L 1295 1542 L 1284 1542 L 1282 1544 L 1232 1544 L 1231 1543 L 1226 1543 L 1225 1542 L 1224 1543 L 1219 1541 L 1210 1541 L 1209 1540 L 1204 1539 L 1202 1537 L 1206 1533 L 1210 1532 L 1214 1528 L 1217 1527 L 1233 1513 L 1238 1506 L 1245 1499 L 1245 1497 L 1251 1489 L 1251 1487 L 1253 1484 L 1253 1482 L 1256 1475 L 1256 1472 L 1257 1471 L 1257 1463 L 1258 1462 L 1258 1437 L 1257 1436 L 1257 1431 L 1256 1430 L 1256 1426 L 1255 1425 L 1255 1419 L 1253 1416 L 1253 1409 L 1247 1396 L 1247 1393 L 1242 1383 L 1242 1380 L 1238 1375 L 1235 1368 L 1223 1352 L 1218 1347 L 1218 1346 L 1204 1332 L 1203 1332 L 1198 1327 L 1196 1327 L 1194 1325 L 1191 1324 L 1186 1320 L 1182 1319 L 1180 1317 L 1174 1316 L 1171 1314 L 1166 1314 L 1164 1312 L 1154 1312 L 1152 1310 L 1141 1310 L 1139 1312 L 1132 1312 L 1130 1314 L 1127 1314 L 1125 1316 L 1122 1316 L 1116 1320 L 1114 1320 L 1112 1322 L 1110 1322 L 1107 1325 L 1104 1326 L 1096 1332 L 1085 1343 L 1083 1347 L 1077 1354 L 1075 1359 L 1073 1361 L 1072 1365 L 1070 1367 L 1070 1370 L 1068 1372 L 1066 1379 L 1064 1381 L 1064 1388 L 1062 1390 L 1062 1407 L 1060 1409 L 1061 1410 L 1060 1411 L 1060 1414 L 1062 1416 L 1062 1432 L 1064 1434 L 1064 1442 L 1066 1445 L 1065 1446 L 1069 1457 L 1070 1464 L 1074 1472 L 1075 1477 L 1080 1487 L 1082 1489 L 1084 1496 L 1091 1506 L 1090 1507 L 1094 1512 L 1091 1515 L 1085 1515 L 1081 1517 L 1080 1516 L 1079 1517 L 1075 1517 L 1070 1519 L 1065 1519 L 1064 1520 L 1062 1519 L 1061 1520 L 1056 1520 L 1055 1521 L 1047 1521 L 1046 1522 L 1034 1523 L 1033 1524 L 1001 1525 L 1000 1526 L 999 1525 L 998 1526 L 997 1525 L 996 1526 L 986 1526 L 985 1525 L 979 1525 L 978 1524 L 977 1525 L 976 1524 L 960 1524 L 957 1522 L 956 1523 L 954 1523 L 953 1522 L 952 1523 L 951 1522 L 944 1522 L 943 1521 L 937 1521 L 936 1520 L 931 1520 L 930 1519 L 926 1519 L 925 1518 L 918 1517 L 915 1515 L 912 1515 L 909 1513 L 906 1513 L 905 1512 L 891 1508 L 888 1506 L 885 1506 L 881 1503 L 878 1503 L 876 1501 L 874 1501 L 872 1499 L 870 1499 L 866 1496 L 864 1496 L 849 1486 L 842 1480 L 846 1477 L 847 1478 L 851 1476 L 862 1476 L 866 1474 L 871 1474 L 874 1472 L 883 1472 L 885 1470 L 891 1470 L 895 1468 L 901 1468 L 903 1466 L 907 1466 L 910 1464 L 913 1464 L 916 1462 L 919 1462 L 922 1460 L 925 1460 L 928 1458 L 931 1458 L 938 1454 L 951 1450 L 958 1446 L 965 1444 L 971 1440 L 975 1439 L 977 1437 L 984 1434 L 989 1430 L 999 1425 L 1009 1417 L 1013 1415 L 1029 1399 L 1031 1395 L 1037 1388 L 1046 1371 L 1046 1368 L 1048 1365 L 1048 1362 L 1050 1358 L 1050 1349 L 1051 1348 L 1051 1343 L 1052 1342 L 1052 1334 L 1051 1333 L 1051 1328 L 1050 1327 L 1050 1319 L 1046 1309 L 1046 1306 L 1045 1305 L 1045 1302 L 1043 1299 L 1043 1297 L 1039 1291 L 1039 1288 L 1037 1286 L 1036 1282 L 1033 1279 L 1032 1275 L 1023 1264 L 1022 1261 L 1019 1257 L 1013 1251 L 1013 1250 L 1012 1250 L 998 1237 L 977 1226 L 970 1225 L 967 1223 L 961 1223 L 957 1221 L 945 1221 L 944 1222 L 939 1222 L 938 1223 L 932 1223 L 929 1225 L 928 1224 L 925 1226 L 924 1225 L 921 1227 L 917 1227 L 914 1229 L 911 1229 L 909 1231 L 905 1232 L 893 1238 L 891 1240 L 889 1240 L 885 1244 L 883 1244 L 880 1246 L 876 1250 L 868 1256 L 865 1257 L 860 1262 L 856 1264 L 833 1288 L 830 1292 L 829 1295 L 821 1304 L 816 1313 L 812 1318 L 812 1320 L 808 1325 L 809 1326 L 804 1333 L 804 1335 L 802 1337 L 802 1339 L 798 1347 L 798 1351 L 796 1353 L 796 1356 L 794 1358 L 794 1362 L 792 1364 L 792 1371 L 790 1373 L 791 1374 L 790 1375 L 789 1402 L 788 1403 L 788 1408 L 790 1410 L 790 1426 L 787 1429 L 786 1428 L 785 1429 L 775 1429 L 774 1430 L 749 1430 L 748 1431 L 740 1431 L 739 1432 L 738 1431 L 737 1432 L 722 1432 L 720 1430 L 702 1430 L 700 1428 L 695 1428 L 691 1425 L 687 1424 L 682 1420 L 680 1420 L 679 1419 L 673 1419 L 669 1424 L 669 1439 L 671 1442 L 671 1445 L 673 1447 L 673 1449 L 674 1450 L 673 1451 L 677 1456 L 677 1458 L 684 1468 L 692 1475 L 700 1478 L 711 1490 L 711 1491 L 718 1497 L 724 1498 L 727 1494 L 727 1489 L 728 1488 L 727 1487 L 729 1485 L 770 1485 L 771 1484 L 794 1484 L 795 1483 L 801 1483 L 802 1482 L 803 1483 L 804 1482 L 810 1482 L 817 1490 L 818 1493 L 824 1502 L 853 1532 L 857 1534 L 860 1537 L 863 1538 L 880 1549 L 882 1549 L 893 1555 L 895 1555 L 897 1557 L 902 1558 L 905 1560 L 910 1561 L 913 1563 L 915 1563 L 922 1566 L 925 1566 L 928 1568 L 933 1568 L 934 1569 L 937 1569 L 940 1571 L 944 1571 L 948 1573 L 954 1573 L 957 1575 L 966 1575 L 968 1577 L 986 1577 L 987 1578 L 1005 1578 L 1006 1579 L 1007 1578 L 1008 1579 L 1017 1579 L 1018 1578 L 1051 1578 L 1052 1577 L 1053 1578 L 1055 1576 L 1065 1576 L 1066 1575 L 1070 1575 L 1071 1574 L 1081 1574 L 1082 1573 L 1091 1572 L 1092 1571 L 1093 1572 L 1095 1572 L 1099 1570 L 1104 1570 L 1105 1569 L 1106 1570 L 1110 1568 L 1114 1568 L 1122 1565 L 1124 1566 L 1135 1562 L 1145 1561 L 1155 1566 L 1161 1571 L 1163 1571 L 1176 1578 L 1179 1578 L 1181 1580 L 1183 1580 L 1186 1582 L 1192 1583 L 1197 1586 L 1207 1588 L 1208 1589 L 1211 1589 L 1212 1590 L 1215 1590 L 1216 1591 L 1220 1591 L 1224 1593 L 1228 1593 L 1233 1595 L 1245 1595 L 1247 1597 L 1262 1597 L 1263 1598 L 1296 1598 L 1297 1597 L 1302 1597 L 1303 1596 L 1311 1596 L 1316 1594 L 1317 1595 L 1318 1594 L 1326 1594 L 1330 1592 L 1334 1592 L 1337 1590 L 1341 1590 L 1344 1588 L 1345 1589 L 1346 1588 L 1347 1589 L 1349 1589 L 1358 1596 L 1363 1598 L 1366 1601 L 1368 1601 L 1370 1603 L 1372 1603 L 1374 1605 L 1378 1607 L 1380 1607 L 1386 1611 L 1388 1611 L 1395 1615 L 1397 1615 L 1399 1617 L 1402 1617 L 1405 1619 L 1411 1620 L 1414 1622 L 1416 1622 L 1418 1624 L 1421 1624 L 1432 1628 L 1436 1628 L 1442 1631 L 1447 1631 L 1450 1633 L 1456 1633 L 1458 1635 L 1462 1635 L 1464 1637 L 1462 1640 L 1460 1640 L 1458 1642 L 1452 1645 L 1450 1645 L 1443 1649 L 1441 1649 L 1436 1652 L 1433 1652 L 1431 1654 L 1427 1654 L 1417 1658 L 1416 1657 L 1411 1660 L 1408 1660 L 1407 1661 L 1404 1661 L 1393 1665 L 1390 1665 L 1380 1669 L 1376 1669 L 1372 1671 L 1369 1671 L 1364 1673 L 1358 1673 L 1353 1675 L 1352 1674 L 1347 1676 L 1341 1676 L 1340 1677 L 1334 1677 L 1333 1678 L 1326 1678 L 1325 1679 L 1321 1679 L 1320 1680 L 1311 1680 L 1308 1682 L 1297 1682 L 1294 1684 L 1280 1684 L 1279 1685 L 1274 1685 L 1273 1686 L 1247 1686 L 1246 1687 L 1245 1686 L 1244 1687 L 1242 1686 L 1240 1688 L 1221 1688 L 1220 1689 L 1219 1688 L 1218 1689 L 1217 1688 L 1216 1689 L 1205 1689 L 1204 1688 L 1203 1689 L 1189 1689 L 1188 1690 L 1187 1689 L 1186 1690 L 1185 1689 L 1148 1689 L 1147 1688 L 1109 1688 L 1106 1686 L 1105 1687 L 1104 1686 L 1103 1687 L 1102 1686 L 1089 1686 L 1088 1687 L 1087 1686 L 1078 1686 L 1077 1685 L 1069 1685 L 1068 1684 L 1067 1685 L 1066 1684 L 1065 1685 L 1064 1684 L 1058 1684 L 1057 1683 L 1056 1684 L 1055 1683 L 1044 1683 L 1043 1682 L 1037 1682 L 1036 1681 L 1035 1682 L 1034 1681 L 1018 1680 L 1017 1679 L 1016 1680 L 1015 1679 L 1014 1680 L 1009 1678 L 1000 1678 L 999 1677 L 995 1677 L 994 1676 L 985 1676 L 984 1675 L 980 1675 L 979 1674 L 970 1674 L 966 1672 L 965 1673 L 964 1672 L 957 1672 L 956 1671 L 952 1671 L 951 1670 L 938 1669 L 933 1667 L 932 1668 L 927 1666 L 926 1667 L 922 1665 L 921 1666 L 920 1665 L 910 1664 L 909 1663 L 908 1664 L 907 1663 L 904 1663 L 903 1662 L 900 1662 L 895 1660 L 889 1660 L 886 1658 L 880 1658 L 878 1656 L 877 1657 L 876 1656 L 871 1656 L 866 1654 L 856 1653 L 852 1651 L 848 1651 L 844 1649 L 839 1649 L 838 1648 L 835 1648 L 830 1646 L 826 1646 L 821 1644 L 820 1645 L 817 1643 L 816 1644 L 813 1642 L 809 1642 L 808 1641 L 805 1641 L 804 1640 L 801 1640 L 796 1638 L 792 1638 L 789 1636 L 783 1636 L 779 1634 L 776 1634 L 775 1633 L 769 1632 L 765 1630 L 762 1630 L 758 1628 L 751 1627 L 748 1625 L 745 1625 L 741 1623 L 734 1622 L 731 1620 L 724 1619 L 721 1617 L 714 1616 L 711 1614 L 708 1614 L 707 1613 L 702 1612 L 700 1610 L 695 1610 L 692 1608 L 689 1608 L 681 1604 L 680 1605 L 677 1603 L 669 1601 L 666 1599 L 661 1598 L 653 1594 L 650 1594 L 645 1591 L 640 1590 L 637 1588 L 634 1588 L 629 1585 L 624 1584 L 621 1582 L 619 1582 L 616 1580 L 609 1578 L 604 1575 L 603 1576 L 599 1573 L 596 1573 L 594 1571 L 592 1571 L 587 1568 L 585 1568 L 576 1563 L 574 1563 L 569 1560 L 567 1560 L 561 1556 L 559 1556 L 550 1551 L 548 1551 L 544 1548 L 542 1548 L 540 1546 L 537 1546 L 535 1544 L 507 1530 L 503 1529 L 501 1527 L 494 1524 L 485 1518 L 483 1518 L 478 1514 L 468 1509 L 465 1506 L 458 1503 L 453 1499 L 451 1499 L 444 1494 L 439 1492 L 434 1488 L 429 1486 L 424 1482 L 419 1480 L 416 1477 L 413 1476 L 404 1469 L 394 1463 L 389 1458 L 386 1457 L 382 1453 L 378 1451 L 366 1441 L 363 1440 L 331 1416 L 299 1386 L 292 1381 L 280 1369 L 279 1367 L 288 1361 L 301 1355 L 308 1350 L 313 1348 L 315 1346 L 322 1343 L 329 1338 L 341 1332 L 346 1328 L 353 1325 L 356 1322 L 363 1319 L 366 1316 L 373 1313 L 377 1309 L 384 1306 L 388 1302 L 396 1298 L 401 1293 L 404 1292 L 406 1290 L 408 1290 L 414 1284 L 418 1283 L 425 1277 L 430 1275 L 436 1270 L 442 1267 L 446 1263 L 449 1262 L 456 1257 L 461 1252 L 464 1250 L 466 1250 L 471 1245 L 475 1243 L 479 1239 L 482 1238 L 487 1233 L 490 1232 L 504 1220 L 507 1219 L 516 1210 L 527 1202 L 547 1183 L 551 1181 L 563 1169 L 563 1168 L 575 1156 L 575 1155 L 587 1143 L 587 1142 L 599 1129 L 601 1125 L 613 1111 L 613 1109 L 619 1103 L 621 1097 L 626 1092 L 626 1090 L 628 1086 L 632 1081 L 636 1072 L 638 1070 L 638 1068 L 642 1063 L 642 1061 L 644 1059 L 647 1053 L 647 1051 L 651 1045 L 655 1032 L 657 1029 L 657 1026 L 659 1023 L 659 1019 L 661 1015 L 661 1012 L 663 1010 L 663 1004 L 665 1002 L 665 997 L 667 995 L 667 990 L 675 983 L 677 983 L 679 981 L 687 977 L 693 973 L 697 969 L 699 969 L 707 963 L 712 961 L 718 956 L 726 952 L 730 948 L 735 946 L 741 941 L 745 939 L 749 935 L 752 934 L 765 924 L 771 921 L 784 910 L 788 908 L 790 908 L 798 900 L 801 899 L 815 887 L 817 887 L 827 877 L 832 874 L 839 867 L 854 856 L 861 849 L 863 849 L 871 841 L 873 843 L 873 847 L 871 850 L 871 855 L 869 857 L 870 858 L 869 859 L 869 863 L 867 865 L 867 873 L 865 876 L 865 881 L 863 886 L 863 890 L 861 893 L 862 894 L 861 895 L 861 899 L 859 903 L 860 904 L 857 912 L 857 917 L 856 918 L 856 923 L 855 924 L 856 925 L 854 930 L 854 937 L 853 938 L 854 957 L 855 958 L 855 961 L 857 964 L 857 967 L 859 970 L 859 973 L 869 988 L 874 993 L 879 996 L 887 996 L 888 995 L 889 996 L 893 992 L 894 992 L 904 981 L 904 980 L 908 977 L 908 976 L 915 969 L 917 965 L 927 955 L 930 950 L 937 943 L 938 940 L 941 937 L 943 933 L 965 907 L 966 904 L 970 900 L 972 896 L 975 893 L 976 890 L 983 883 L 989 873 L 1007 853 L 1009 849 L 1022 835 L 1030 824 L 1044 809 L 1045 809 L 1063 791 L 1067 789 L 1070 786 L 1073 788 L 1072 789 L 1072 791 L 1070 793 L 1070 796 L 1068 798 L 1068 801 L 1066 803 L 1066 807 L 1064 809 L 1064 814 L 1062 817 L 1062 820 L 1057 831 L 1057 834 L 1055 837 L 1055 840 L 1051 848 L 1051 851 L 1049 854 L 1049 859 L 1047 861 L 1047 864 L 1045 866 L 1045 871 L 1043 874 L 1043 877 L 1041 880 L 1040 886 L 1037 892 L 1036 899 L 1034 902 L 1034 905 L 1032 908 L 1032 912 L 1030 915 L 1030 920 L 1028 922 L 1028 926 L 1026 928 L 1026 935 L 1024 937 L 1024 942 L 1022 945 L 1022 950 L 1020 952 L 1020 959 L 1019 960 L 1018 970 L 1017 971 L 1017 975 L 1016 976 L 1016 982 L 1015 983 L 1014 996 L 1013 997 L 1013 1008 L 1012 1009 L 1012 1039 L 1013 1040 L 1012 1041 L 1012 1044 L 1014 1047 L 1014 1055 L 1016 1057 L 1016 1062 L 1018 1064 L 1018 1069 L 1020 1071 L 1022 1078 L 1031 1094 L 1035 1098 L 1042 1108 L 1050 1115 L 1057 1117 L 1059 1119 L 1069 1120 L 1070 1121 L 1071 1120 L 1072 1121 L 1073 1120 L 1074 1121 L 1075 1120 L 1082 1120 L 1083 1119 L 1086 1119 L 1090 1117 L 1093 1117 L 1094 1116 L 1099 1115 L 1101 1113 L 1103 1113 L 1105 1111 L 1107 1111 L 1109 1109 L 1117 1105 L 1120 1102 L 1121 1103 L 1126 1098 L 1129 1097 L 1135 1091 L 1139 1089 L 1144 1084 L 1145 1084 L 1149 1080 L 1149 1079 L 1164 1065 L 1166 1062 L 1167 1063 L 1166 1062 L 1174 1054 L 1176 1054 L 1192 1069 L 1199 1073 L 1202 1076 L 1208 1079 L 1210 1079 L 1212 1081 L 1218 1082 L 1221 1084 L 1225 1084 L 1228 1086 L 1237 1086 L 1242 1088 L 1244 1087 L 1245 1088 L 1247 1088 L 1248 1087 L 1249 1088 L 1250 1087 L 1254 1087 L 1255 1086 L 1265 1086 L 1270 1084 L 1274 1084 L 1277 1082 L 1284 1081 L 1287 1079 L 1290 1079 L 1293 1077 L 1295 1077 L 1298 1075 L 1300 1075 L 1304 1073 L 1309 1069 L 1311 1069 L 1317 1065 L 1321 1064 L 1326 1060 L 1333 1057 L 1336 1054 L 1339 1054 L 1348 1064 L 1349 1064 L 1365 1079 L 1370 1081 L 1376 1085 L 1378 1085 L 1382 1088 L 1384 1088 L 1387 1090 L 1390 1090 L 1393 1092 L 1399 1092 L 1402 1094 L 1411 1094 L 1414 1096 L 1415 1095 L 1443 1094 L 1446 1092 L 1450 1092 L 1451 1091 L 1452 1092 L 1454 1090 L 1458 1090 L 1459 1089 L 1465 1088 L 1468 1086 L 1473 1085 L 1480 1091 L 1482 1095 L 1495 1109 L 1507 1117 L 1510 1120 L 1512 1120 L 1518 1124 L 1523 1125 L 1525 1127 L 1529 1128 L 1531 1130 L 1534 1130 L 1537 1132 L 1539 1132 L 1543 1134 L 1546 1134 L 1547 1135 L 1550 1135 L 1551 1136 L 1554 1136 L 1559 1138 L 1563 1138 L 1564 1139 L 1573 1139 L 1577 1141 L 1618 1141 L 1619 1140 L 1620 1141 L 1621 1140 L 1623 1140 L 1624 1141 L 1626 1139 L 1640 1139 L 1645 1137 L 1655 1137 L 1660 1135 L 1661 1136 L 1666 1134 L 1671 1134 L 1675 1132 L 1682 1132 L 1686 1130 L 1692 1129 L 1694 1127 L 1695 1117 L 1694 1116 L 1694 1110 L 1693 1109 L 1692 1104 L 1690 1101 L 1690 1099 L 1688 1097 L 1687 1093 L 1683 1088 L 1682 1085 L 1676 1079 L 1670 1076 L 1667 1076 L 1665 1078 L 1660 1078 L 1657 1080 L 1650 1080 L 1646 1082 L 1639 1082 L 1637 1084 L 1627 1084 L 1626 1085 L 1621 1085 L 1620 1086 L 1601 1087 L 1600 1088 L 1598 1087 L 1597 1088 L 1590 1088 L 1589 1089 L 1569 1089 L 1568 1088 L 1562 1088 L 1561 1087 L 1560 1088 L 1559 1087 L 1546 1087 L 1543 1085 L 1542 1086 L 1541 1085 L 1534 1084 L 1530 1082 L 1527 1082 L 1524 1080 L 1520 1080 L 1518 1078 L 1516 1078 L 1513 1076 L 1510 1076 L 1504 1071 L 1516 1062 L 1523 1059 L 1531 1052 L 1546 1042 L 1554 1034 L 1555 1034 L 1581 1007 L 1582 1004 L 1590 996 L 1591 993 L 1595 989 L 1600 980 L 1605 975 L 1604 974 L 1607 971 L 1607 969 L 1613 961 L 1619 949 L 1622 939 L 1624 937 L 1624 932 L 1626 928 L 1626 924 L 1628 919 L 1628 911 L 1629 910 L 1628 889 L 1626 886 L 1626 882 L 1625 881 L 1626 880 L 1622 874 L 1622 871 L 1620 868 L 1619 863 L 1616 860 L 1616 858 L 1611 852 L 1611 850 L 1606 845 L 1605 842 L 1593 833 L 1589 831 L 1586 831 L 1584 829 L 1564 829 L 1562 831 L 1558 831 L 1555 833 L 1550 834 L 1548 836 L 1546 836 L 1540 840 L 1538 840 L 1524 852 L 1520 854 L 1509 865 L 1505 871 L 1493 885 L 1492 888 L 1483 899 L 1483 901 L 1480 904 L 1477 911 L 1474 914 L 1475 915 L 1470 924 L 1470 926 L 1468 930 L 1466 932 L 1466 935 L 1462 943 L 1462 947 L 1460 949 L 1460 954 L 1458 956 L 1458 960 L 1455 968 L 1454 980 L 1453 981 L 1453 986 L 1452 987 L 1452 1001 L 1451 1002 L 1451 1006 L 1452 1007 L 1452 1015 L 1453 1016 L 1452 1017 L 1452 1019 L 1453 1020 L 1453 1030 L 1448 1034 L 1445 1034 L 1442 1036 L 1437 1036 L 1435 1038 L 1429 1038 L 1427 1040 L 1420 1040 L 1417 1042 L 1387 1042 L 1385 1040 L 1379 1040 L 1377 1038 L 1372 1038 L 1370 1036 L 1368 1036 L 1364 1032 L 1376 1020 L 1377 1020 L 1391 1005 L 1394 1000 L 1400 994 L 1402 990 L 1407 985 L 1411 978 L 1414 975 L 1415 972 L 1420 966 L 1423 959 L 1426 956 L 1428 952 L 1428 950 L 1433 943 L 1433 941 L 1436 936 L 1437 931 L 1439 928 L 1439 925 L 1441 922 L 1441 918 L 1444 910 L 1444 903 L 1445 902 L 1444 881 L 1442 878 L 1443 876 L 1441 873 L 1441 867 L 1436 857 L 1436 855 L 1432 849 L 1432 847 L 1430 843 L 1426 839 L 1422 833 L 1414 826 L 1403 822 L 1393 822 L 1391 824 L 1387 824 L 1385 826 L 1383 826 L 1381 828 L 1377 829 L 1374 832 L 1370 834 L 1347 857 L 1341 867 L 1333 877 L 1328 887 L 1328 889 L 1325 892 L 1325 894 L 1321 901 L 1321 903 L 1318 907 L 1319 909 L 1317 911 L 1317 913 L 1315 916 L 1315 919 L 1314 920 L 1315 921 L 1313 924 L 1312 932 L 1310 935 L 1309 951 L 1308 952 L 1308 976 L 1309 977 L 1309 982 L 1310 983 L 1310 993 L 1311 994 L 1311 998 L 1312 1000 L 1304 1008 L 1302 1008 L 1299 1011 L 1294 1013 L 1292 1015 L 1288 1016 L 1284 1019 L 1281 1019 L 1278 1022 L 1273 1023 L 1268 1026 L 1265 1026 L 1262 1028 L 1259 1028 L 1256 1030 L 1251 1030 L 1249 1032 L 1238 1032 L 1236 1034 L 1215 1034 L 1213 1032 L 1204 1032 L 1202 1030 L 1200 1030 L 1197 1027 L 1198 1024 L 1204 1018 L 1205 1015 L 1209 1011 L 1214 1003 L 1219 998 L 1220 995 L 1228 984 L 1229 981 L 1236 973 L 1238 968 L 1245 959 L 1244 958 L 1247 955 L 1247 953 L 1249 951 L 1249 949 L 1252 946 L 1254 942 L 1254 940 L 1259 933 L 1266 919 L 1266 917 L 1271 908 L 1271 906 L 1275 899 L 1275 897 L 1277 895 L 1277 892 L 1281 884 L 1281 881 L 1283 877 L 1283 873 L 1285 870 L 1285 867 L 1286 866 L 1286 861 L 1288 857 L 1288 847 L 1290 842 L 1290 837 L 1288 832 L 1288 821 L 1286 817 L 1285 810 L 1283 807 L 1283 803 L 1279 796 L 1279 794 L 1273 786 L 1273 784 L 1270 780 L 1261 771 L 1252 766 L 1249 766 L 1248 765 L 1235 765 L 1234 766 L 1229 766 L 1215 774 L 1192 794 L 1192 796 L 1180 810 L 1180 812 L 1174 818 L 1175 819 L 1170 826 L 1166 835 L 1162 840 L 1162 842 L 1158 847 L 1158 850 L 1156 853 L 1156 855 L 1154 857 L 1154 860 L 1150 868 L 1150 870 L 1147 877 L 1147 880 L 1145 883 L 1145 887 L 1143 890 L 1143 897 L 1141 900 L 1141 904 L 1139 908 L 1140 909 L 1139 910 L 1140 911 L 1139 912 L 1138 924 L 1137 925 L 1138 926 L 1137 927 L 1137 953 L 1139 958 L 1139 967 L 1141 972 L 1141 978 L 1142 979 L 1144 990 L 1146 994 L 1146 997 L 1148 1000 L 1148 1003 L 1132 1020 L 1131 1020 L 1121 1030 L 1120 1030 L 1108 1042 L 1104 1044 L 1100 1048 L 1094 1052 L 1091 1053 L 1088 1056 L 1076 1062 L 1074 1062 L 1072 1064 L 1068 1064 L 1067 1065 L 1066 1064 L 1064 1066 L 1056 1066 L 1055 1067 L 1053 1066 L 1052 1067 L 1051 1066 L 1045 1066 L 1043 1064 L 1043 1048 L 1044 1047 L 1045 1024 L 1047 1019 L 1047 1014 L 1048 1013 L 1048 1009 L 1049 1008 L 1049 1002 L 1051 997 L 1051 993 L 1053 989 L 1053 984 L 1055 982 L 1055 977 L 1057 974 L 1057 970 L 1059 968 L 1059 963 L 1061 961 L 1061 956 L 1063 953 L 1063 948 L 1065 945 L 1065 941 L 1067 938 L 1067 935 L 1069 932 L 1069 929 L 1071 926 L 1071 923 L 1074 917 L 1076 907 L 1078 904 L 1078 900 L 1080 897 L 1080 894 L 1082 891 L 1082 888 L 1084 886 L 1084 882 L 1086 879 L 1086 877 L 1088 874 L 1088 871 L 1093 860 L 1093 857 L 1095 854 L 1095 851 L 1097 848 L 1097 845 L 1101 837 L 1101 834 L 1103 832 L 1103 829 L 1105 827 L 1105 824 L 1106 823 L 1107 818 L 1109 815 L 1109 812 L 1111 809 L 1111 807 L 1118 788 L 1118 785 L 1120 782 L 1120 778 L 1122 774 L 1122 771 L 1124 767 L 1124 752 L 1122 750 L 1120 739 L 1117 734 L 1117 732 L 1113 726 L 1111 721 L 1106 716 L 1106 715 L 1096 706 L 1084 706 L 1078 710 L 1076 710 L 1058 722 L 1051 729 L 1044 733 L 1008 768 L 1008 769 L 999 778 L 992 788 L 982 798 L 979 803 L 972 810 L 970 815 L 962 823 L 956 832 L 950 838 L 945 847 L 941 851 L 938 856 L 932 862 L 930 866 L 920 877 L 914 886 L 909 891 L 907 895 L 904 898 L 902 896 L 902 892 L 904 889 L 903 887 L 904 886 L 904 883 L 908 872 L 908 866 L 910 863 L 912 852 L 916 841 L 917 834 L 921 824 L 922 816 L 924 813 L 924 810 L 927 802 L 927 799 L 929 796 L 929 793 L 931 791 L 931 788 L 933 783 L 935 781 L 935 779 L 972 740 L 973 737 L 981 729 L 981 728 L 988 721 L 988 720 L 997 711 L 1000 706 L 1015 690 L 1021 681 L 1029 673 L 1031 669 L 1047 651 L 1049 647 L 1053 643 L 1055 639 L 1062 631 L 1067 623 L 1073 617 L 1073 615 L 1077 611 L 1078 608 L 1087 597 L 1088 594 L 1100 578 L 1104 570 L 1113 559 L 1114 556 L 1121 547 L 1121 545 L 1126 539 L 1127 536 L 1133 528 L 1135 523 L 1138 520 L 1138 518 L 1144 510 L 1145 507 L 1153 495 L 1153 493 L 1156 490 L 1159 483 L 1162 480 L 1163 476 L 1169 467 L 1169 465 L 1174 458 L 1174 456 L 1176 454 L 1189 428 L 1191 426 L 1191 424 L 1194 419 L 1194 417 L 1198 412 L 1198 410 L 1206 395 L 1207 391 L 1209 389 L 1210 384 L 1212 382 L 1212 380 L 1216 373 L 1216 370 L 1220 363 L 1221 358 L 1227 346 L 1229 338 L 1232 333 L 1232 331 L 1234 328 L 1234 325 L 1237 320 L 1237 317 L 1241 309 L 1241 305 L 1244 301 L 1244 298 L 1247 292 L 1247 289 L 1253 273 L 1253 270 L 1255 266 L 1256 259 L 1258 255 L 1259 247 L 1261 242 L 1261 238 L 1263 233 L 1263 228 L 1264 227 L 1264 222 L 1265 221 L 1265 214 L 1266 213 L 1266 208 L 1267 207 L 1267 181 L 1269 179 L 1272 179 L 1279 182 L 1282 182 L 1285 184 L 1294 186 L 1299 189 L 1303 189 L 1305 191 L 1308 191 L 1311 193 L 1313 193 L 1320 196 L 1323 196 L 1330 200 L 1338 202 L 1348 207 L 1350 207 L 1358 211 L 1363 212 L 1370 216 L 1371 215 L 1373 217 L 1380 219 L 1400 229 L 1402 229 L 1404 231 L 1406 231 L 1408 233 L 1410 233 L 1430 243 L 1432 245 L 1434 245 L 1445 251 L 1447 251 L 1453 255 L 1458 257 L 1460 259 L 1464 260 L 1472 265 L 1474 265 L 1476 267 L 1483 270 L 1485 272 L 1492 275 L 1494 277 L 1496 277 L 1504 283 L 1512 287 L 1533 302 L 1535 302 L 1541 307 L 1547 310 L 1564 323 L 1569 325 L 1573 329 L 1577 331 L 1598 348 L 1599 348 L 1610 358 L 1608 360 L 1604 360 L 1602 362 L 1598 362 L 1596 364 L 1592 364 L 1591 365 L 1586 366 L 1583 368 L 1578 369 L 1575 371 L 1573 371 L 1561 379 L 1546 392 L 1544 395 L 1544 397 L 1542 399 L 1542 402 L 1540 405 L 1538 412 L 1536 414 L 1536 416 L 1535 417 L 1535 427 L 1536 428 L 1536 432 L 1538 437 L 1538 442 L 1542 449 L 1542 455 L 1546 462 L 1548 469 L 1554 478 L 1554 480 L 1556 483 L 1579 505 L 1591 514 L 1613 525 L 1625 533 L 1625 535 L 1622 542 L 1622 545 L 1620 548 L 1620 551 L 1618 554 L 1613 571 L 1610 576 L 1610 579 L 1608 582 L 1608 584 L 1606 586 L 1606 589 L 1602 597 L 1602 600 L 1599 605 L 1598 610 L 1595 614 L 1592 621 L 1588 626 L 1588 628 L 1584 638 L 1584 643 L 1583 644 L 1584 657 L 1585 658 L 1585 661 L 1586 662 L 1587 667 L 1596 683 L 1604 691 L 1606 692 L 1611 692 L 1613 691 L 1613 689 L 1615 687 L 1615 683 L 1616 682 L 1615 681 L 1617 678 L 1617 675 L 1624 669 L 1625 662 L 1627 660 L 1625 657 L 1627 655 L 1627 652 L 1631 644 L 1632 638 L 1634 636 L 1634 633 L 1636 630 L 1640 617 L 1642 615 L 1642 612 L 1644 609 L 1644 606 L 1646 603 L 1647 597 L 1649 595 L 1649 592 L 1650 591 L 1651 586 L 1653 584 L 1653 579 L 1655 577 L 1655 574 L 1657 571 L 1658 565 L 1662 556 L 1662 553 L 1665 549 L 1670 549 L 1676 552 L 1679 552 L 1682 554 L 1684 554 L 1688 556 L 1692 556 L 1695 558 L 1698 558 L 1701 560 L 1703 560 L 1716 565 L 1717 564 L 1720 566 L 1723 566 L 1726 568 L 1728 568 L 1732 570 L 1736 570 L 1740 572 L 1743 572 L 1754 576 L 1761 577 L 1762 578 L 1764 578 L 1768 580 L 1771 580 L 1772 581 L 1775 581 L 1779 583 L 1783 583 L 1787 585 L 1790 585 L 1791 586 L 1806 589 L 1810 591 L 1813 591 L 1818 593 L 1822 593 L 1824 595 L 1829 595 L 1832 597 L 1836 597 L 1840 599 L 1844 599 L 1845 600 L 1852 601 L 1855 603 L 1859 603 L 1863 605 L 1867 605 L 1868 606 L 1876 608 L 1879 611 L 1880 637 L 1881 638 L 1880 639 L 1882 643 L 1882 653 L 1883 654 L 1882 655 L 1884 657 L 1884 667 L 1886 672 L 1886 678 L 1887 679 L 1888 687 L 1889 688 L 1889 696 L 1891 698 L 1893 708 L 1895 710 L 1895 714 L 1896 715 L 1898 723 L 1901 728 L 1901 730 L 1904 734 L 1905 738 L 1907 740 L 1908 743 L 1914 750 L 1916 754 L 1925 763 L 1930 765 L 1932 767 L 1938 768 L 1939 767 L 1943 767 L 1946 765 L 1948 765 L 1952 762 L 1958 756 L 1964 748 L 1964 746 L 1969 739 L 1969 737 L 1974 728 L 1974 725 L 1976 722 L 1978 715 L 1980 713 L 1979 712 L 1980 711 L 1981 706 L 1983 703 L 1983 699 L 1985 696 L 1985 692 L 1987 688 L 1987 680 L 1989 678 L 1989 664 L 1991 662 L 1991 641 L 1993 639 L 1995 639 L 2003 642 L 2007 642 L 2008 643 L 2015 644 L 2022 647 L 2029 647 L 2031 646 L 2031 644 L 2033 640 L 2033 635 L 2031 632 L 2031 626 L 2030 625 L 2030 623 L 2028 621 L 2028 617 L 2025 614 L 2023 610 L 2023 608 L 2019 604 L 2016 599 L 2013 598 L 2008 594 L 2002 594 L 1999 592 L 1995 592 L 1993 590 L 1988 590 L 1984 587 L 1984 585 L 1982 581 L 1982 576 L 1979 570 L 1977 560 L 1975 558 L 1975 556 L 1971 548 L 1971 546 L 1968 542 L 1965 534 L 1959 525 L 1958 521 L 1955 518 L 1954 515 L 1950 510 L 1948 505 L 1942 499 L 1941 496 L 1938 492 L 1915 467 L 1915 447 L 1917 443 L 1917 426 L 1919 424 L 1919 409 L 1921 407 L 1921 392 L 1923 388 L 1923 376 L 1924 375 L 1924 371 L 1925 370 L 1925 360 L 1927 357 L 1927 344 L 1928 343 L 1929 327 L 1930 326 L 1930 319 L 1931 318 L 1931 309 L 1932 308 L 1932 301 L 1933 300 L 1933 288 L 1935 286 L 1934 283 L 1935 282 L 1935 269 L 1936 268 L 1936 264 L 1937 263 L 1936 262 L 1937 261 L 1937 245 L 1938 244 L 1938 240 L 1939 239 L 1939 217 L 1941 212 L 1941 210 L 1940 209 L 1940 206 L 1941 205 L 1941 123 L 1940 122 L 1940 112 L 1939 111 L 1939 107 L 1938 106 L 1938 99 L 1936 94 L 1936 89 L 1933 82 L 1933 79 L 1927 65 L 1922 58 Z M 1407 1405 L 1418 1415 L 1420 1419 L 1420 1425 L 1422 1427 L 1422 1435 L 1420 1437 L 1420 1446 L 1418 1448 L 1418 1454 L 1416 1457 L 1416 1460 L 1409 1475 L 1402 1484 L 1401 1487 L 1394 1494 L 1394 1495 L 1383 1505 L 1382 1505 L 1380 1508 L 1374 1511 L 1365 1518 L 1363 1518 L 1361 1520 L 1345 1528 L 1338 1530 L 1336 1532 L 1334 1532 L 1333 1533 L 1332 1532 L 1328 1532 L 1318 1522 L 1318 1521 L 1315 1519 L 1309 1510 L 1309 1508 L 1307 1505 L 1307 1497 L 1305 1495 L 1305 1484 L 1307 1482 L 1307 1470 L 1309 1468 L 1309 1464 L 1311 1461 L 1311 1458 L 1313 1456 L 1313 1454 L 1315 1452 L 1316 1448 L 1323 1439 L 1324 1435 L 1326 1432 L 1341 1417 L 1344 1416 L 1349 1411 L 1355 1407 L 1359 1407 L 1361 1405 L 1363 1405 L 1366 1403 L 1370 1403 L 1373 1401 L 1395 1401 L 1396 1402 L 1399 1402 L 1405 1405 Z M 1201 1372 L 1204 1375 L 1207 1376 L 1219 1388 L 1222 1392 L 1222 1394 L 1224 1397 L 1224 1399 L 1226 1403 L 1226 1416 L 1228 1418 L 1227 1420 L 1228 1421 L 1226 1423 L 1226 1432 L 1225 1433 L 1224 1438 L 1222 1440 L 1222 1442 L 1216 1449 L 1216 1451 L 1214 1454 L 1196 1472 L 1193 1473 L 1186 1479 L 1182 1480 L 1171 1488 L 1167 1489 L 1165 1491 L 1160 1492 L 1151 1497 L 1149 1497 L 1143 1501 L 1140 1501 L 1137 1503 L 1134 1503 L 1131 1505 L 1128 1505 L 1124 1503 L 1119 1498 L 1115 1496 L 1104 1483 L 1096 1468 L 1095 1461 L 1093 1459 L 1093 1432 L 1095 1430 L 1094 1429 L 1095 1428 L 1095 1423 L 1097 1421 L 1097 1418 L 1099 1416 L 1100 1411 L 1110 1396 L 1128 1378 L 1135 1375 L 1138 1372 L 1140 1372 L 1142 1370 L 1144 1370 L 1147 1368 L 1149 1368 L 1153 1366 L 1156 1366 L 1160 1364 L 1161 1365 L 1162 1364 L 1174 1364 L 1175 1365 L 1179 1365 L 1180 1366 L 1187 1366 L 1190 1368 L 1193 1368 L 1195 1370 L 1197 1370 Z M 210 1334 L 201 1340 L 198 1340 L 192 1344 L 189 1344 L 187 1346 L 185 1346 L 179 1350 L 175 1350 L 169 1354 L 166 1354 L 164 1356 L 161 1356 L 159 1358 L 155 1358 L 153 1360 L 150 1360 L 148 1362 L 144 1362 L 142 1364 L 138 1364 L 136 1366 L 132 1366 L 130 1368 L 127 1368 L 124 1370 L 119 1370 L 117 1372 L 110 1372 L 108 1374 L 101 1374 L 99 1375 L 96 1372 L 107 1355 L 113 1349 L 113 1348 L 174 1289 L 176 1289 L 182 1295 L 186 1302 L 190 1306 L 190 1308 L 195 1313 L 196 1316 L 207 1329 Z M 1018 1298 L 1019 1300 L 1019 1317 L 1017 1320 L 1016 1327 L 1013 1331 L 1010 1338 L 1003 1345 L 1004 1346 L 988 1362 L 979 1368 L 975 1372 L 973 1372 L 966 1378 L 964 1378 L 956 1384 L 954 1384 L 950 1387 L 948 1387 L 941 1391 L 939 1391 L 937 1393 L 931 1396 L 929 1396 L 926 1398 L 923 1398 L 913 1403 L 910 1403 L 908 1405 L 906 1405 L 896 1409 L 885 1411 L 884 1412 L 878 1413 L 871 1416 L 870 1415 L 867 1417 L 862 1417 L 858 1419 L 853 1419 L 852 1420 L 848 1420 L 847 1421 L 835 1422 L 834 1423 L 830 1423 L 829 1424 L 828 1423 L 827 1424 L 823 1424 L 821 1422 L 822 1421 L 821 1420 L 822 1419 L 822 1411 L 827 1398 L 827 1395 L 828 1394 L 829 1389 L 833 1381 L 837 1376 L 837 1373 L 841 1368 L 841 1366 L 843 1364 L 846 1358 L 851 1353 L 863 1335 L 882 1316 L 883 1316 L 896 1305 L 906 1299 L 913 1293 L 916 1293 L 920 1289 L 924 1287 L 926 1287 L 928 1285 L 930 1285 L 938 1281 L 940 1281 L 944 1279 L 947 1279 L 951 1277 L 954 1277 L 955 1276 L 956 1277 L 957 1276 L 966 1276 L 967 1275 L 980 1275 L 988 1278 L 995 1279 L 1005 1285 Z M 605 1028 L 602 1032 L 602 1034 L 598 1039 L 598 1041 L 586 1059 L 580 1066 L 578 1070 L 567 1081 L 568 1082 L 563 1087 L 562 1090 L 549 1103 L 549 1104 L 523 1130 L 522 1130 L 515 1137 L 514 1137 L 511 1141 L 506 1144 L 498 1152 L 497 1151 L 482 1166 L 475 1170 L 470 1175 L 458 1183 L 452 1189 L 444 1193 L 438 1199 L 432 1202 L 428 1206 L 414 1216 L 411 1217 L 403 1224 L 399 1225 L 394 1230 L 391 1231 L 389 1233 L 387 1233 L 381 1239 L 375 1241 L 371 1245 L 366 1247 L 359 1253 L 354 1255 L 338 1266 L 336 1266 L 333 1269 L 330 1270 L 328 1272 L 326 1272 L 323 1275 L 319 1277 L 317 1277 L 313 1281 L 310 1282 L 308 1284 L 306 1284 L 301 1288 L 297 1289 L 294 1292 L 289 1294 L 287 1296 L 285 1296 L 280 1300 L 278 1300 L 276 1302 L 274 1302 L 262 1310 L 259 1310 L 254 1314 L 251 1314 L 249 1316 L 247 1316 L 245 1318 L 243 1318 L 241 1320 L 239 1320 L 238 1321 L 237 1320 L 236 1321 L 234 1320 L 223 1308 L 221 1304 L 214 1297 L 214 1296 L 204 1284 L 200 1277 L 197 1274 L 197 1271 L 196 1270 L 201 1265 L 205 1263 L 210 1258 L 228 1245 L 238 1236 L 241 1235 L 254 1224 L 257 1223 L 265 1216 L 271 1213 L 280 1206 L 286 1203 L 289 1200 L 293 1199 L 296 1196 L 305 1191 L 308 1188 L 310 1188 L 314 1184 L 322 1180 L 326 1176 L 333 1173 L 339 1168 L 343 1167 L 346 1164 L 360 1157 L 368 1151 L 370 1151 L 375 1147 L 387 1141 L 392 1137 L 396 1136 L 401 1132 L 406 1130 L 413 1125 L 415 1125 L 420 1121 L 429 1117 L 431 1115 L 433 1115 L 435 1113 L 447 1107 L 449 1105 L 453 1103 L 455 1103 L 458 1100 L 460 1100 L 466 1096 L 481 1089 L 483 1087 L 485 1087 L 487 1085 L 515 1071 L 517 1069 L 520 1069 L 525 1065 L 528 1065 L 533 1061 L 540 1058 L 542 1056 L 544 1056 L 550 1052 L 552 1052 L 554 1050 L 567 1044 L 569 1042 L 571 1042 L 573 1040 L 581 1037 L 583 1035 L 592 1031 L 594 1029 L 596 1029 L 602 1026 Z M 1593 881 L 1596 884 L 1596 888 L 1594 891 L 1594 894 L 1593 895 L 1592 900 L 1590 902 L 1578 926 L 1573 931 L 1573 933 L 1568 938 L 1568 940 L 1558 951 L 1552 960 L 1517 994 L 1514 995 L 1506 1002 L 1491 1012 L 1487 1013 L 1485 1011 L 1485 1008 L 1487 1006 L 1487 1002 L 1489 1000 L 1489 995 L 1491 992 L 1491 988 L 1492 987 L 1493 982 L 1497 975 L 1497 973 L 1499 971 L 1500 966 L 1502 964 L 1504 960 L 1504 958 L 1511 949 L 1513 944 L 1517 940 L 1520 934 L 1525 929 L 1528 924 L 1548 903 L 1552 900 L 1554 900 L 1561 893 L 1567 889 L 1569 889 L 1581 883 L 1586 883 L 1588 881 Z M 1409 878 L 1411 880 L 1408 886 L 1408 889 L 1405 893 L 1403 898 L 1401 900 L 1401 903 L 1397 909 L 1397 911 L 1393 915 L 1393 917 L 1390 920 L 1387 926 L 1381 933 L 1380 936 L 1374 942 L 1372 946 L 1367 951 L 1367 952 L 1357 962 L 1356 962 L 1357 963 L 1354 966 L 1352 966 L 1351 969 L 1343 976 L 1341 974 L 1342 973 L 1341 972 L 1343 969 L 1342 968 L 1344 966 L 1345 957 L 1347 955 L 1347 953 L 1349 950 L 1351 943 L 1353 941 L 1357 932 L 1359 930 L 1361 925 L 1367 916 L 1376 906 L 1376 905 L 1395 886 L 1396 886 L 1402 880 L 1406 878 Z M 1254 819 L 1256 821 L 1256 824 L 1254 827 L 1254 833 L 1252 835 L 1252 838 L 1250 840 L 1251 841 L 1250 842 L 1250 844 L 1248 846 L 1248 849 L 1246 851 L 1246 853 L 1244 856 L 1244 858 L 1241 863 L 1241 865 L 1239 869 L 1235 874 L 1235 877 L 1231 885 L 1229 887 L 1229 889 L 1221 901 L 1220 905 L 1216 910 L 1216 913 L 1212 917 L 1209 923 L 1203 931 L 1202 934 L 1197 939 L 1197 941 L 1188 953 L 1183 958 L 1175 970 L 1170 974 L 1168 972 L 1168 958 L 1170 954 L 1170 947 L 1172 943 L 1172 938 L 1174 933 L 1174 929 L 1176 926 L 1176 924 L 1177 923 L 1176 922 L 1179 917 L 1179 914 L 1181 911 L 1183 903 L 1185 900 L 1185 898 L 1187 894 L 1189 892 L 1189 890 L 1191 888 L 1191 886 L 1194 883 L 1195 879 L 1197 877 L 1200 870 L 1203 867 L 1208 858 L 1217 848 L 1217 847 L 1228 836 L 1235 831 L 1242 824 L 1246 823 L 1252 819 Z M 1910 617 L 1914 617 L 1918 619 L 1921 619 L 1922 620 L 1925 620 L 1926 621 L 1929 621 L 1930 622 L 1933 622 L 1934 623 L 1949 626 L 1953 628 L 1956 628 L 1959 631 L 1959 634 L 1958 635 L 1958 638 L 1959 639 L 1957 644 L 1957 648 L 1956 649 L 1955 656 L 1953 660 L 1953 663 L 1951 666 L 1951 670 L 1949 672 L 1946 682 L 1943 686 L 1940 694 L 1935 700 L 1932 706 L 1926 712 L 1922 714 L 1920 714 L 1917 711 L 1917 705 L 1916 704 L 1916 700 L 1915 699 L 1916 698 L 1914 695 L 1914 690 L 1913 689 L 1914 687 L 1912 684 L 1912 672 L 1910 668 L 1910 653 L 1909 652 L 1909 643 L 1908 642 L 1908 631 L 1909 630 L 1909 628 L 1908 627 L 1908 619 Z M 1914 507 L 1920 512 L 1920 513 L 1939 533 L 1944 543 L 1948 548 L 1950 553 L 1952 555 L 1952 557 L 1954 561 L 1954 564 L 1956 567 L 1956 571 L 1958 574 L 1958 578 L 1956 580 L 1951 580 L 1950 579 L 1940 577 L 1936 575 L 1931 575 L 1921 571 L 1916 571 L 1911 569 L 1909 567 L 1909 541 L 1911 539 L 1911 510 Z M 1705 451 L 1707 452 L 1718 465 L 1719 468 L 1723 472 L 1730 483 L 1734 487 L 1737 494 L 1739 496 L 1745 509 L 1745 517 L 1747 520 L 1747 523 L 1744 526 L 1740 524 L 1736 524 L 1733 522 L 1729 522 L 1726 520 L 1722 520 L 1719 518 L 1709 516 L 1706 514 L 1702 514 L 1699 512 L 1695 512 L 1692 510 L 1689 510 L 1685 508 L 1681 504 L 1681 501 L 1685 493 L 1685 490 L 1692 477 L 1692 474 L 1694 472 L 1695 468 L 1698 464 L 1702 454 Z M 255 445 L 287 477 L 293 481 L 307 494 L 308 494 L 310 497 L 316 501 L 324 509 L 329 512 L 342 524 L 353 532 L 359 538 L 371 546 L 380 555 L 378 557 L 377 556 L 374 558 L 334 558 L 333 559 L 332 558 L 331 559 L 330 558 L 328 560 L 325 560 L 324 559 L 294 559 L 293 558 L 292 559 L 289 557 L 288 558 L 286 558 L 285 557 L 284 558 L 283 557 L 282 558 L 281 557 L 280 558 L 279 557 L 278 558 L 277 557 L 266 557 L 265 556 L 264 557 L 263 556 L 262 557 L 261 556 L 260 557 L 259 556 L 258 557 L 255 555 L 254 556 L 253 555 L 237 555 L 234 557 L 234 560 L 232 562 L 232 568 L 234 570 L 234 577 L 236 579 L 236 581 L 238 584 L 238 587 L 242 592 L 244 597 L 247 601 L 254 608 L 256 609 L 260 609 L 261 610 L 278 610 L 279 611 L 295 611 L 296 612 L 311 612 L 312 613 L 365 613 L 366 612 L 367 613 L 368 612 L 398 612 L 399 611 L 400 612 L 401 611 L 407 611 L 408 610 L 414 610 L 415 609 L 416 610 L 417 609 L 426 609 L 427 608 L 432 608 L 433 607 L 442 607 L 450 613 L 482 643 L 483 643 L 486 647 L 493 652 L 525 684 L 529 690 L 549 710 L 555 718 L 567 730 L 568 733 L 571 736 L 581 751 L 585 755 L 587 760 L 595 769 L 601 780 L 605 785 L 606 789 L 609 792 L 609 796 L 613 800 L 613 803 L 617 808 L 617 810 L 619 812 L 619 814 L 621 816 L 621 818 L 626 827 L 626 831 L 628 833 L 628 838 L 630 840 L 630 847 L 632 849 L 632 853 L 634 855 L 634 860 L 636 862 L 636 867 L 638 870 L 638 879 L 640 882 L 639 883 L 640 884 L 639 885 L 639 887 L 640 888 L 640 893 L 639 894 L 640 895 L 640 901 L 639 902 L 640 903 L 639 904 L 640 905 L 639 906 L 640 907 L 639 908 L 639 935 L 634 941 L 620 948 L 618 950 L 616 950 L 611 954 L 607 955 L 600 960 L 598 960 L 590 966 L 588 966 L 579 972 L 577 972 L 573 975 L 548 987 L 546 989 L 544 989 L 542 991 L 524 1000 L 522 1002 L 519 1002 L 514 1006 L 512 1006 L 510 1008 L 508 1008 L 506 1010 L 504 1010 L 499 1014 L 496 1014 L 491 1018 L 489 1018 L 482 1023 L 480 1023 L 474 1027 L 472 1027 L 468 1029 L 463 1033 L 460 1033 L 455 1037 L 453 1037 L 447 1041 L 441 1043 L 438 1046 L 434 1047 L 430 1050 L 424 1052 L 415 1058 L 413 1058 L 411 1060 L 408 1061 L 405 1064 L 399 1066 L 396 1069 L 394 1069 L 387 1074 L 378 1078 L 376 1080 L 374 1080 L 366 1086 L 359 1089 L 356 1092 L 349 1095 L 346 1098 L 340 1100 L 336 1104 L 330 1106 L 327 1109 L 320 1112 L 318 1114 L 310 1118 L 307 1121 L 305 1121 L 300 1125 L 297 1126 L 289 1132 L 280 1137 L 277 1140 L 273 1141 L 253 1155 L 251 1155 L 241 1163 L 238 1164 L 227 1173 L 220 1177 L 205 1190 L 199 1193 L 191 1201 L 179 1209 L 165 1222 L 163 1221 L 157 1214 L 156 1210 L 152 1205 L 152 1203 L 149 1197 L 147 1195 L 147 1193 L 145 1191 L 145 1189 L 142 1186 L 135 1171 L 133 1169 L 133 1167 L 129 1161 L 129 1159 L 127 1156 L 125 1149 L 123 1147 L 123 1144 L 121 1142 L 121 1139 L 119 1137 L 119 1135 L 113 1122 L 113 1119 L 111 1117 L 111 1115 L 105 1102 L 105 1100 L 100 1087 L 100 1084 L 96 1073 L 96 1069 L 95 1068 L 94 1061 L 92 1057 L 92 1053 L 88 1042 L 88 1038 L 86 1033 L 86 1029 L 84 1025 L 84 1018 L 82 1016 L 82 1009 L 80 1004 L 80 995 L 78 991 L 77 973 L 76 972 L 76 965 L 75 964 L 74 949 L 73 948 L 73 858 L 74 857 L 74 853 L 75 852 L 75 838 L 77 833 L 77 824 L 79 822 L 79 810 L 80 809 L 81 796 L 82 795 L 82 790 L 83 789 L 83 783 L 85 778 L 85 772 L 86 771 L 86 768 L 87 767 L 87 764 L 89 759 L 90 750 L 91 749 L 92 743 L 94 739 L 94 736 L 96 732 L 97 724 L 99 721 L 101 710 L 104 703 L 104 700 L 106 697 L 106 694 L 107 693 L 106 692 L 108 690 L 108 686 L 110 684 L 112 676 L 114 673 L 114 671 L 116 668 L 118 661 L 124 649 L 124 646 L 128 640 L 128 637 L 130 635 L 130 632 L 134 626 L 136 618 L 138 616 L 138 614 L 146 598 L 148 596 L 148 594 L 150 592 L 152 588 L 152 586 L 155 583 L 156 579 L 160 574 L 164 566 L 167 563 L 170 556 L 176 548 L 176 546 L 178 544 L 181 537 L 186 531 L 188 526 L 192 522 L 196 514 L 200 510 L 202 506 L 205 503 L 206 500 L 211 495 L 214 490 L 218 486 L 219 483 L 225 477 L 243 453 L 251 445 Z M 1721 416 L 1724 413 L 1734 413 L 1739 415 L 1745 415 L 1750 417 L 1754 417 L 1755 418 L 1761 419 L 1762 420 L 1773 423 L 1776 425 L 1787 428 L 1790 430 L 1795 431 L 1798 433 L 1800 433 L 1808 437 L 1810 437 L 1815 440 L 1817 440 L 1823 444 L 1825 444 L 1832 449 L 1834 449 L 1836 451 L 1840 453 L 1842 453 L 1847 457 L 1854 460 L 1857 463 L 1861 464 L 1870 471 L 1874 473 L 1881 480 L 1880 513 L 1879 514 L 1879 527 L 1878 528 L 1878 538 L 1877 539 L 1878 557 L 1876 559 L 1871 559 L 1869 557 L 1864 557 L 1861 555 L 1855 555 L 1852 553 L 1848 553 L 1846 551 L 1840 551 L 1837 549 L 1833 549 L 1829 547 L 1826 547 L 1825 546 L 1810 543 L 1807 541 L 1802 541 L 1798 539 L 1794 539 L 1793 538 L 1790 538 L 1787 536 L 1782 536 L 1777 534 L 1775 532 L 1775 527 L 1773 524 L 1773 521 L 1771 518 L 1771 515 L 1769 512 L 1768 506 L 1765 502 L 1764 498 L 1750 471 L 1747 468 L 1746 465 L 1744 463 L 1744 461 L 1732 445 L 1731 442 L 1718 426 L 1718 422 Z M 1670 412 L 1670 417 L 1668 419 L 1668 421 L 1666 423 L 1666 426 L 1662 433 L 1662 435 L 1660 437 L 1657 447 L 1651 459 L 1651 461 L 1650 462 L 1648 470 L 1646 473 L 1645 478 L 1643 481 L 1642 486 L 1638 492 L 1637 491 L 1636 492 L 1633 490 L 1628 489 L 1604 477 L 1602 475 L 1598 474 L 1594 471 L 1586 468 L 1584 466 L 1582 466 L 1569 455 L 1569 452 L 1568 451 L 1572 443 L 1576 439 L 1577 439 L 1579 436 L 1581 436 L 1589 428 L 1601 421 L 1603 421 L 1616 416 L 1619 416 L 1629 412 L 1637 411 L 1638 410 L 1645 410 L 1646 409 L 1667 409 Z M 1233 173 L 1235 175 L 1235 179 L 1234 180 L 1233 191 L 1231 196 L 1230 206 L 1227 213 L 1227 217 L 1225 221 L 1225 224 L 1223 227 L 1223 231 L 1221 234 L 1221 237 L 1220 238 L 1219 243 L 1217 246 L 1216 252 L 1214 255 L 1213 260 L 1210 265 L 1210 268 L 1209 269 L 1208 274 L 1206 276 L 1206 279 L 1202 287 L 1202 290 L 1200 293 L 1200 295 L 1198 298 L 1196 305 L 1193 310 L 1193 312 L 1191 315 L 1189 322 L 1186 327 L 1185 331 L 1183 333 L 1181 340 L 1178 344 L 1178 347 L 1175 351 L 1175 353 L 1170 363 L 1168 365 L 1168 368 L 1163 375 L 1163 378 L 1161 380 L 1158 387 L 1156 389 L 1157 390 L 1153 395 L 1151 399 L 1151 401 L 1145 410 L 1145 412 L 1140 418 L 1140 420 L 1136 425 L 1136 428 L 1130 436 L 1130 438 L 1126 443 L 1120 455 L 1115 461 L 1112 468 L 1109 471 L 1105 479 L 1101 484 L 1100 488 L 1096 492 L 1092 498 L 1092 500 L 1084 510 L 1083 513 L 1079 518 L 1076 524 L 1070 530 L 1068 535 L 1065 538 L 1063 542 L 1058 547 L 1054 555 L 1051 558 L 1046 566 L 1040 572 L 1033 583 L 1022 596 L 1020 600 L 1006 616 L 1005 619 L 993 631 L 994 632 L 989 637 L 989 638 L 985 641 L 983 639 L 985 636 L 985 633 L 987 630 L 989 622 L 991 619 L 991 616 L 995 608 L 995 606 L 998 600 L 1003 584 L 1006 579 L 1006 576 L 1008 573 L 1008 570 L 1010 567 L 1013 557 L 1015 554 L 1016 548 L 1018 545 L 1020 538 L 1023 533 L 1023 530 L 1025 527 L 1027 520 L 1029 518 L 1029 515 L 1035 502 L 1035 499 L 1037 497 L 1037 494 L 1039 491 L 1039 489 L 1043 482 L 1043 480 L 1046 475 L 1046 472 L 1048 470 L 1048 467 L 1052 460 L 1054 452 L 1057 447 L 1057 445 L 1059 443 L 1059 440 L 1069 420 L 1069 417 L 1071 415 L 1071 413 L 1073 411 L 1073 409 L 1079 398 L 1079 396 L 1083 389 L 1083 387 L 1085 385 L 1085 383 L 1089 377 L 1089 375 L 1094 366 L 1094 364 L 1096 362 L 1099 355 L 1101 353 L 1101 351 L 1103 349 L 1107 341 L 1107 339 L 1109 337 L 1117 320 L 1119 318 L 1119 316 L 1126 306 L 1126 304 L 1128 302 L 1132 294 L 1135 291 L 1139 282 L 1141 280 L 1143 275 L 1147 270 L 1148 267 L 1152 262 L 1153 259 L 1157 255 L 1159 251 L 1163 247 L 1164 244 L 1175 231 L 1176 228 L 1184 219 L 1187 214 L 1214 186 L 1219 183 L 1225 177 Z M 824 269 L 824 276 L 826 278 L 826 284 L 828 286 L 828 324 L 826 326 L 826 331 L 824 334 L 824 339 L 822 341 L 822 345 L 820 347 L 820 350 L 818 353 L 818 355 L 816 357 L 816 359 L 814 361 L 810 369 L 809 373 L 807 375 L 805 380 L 803 382 L 800 388 L 794 394 L 793 398 L 791 401 L 767 426 L 766 426 L 751 440 L 749 440 L 740 448 L 737 449 L 731 454 L 728 455 L 716 463 L 712 464 L 709 467 L 703 470 L 701 470 L 699 472 L 697 472 L 691 476 L 689 476 L 684 480 L 682 480 L 677 483 L 674 483 L 672 485 L 670 485 L 668 487 L 666 487 L 661 490 L 660 489 L 655 493 L 652 493 L 651 494 L 649 494 L 647 496 L 643 496 L 637 500 L 633 500 L 631 502 L 628 502 L 626 504 L 622 504 L 620 506 L 616 506 L 611 509 L 610 508 L 605 511 L 601 511 L 598 513 L 595 513 L 594 514 L 593 513 L 590 515 L 588 515 L 584 517 L 579 517 L 576 519 L 573 519 L 565 522 L 562 522 L 559 524 L 552 524 L 550 526 L 546 526 L 543 528 L 538 528 L 535 530 L 530 530 L 526 532 L 525 531 L 524 532 L 517 533 L 513 535 L 504 535 L 502 537 L 498 537 L 495 539 L 492 539 L 491 540 L 490 539 L 489 540 L 486 540 L 481 542 L 474 542 L 472 544 L 465 544 L 463 546 L 455 546 L 453 548 L 448 548 L 444 550 L 432 550 L 431 551 L 426 551 L 418 545 L 397 526 L 391 522 L 383 514 L 379 512 L 359 494 L 356 493 L 340 479 L 337 478 L 329 470 L 319 463 L 273 422 L 274 418 L 278 415 L 278 414 L 281 412 L 281 411 L 284 409 L 284 408 L 323 369 L 324 369 L 349 347 L 351 347 L 362 336 L 370 331 L 381 321 L 388 317 L 398 308 L 401 307 L 411 299 L 414 298 L 418 294 L 420 294 L 422 292 L 430 288 L 439 281 L 441 281 L 447 276 L 449 276 L 454 272 L 463 267 L 466 264 L 468 264 L 471 261 L 473 261 L 475 259 L 478 258 L 484 253 L 486 253 L 495 247 L 497 247 L 503 243 L 505 243 L 511 239 L 513 239 L 515 237 L 522 235 L 528 231 L 532 230 L 548 222 L 550 220 L 552 220 L 557 217 L 559 217 L 566 213 L 569 213 L 571 211 L 573 211 L 579 207 L 582 207 L 585 205 L 590 204 L 592 202 L 593 203 L 595 201 L 601 200 L 608 196 L 609 197 L 624 190 L 630 189 L 632 187 L 635 187 L 636 186 L 641 185 L 644 183 L 646 183 L 665 176 L 672 175 L 675 173 L 685 171 L 689 169 L 693 169 L 704 165 L 709 165 L 710 164 L 713 164 L 716 162 L 732 159 L 756 175 L 760 179 L 766 183 L 780 197 L 780 198 L 793 210 L 794 213 L 800 219 L 800 221 L 803 224 L 802 225 L 807 230 L 809 235 L 812 239 L 812 241 L 816 247 L 818 255 L 822 263 L 822 267 Z M 1164 152 L 1167 155 L 1166 158 L 1149 177 L 1148 180 L 1143 186 L 1141 190 L 1131 202 L 1125 212 L 1122 215 L 1120 220 L 1114 228 L 1112 233 L 1110 235 L 1102 250 L 1094 262 L 1085 281 L 1082 285 L 1082 287 L 1078 292 L 1078 294 L 1076 296 L 1073 302 L 1073 304 L 1070 307 L 1070 309 L 1066 315 L 1065 319 L 1063 321 L 1063 324 L 1059 329 L 1059 332 L 1056 336 L 1056 338 L 1054 340 L 1055 341 L 1051 346 L 1052 347 L 1048 353 L 1048 356 L 1046 358 L 1045 362 L 1042 367 L 1042 369 L 1038 375 L 1038 378 L 1035 382 L 1036 383 L 1032 389 L 1032 392 L 1027 402 L 1027 404 L 1023 411 L 1023 413 L 1021 416 L 1021 419 L 1018 423 L 1018 426 L 1015 429 L 1015 432 L 1009 444 L 1010 445 L 1007 450 L 1006 455 L 1002 463 L 1002 466 L 1000 468 L 1000 470 L 998 473 L 998 476 L 996 478 L 996 481 L 994 483 L 994 486 L 992 489 L 992 491 L 988 497 L 989 498 L 988 499 L 988 501 L 986 503 L 987 504 L 985 507 L 983 515 L 981 518 L 981 521 L 979 524 L 978 529 L 973 540 L 973 543 L 971 545 L 971 548 L 969 550 L 969 553 L 965 560 L 964 567 L 959 577 L 958 583 L 956 586 L 956 589 L 954 591 L 954 594 L 952 597 L 952 600 L 950 602 L 950 605 L 948 608 L 948 611 L 946 613 L 946 616 L 944 618 L 944 622 L 940 630 L 940 633 L 938 636 L 938 638 L 935 645 L 935 648 L 932 653 L 933 654 L 929 660 L 929 664 L 927 666 L 928 667 L 927 668 L 927 670 L 925 672 L 926 673 L 923 678 L 923 681 L 921 684 L 921 687 L 919 690 L 919 693 L 918 694 L 917 699 L 912 710 L 913 711 L 910 716 L 910 719 L 908 722 L 908 726 L 906 728 L 906 730 L 891 746 L 890 746 L 863 773 L 862 773 L 854 781 L 853 781 L 840 794 L 832 800 L 823 809 L 814 815 L 804 824 L 800 826 L 792 834 L 787 837 L 783 841 L 780 842 L 775 847 L 772 848 L 767 853 L 755 861 L 747 868 L 745 868 L 728 881 L 722 884 L 710 893 L 708 893 L 705 895 L 700 900 L 693 903 L 687 908 L 685 908 L 681 912 L 679 912 L 673 916 L 671 914 L 671 911 L 670 910 L 669 897 L 667 893 L 667 889 L 666 888 L 666 883 L 665 882 L 664 875 L 662 872 L 662 867 L 660 863 L 660 860 L 658 856 L 658 852 L 654 842 L 654 839 L 650 831 L 649 825 L 647 822 L 647 820 L 645 818 L 645 816 L 643 814 L 643 811 L 641 809 L 641 807 L 639 805 L 633 793 L 632 789 L 630 787 L 626 778 L 624 776 L 623 772 L 620 768 L 620 766 L 616 761 L 610 749 L 605 743 L 597 730 L 593 726 L 592 723 L 588 719 L 587 716 L 582 711 L 580 707 L 577 704 L 576 701 L 570 695 L 559 680 L 551 672 L 548 667 L 538 658 L 538 657 L 528 647 L 528 646 L 483 601 L 485 599 L 489 599 L 490 598 L 494 598 L 495 597 L 496 598 L 501 596 L 505 596 L 508 594 L 509 595 L 513 593 L 521 592 L 529 589 L 534 589 L 538 587 L 544 587 L 548 585 L 554 585 L 557 583 L 561 583 L 564 581 L 569 581 L 572 579 L 577 579 L 580 577 L 595 574 L 598 572 L 602 572 L 603 571 L 610 570 L 614 568 L 617 568 L 620 566 L 622 566 L 635 561 L 639 561 L 642 559 L 646 559 L 650 556 L 651 557 L 659 553 L 664 552 L 669 549 L 674 548 L 676 546 L 677 547 L 682 544 L 684 544 L 689 541 L 691 541 L 697 537 L 704 535 L 706 533 L 708 533 L 710 531 L 712 531 L 720 527 L 722 525 L 726 524 L 728 522 L 730 522 L 732 520 L 734 520 L 736 518 L 750 511 L 781 489 L 790 480 L 791 480 L 791 479 L 794 477 L 808 462 L 809 462 L 809 461 L 818 452 L 821 446 L 827 439 L 828 436 L 834 428 L 847 403 L 848 398 L 850 395 L 850 393 L 853 386 L 853 383 L 855 381 L 854 380 L 855 379 L 855 376 L 857 373 L 857 368 L 859 363 L 859 344 L 860 343 L 860 331 L 859 330 L 859 315 L 858 314 L 858 309 L 856 305 L 856 300 L 854 296 L 852 282 L 850 279 L 850 276 L 848 273 L 848 269 L 846 267 L 845 261 L 843 259 L 843 256 L 838 246 L 838 244 L 834 236 L 834 234 L 822 211 L 818 206 L 816 201 L 810 193 L 809 190 L 796 174 L 796 173 L 788 165 L 788 164 L 787 164 L 785 161 L 780 157 L 776 151 L 778 149 L 780 149 L 783 147 L 784 148 L 785 147 L 791 147 L 792 146 L 795 146 L 796 145 L 797 146 L 802 144 L 817 143 L 821 141 L 833 140 L 834 139 L 841 139 L 842 138 L 847 138 L 848 137 L 857 137 L 858 136 L 869 136 L 870 135 L 894 135 L 898 133 L 903 133 L 904 134 L 905 133 L 915 133 L 916 132 L 935 132 L 936 131 L 943 131 L 944 132 L 945 131 L 946 132 L 949 132 L 950 131 L 964 131 L 965 132 L 979 132 L 980 133 L 981 132 L 982 133 L 983 132 L 984 133 L 985 132 L 986 133 L 1019 133 L 1020 134 L 1044 135 L 1045 136 L 1049 136 L 1050 137 L 1051 136 L 1052 137 L 1062 137 L 1063 138 L 1068 138 L 1069 139 L 1092 140 L 1093 141 L 1099 141 L 1100 142 L 1106 142 L 1107 143 L 1115 143 L 1116 144 L 1121 144 L 1126 146 L 1132 146 L 1133 147 L 1137 147 L 1138 148 L 1150 149 L 1151 150 L 1158 151 L 1159 152 Z M 1908 103 L 1912 107 L 1912 145 L 1911 146 L 1911 164 L 1910 165 L 1910 177 L 1909 178 L 1910 179 L 1909 180 L 1909 202 L 1908 203 L 1908 209 L 1907 210 L 1907 222 L 1906 223 L 1906 228 L 1905 229 L 1905 244 L 1904 245 L 1904 255 L 1903 256 L 1903 263 L 1902 264 L 1902 271 L 1901 272 L 1901 281 L 1900 282 L 1900 290 L 1899 291 L 1899 301 L 1898 302 L 1898 306 L 1897 307 L 1897 315 L 1896 316 L 1895 333 L 1893 338 L 1893 348 L 1892 349 L 1892 356 L 1891 357 L 1890 371 L 1889 372 L 1889 384 L 1888 385 L 1888 394 L 1887 395 L 1887 404 L 1886 405 L 1885 428 L 1884 429 L 1884 434 L 1881 437 L 1873 430 L 1863 424 L 1856 418 L 1851 416 L 1846 412 L 1841 410 L 1839 408 L 1837 408 L 1828 402 L 1821 399 L 1819 397 L 1817 397 L 1815 395 L 1811 393 L 1809 393 L 1804 389 L 1799 388 L 1784 381 L 1782 381 L 1776 378 L 1768 376 L 1765 374 L 1757 372 L 1754 370 L 1751 370 L 1749 368 L 1749 366 L 1754 356 L 1759 349 L 1759 347 L 1763 342 L 1766 335 L 1772 326 L 1775 319 L 1778 316 L 1778 314 L 1780 312 L 1783 305 L 1785 303 L 1785 301 L 1791 293 L 1799 278 L 1801 276 L 1803 271 L 1806 268 L 1809 261 L 1814 254 L 1816 249 L 1820 244 L 1821 240 L 1826 234 L 1826 232 L 1828 230 L 1831 223 L 1841 208 L 1846 197 L 1848 195 L 1853 185 L 1856 182 L 1856 180 L 1862 172 L 1862 170 L 1865 167 L 1865 165 L 1867 163 L 1868 160 L 1878 146 L 1880 141 L 1885 135 L 1885 133 L 1892 124 L 1892 122 L 1898 116 L 1900 112 Z M 643 120 L 641 123 L 640 122 L 638 124 L 634 124 L 632 126 L 629 126 L 626 128 L 618 130 L 615 132 L 609 133 L 607 135 L 604 135 L 601 137 L 598 137 L 587 142 L 583 142 L 577 146 L 573 146 L 571 148 L 561 151 L 559 153 L 554 154 L 549 157 L 546 157 L 544 159 L 537 161 L 533 164 L 530 164 L 525 168 L 522 168 L 515 173 L 513 173 L 506 177 L 504 177 L 498 181 L 495 181 L 492 184 L 490 184 L 488 186 L 485 186 L 483 188 L 481 188 L 479 190 L 477 190 L 475 192 L 464 197 L 462 199 L 460 199 L 458 201 L 456 201 L 443 210 L 438 212 L 427 220 L 425 220 L 417 227 L 415 227 L 413 229 L 411 229 L 406 234 L 400 236 L 394 241 L 391 242 L 387 246 L 385 247 L 384 246 L 375 254 L 374 253 L 365 261 L 360 264 L 355 269 L 350 272 L 345 277 L 340 280 L 333 287 L 329 289 L 325 293 L 324 292 L 312 304 L 303 310 L 287 326 L 286 326 L 286 327 L 283 329 L 233 380 L 228 375 L 227 372 L 221 366 L 218 360 L 212 353 L 212 351 L 208 344 L 208 342 L 206 339 L 206 337 L 204 334 L 204 332 L 202 328 L 202 322 L 200 317 L 200 294 L 201 293 L 201 287 L 203 282 L 205 268 L 207 265 L 208 260 L 217 243 L 217 241 L 220 238 L 221 233 L 224 230 L 230 220 L 236 214 L 246 200 L 251 195 L 252 195 L 252 194 L 258 188 L 263 185 L 271 177 L 272 177 L 281 169 L 284 168 L 289 163 L 293 161 L 296 158 L 307 153 L 312 149 L 321 145 L 323 143 L 332 139 L 334 137 L 338 135 L 340 135 L 345 132 L 350 131 L 353 129 L 356 129 L 366 124 L 369 124 L 372 122 L 374 122 L 381 119 L 385 119 L 387 117 L 390 117 L 393 115 L 395 115 L 399 113 L 402 113 L 406 111 L 411 111 L 412 110 L 421 109 L 422 108 L 428 108 L 433 106 L 438 106 L 439 105 L 443 105 L 444 104 L 448 104 L 449 103 L 458 103 L 459 102 L 460 103 L 463 101 L 464 102 L 465 101 L 493 100 L 494 99 L 495 100 L 499 100 L 500 99 L 501 100 L 510 100 L 511 99 L 542 99 L 543 100 L 556 100 L 557 101 L 568 102 L 569 103 L 573 103 L 574 104 L 575 103 L 576 104 L 583 104 L 584 105 L 589 105 L 590 106 L 595 106 L 596 107 L 602 107 L 605 109 L 612 109 L 616 111 L 620 111 L 623 113 L 627 113 L 630 115 L 637 116 Z"/></svg></div>
+  <div class="colophon">
+    <span>© 2026 brightertoms</span>
+    <span>Portraits · Lieux · Détails</span>
+    <span>iPhone 14 Pro · Lightroom</span>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image agrandie">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Fermer">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Précédente">‹</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Suivante">›</button>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+const DATA=[...document.querySelectorAll('.frame-btn')].map(b=>{
+  const fc=b.closest('figure').querySelector('figcaption');
+  const no=fc.querySelector('.fno').textContent.trim();
+  const tg=fc.querySelector('.ftag').textContent.trim();
+  return {i:+b.dataset.i, src:b.querySelector('img').src, cap:no+' · '+tg};
+});
+// nav solid on scroll
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>40),{passive:true});
+// reveal
+const ro=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+// auto-reveal chapter heads already covered; add frames subtle stagger via reveal class
+// lightbox
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbCap=document.getElementById('lbCap');
+let cur=0;
+function byI(i){return DATA.findIndex(d=>d.i===i)}
+function show(idx){cur=(idx+DATA.length)%DATA.length;const d=DATA[cur];
+  lbImg.src=d.src;lbImg.alt=d.cap;
+  lbCap.innerHTML='<b>'+d.cap.split(' · ')[0]+'</b> · '+d.cap.split(' · ').slice(1).join(' · ')+'  —  '+(cur+1)+' / '+DATA.length;}
+function open(i){show(byI(i));lb.classList.add('open');document.body.style.overflow='hidden'}
+function close(){lb.classList.remove('open');document.body.style.overflow=''}
+document.querySelectorAll('.frame-btn').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.i)));
+document.getElementById('lbClose').onclick=close;
+document.getElementById('lbPrev').onclick=()=>show(cur-1);
+document.getElementById('lbNext').onclick=()=>show(cur+1);
+lb.addEventListener('click',e=>{if(e.target===lb)close()});
+addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')close();if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1)});
+
+let _tsx=0,_tsy=0;
+lb.addEventListener('touchstart',e=>{_tsx=e.changedTouches[0].clientX;_tsy=e.changedTouches[0].clientY},{passive:true});
+lb.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-_tsx, dy=e.changedTouches[0].clientY-_tsy;
+  if(Math.abs(dx)>45 && Math.abs(dx)>Math.abs(dy)){ dx<0?show(cur+1):show(cur-1); }
+},{passive:true});
+
+/* ░░ PROTECTION PHOTOS ░░ */
+// Bloquer clic droit sur les images
+document.addEventListener('contextmenu', function(e) {
+  if (e.target.tagName === 'IMG') e.preventDefault();
+});
+// Bloquer le copier-coller
+document.addEventListener('copy', function(e) { e.preventDefault(); });
+document.addEventListener('cut', function(e) { e.preventDefault(); });
+// Bloquer l'appui long sur mobile sur les images
+document.addEventListener('touchstart', function(e) {
+  if (e.target.tagName === 'IMG') {
+    e.target._touchTimer = setTimeout(function() {}, 500);
+  }
+}, {passive:true});
+document.querySelectorAll('img').forEach(function(img) {
+  img.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  img.addEventListener('dragstart', function(e) { e.preventDefault(); });
+});
+
+/* ░░ MENU HAMBURGER MOBILE ░░ */
+document.addEventListener('DOMContentLoaded', function(){
+  const burger = document.getElementById('navBurger');
+  const drawer = document.getElementById('navDrawer');
+  if (!burger || !drawer) return;
+
+  function openMenu() {
+    burger.classList.add('open');
+    drawer.classList.add('open');
+    burger.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    burger.classList.remove('open');
+    drawer.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  burger.addEventListener('click', function() {
+    burger.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  drawer.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeMenu();
+  });
+});
+
+/* Page merci : affichage si #merci dans l'URL */
+(function(){
+  function checkMerci(){
+    if(window.location.hash === '#merci'){
+      document.getElementById('merci').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  checkMerci();
+  window.addEventListener('hashchange', function(){
+    const m = document.getElementById('merci');
+    if(window.location.hash === '#merci'){
+      m.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    } else {
+      m.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+
+/* ░░ SYSTÈME DE LANGUE ░░ */
+const TRANSLATIONS = {
+  fr: {
+    pageTitle: 'brightertoms — photographe',
+    metaDesc: 'Portfolio photographique de brightertoms — portraits, lieux et détails. Shooté à l\'iPhone 14 Pro, retouché sur Lightroom.',
+    navPortraits: 'Portraits', navLieux: 'Lieux', navDetails: 'Détails',
+    navCredits: 'Crédits', navNewsletter: 'Newsletter', navContact: 'Contact',
+    eyebrowHero: 'Photographe · iPhone 14 Pro · Lightroom',
+    tagline: 'La lumière, le grain, le détail.',
+    metaPortraits: 'Portraits', metaLieux: 'Lieux', metaDetails: 'Détails',
+    aboutEyebrow: 'À propos',
+    aboutH2: 'Je regarde le monde comme on regarde un <em>vêtement</em>.',
+    aboutP1: 'Derrière <strong>brightertoms</strong>, il y a Tom — Thomas à l\'état civil, mais tout le monde dit Tom. 21 ans, un œil formé à la coupe et au tissu, qui cherche partout la même chose : une intention, une texture, une silhouette.',
+    aboutP2: 'Portraits, façades baroques, dorures, objets oubliés. Chaque image part d\'un même réflexe : trouver la lumière juste et le grain qui raconte. Juste l\'instant.',
+    aboutP3: '<strong>Tout est shooté à l\'iPhone 14 Pro</strong> — aucun appareil pro — et retouché sur Lightroom.',
+    aboutMeta: '55 images · 3 chapitres · iPhone 14 Pro × Lightroom',
+    ch1Num: '01', ch1Title: 'Portraits',
+    ch1Blurb: 'Visages, attitudes, contre-jours. Là où le vêtement rencontre la peau.',
+    ch1Count: '26 images',
+    ch2Num: '02', ch2Title: 'Lieux',
+    ch2Blurb: 'Musées, façades, ciels — l\'architecture et ses ors.',
+    ch2Count: '13 images',
+    ch3Num: '03', ch3Title: 'Détails',
+    ch3Blurb: 'Matières, objets, fresques. Ce qu\'on ne remarque qu\'au second regard.',
+    ch3Count: '16 images',
+    ch4Num: '04', ch4Title: 'Crédits',
+    ch4Blurb: 'Devant l\'objectif — merci à celles qui ont posé.',
+    ch4Count: '2 muses',
+    newsEyebrow: 'Newsletter ♡',
+    newsTitle: 'Reste dans la <em>boucle</em>',
+    newsSub: 'Les nouveautés, les mises à jour du site et les prochaines sorties — avant tout le monde.',
+    newsPlaceholderName: 'Ton prénom (ou ton surnom)',
+    newsPlaceholderEmail: 'Ton adresse e-mail',
+    newsConsent: 'J\'accepte de recevoir les nouveautés et mises à jour par e-mail. Désinscription possible à tout moment.',
+    newsBtn: 'S\'inscrire',
+    newsOk: 'Bienvenue ♡ Inscription enregistrée — surveille ta boîte mail.',
+    contactEyebrow: 'Contact',
+    contactH2: 'On crée <em>quelque chose</em> ?',
+    contactEmail: 'E-mail · contact@brightertoms.fr',
+    colophon2: 'Portraits · Lieux · Détails',
+    lbClose: 'Fermer', lbPrev: 'Précédente', lbNext: 'Suivante',
+    lbAria: 'Image agrandie',
+    merciTitle: 'Bienvenue dans<br>la <em>boucle</em>',
+    merciSub: 'Ton inscription est confirmée — surveille ta boîte mail pour ne rien manquer des prochaines sorties.',
+    merciBtn: 'Retourner au site',
+    formTitle: 'Newsletter♡',
+    formDesc: 'Inscris-toi pour recevoir les nouveautés, les mises à jour du site et découvrir les prochaines sorties avant tout le monde.',
+    formLabelFirstname: 'ton prénom',
+    formHintFirstname: 'Met ce que tu veux même ton surnom (c\'est pas un doc administratif haha :-) )',
+    formLabelEmail: 'ton adresse e-mail',
+    formHintEmail: 'Entre ton adresse e-mail pour rejoindre la newsletter.',
+    formConsent: 'J\'accepte de recevoir les nouveautés, mises à jour et communications par e-mail.',
+    formUnsub: 'Vous pourrez vous désinscrire à tout moment via le lien dans la newsletter.',
+  },
+  en: {
+    pageTitle: 'brightertoms — photographer',
+    metaDesc: 'Photography portfolio by brightertoms — portraits, places and details. Shot on iPhone 14 Pro, edited in Lightroom.',
+    navPortraits: 'Portraits', navLieux: 'Places', navDetails: 'Details',
+    navCredits: 'Credits', navNewsletter: 'Newsletter', navContact: 'Contact',
+    eyebrowHero: 'Photographer · iPhone 14 Pro · Lightroom',
+    tagline: 'Light, grain, detail.',
+    metaPortraits: 'Portraits', metaLieux: 'Places', metaDetails: 'Details',
+    aboutEyebrow: 'About',
+    aboutH2: 'I look at the world the way you look at a <em>garment</em>.',
+    aboutP1: 'Behind <strong>brightertoms</strong> is Tom — Thomas on paper, but everyone calls him Tom. 21 years old, an eye trained on cut and fabric, always searching for the same thing: intention, texture, silhouette.',
+    aboutP2: 'Portraits, baroque facades, gilding, forgotten objects. Every image starts from the same reflex: find the right light and the grain that tells a story. Just the moment.',
+    aboutP3: '<strong>Everything is shot on iPhone 14 Pro</strong> — no professional camera — and edited in Lightroom.',
+    aboutMeta: '55 images · 3 chapters · iPhone 14 Pro × Lightroom',
+    ch1Num: '01', ch1Title: 'Portraits',
+    ch1Blurb: 'Faces, attitudes, backlights. Where clothing meets skin.',
+    ch1Count: '26 images',
+    ch2Num: '02', ch2Title: 'Places',
+    ch2Blurb: 'Museums, facades, skies — architecture and its gilded details.',
+    ch2Count: '13 images',
+    ch3Num: '03', ch3Title: 'Details',
+    ch3Blurb: 'Textures, objects, frescoes. What you only notice on a second look.',
+    ch3Count: '16 images',
+    ch4Num: '04', ch4Title: 'Credits',
+    ch4Blurb: 'In front of the lens — thank you to those who posed.',
+    ch4Count: '2 muses',
+    newsEyebrow: 'Newsletter ♡',
+    newsTitle: 'Stay in the <em>loop</em>',
+    newsSub: 'New work, site updates and upcoming releases — before everyone else.',
+    newsPlaceholderName: 'Your first name (or nickname)',
+    newsPlaceholderEmail: 'Your email address',
+    newsConsent: 'I agree to receive news and updates by email. Unsubscribe at any time.',
+    newsBtn: 'Subscribe',
+    newsOk: 'Welcome ♡ Subscription confirmed — check your inbox.',
+    contactEyebrow: 'Contact',
+    contactH2: 'Shall we create <em>something</em>?',
+    contactEmail: 'E-mail · contact@brightertoms.fr',
+    colophon2: 'Portraits · Places · Details',
+    lbClose: 'Close', lbPrev: 'Previous', lbNext: 'Next',
+    lbAria: 'Enlarged image',
+    merciTitle: 'Welcome to<br>the <em>loop</em>',
+    merciSub: 'Your subscription is confirmed — check your inbox so you don\'t miss the next releases.',
+    merciBtn: 'Back to the site',
+    formTitle: 'Newsletter♡',
+    formDesc: 'Subscribe to receive new work, site updates and upcoming releases before everyone else.',
+    formLabelFirstname: 'your first name',
+    formHintFirstname: 'Put whatever you want, even a nickname (it\'s not an official document haha :-) )',
+    formLabelEmail: 'your email address',
+    formHintEmail: 'Enter your email address to join the newsletter.',
+    formConsent: 'I agree to receive news, updates and communications by email.',
+    formUnsub: 'You can unsubscribe at any time via the link in the newsletter.',
+  }
+};
+
+let currentLang = 'fr';
+
+function applyLang(lang) {
+  currentLang = lang;
+  const t = TRANSLATIONS[lang];
+  document.documentElement.lang = lang;
+  document.title = t.pageTitle;
+  document.querySelector('meta[name="description"]').content = t.metaDesc;
+
+  // Nav (desktop + drawer mobile)
+  document.querySelectorAll('a[href="#portraits"]').forEach(el => el.textContent = t.navPortraits);
+  document.querySelectorAll('a[href="#lieux"]').forEach(el => el.textContent = t.navLieux);
+  document.querySelectorAll('a[href="#details"]').forEach(el => el.textContent = t.navDetails);
+  document.querySelectorAll('a[href="#credits"]').forEach(el => el.textContent = t.navCredits);
+  document.querySelectorAll('a[href="#newsletter"]').forEach(el => el.textContent = t.navNewsletter);
+  document.querySelectorAll('a[href="#contact"]').forEach(el => el.textContent = t.navContact);
+
+  // Hero
+  document.querySelector('.hero .eyebrow').textContent = t.eyebrowHero;
+  document.querySelector('.hero .tagline').textContent = t.tagline;
+  const metaSpans = document.querySelectorAll('.hero .meta span');
+  metaSpans[0].textContent = t.metaPortraits;
+  metaSpans[1].textContent = t.metaLieux;
+  metaSpans[2].textContent = t.metaDetails;
+
+  // About
+  document.querySelector('.about-l .eyebrow').textContent = t.aboutEyebrow;
+  document.querySelector('.about h2').innerHTML = t.aboutH2;
+  const aboutPs = document.querySelectorAll('.about-r p');
+  aboutPs[0].innerHTML = t.aboutP1;
+  aboutPs[1].innerHTML = t.aboutP2;
+  aboutPs[2].innerHTML = t.aboutP3;
+  document.querySelector('.about-meta').textContent = t.aboutMeta;
+
+  // Chapters
+  const chapters = document.querySelectorAll('.chapter');
+  // Ch1 Portraits
+  chapters[0].querySelector('.chapter-num').textContent = t.ch1Num;
+  chapters[0].querySelector('.chapter-title').textContent = t.ch1Title;
+  chapters[0].querySelector('.chapter-blurb').textContent = t.ch1Blurb;
+  chapters[0].querySelector('.chapter-count').textContent = t.ch1Count;
+  // Ch2 Lieux
+  chapters[1].querySelector('.chapter-num').textContent = t.ch2Num;
+  chapters[1].querySelector('.chapter-title').textContent = t.ch2Title;
+  chapters[1].querySelector('.chapter-blurb').textContent = t.ch2Blurb;
+  chapters[1].querySelector('.chapter-count').textContent = t.ch2Count;
+  // Ch3 Détails
+  chapters[2].querySelector('.chapter-num').textContent = t.ch3Num;
+  chapters[2].querySelector('.chapter-title').textContent = t.ch3Title;
+  chapters[2].querySelector('.chapter-blurb').textContent = t.ch3Blurb;
+  chapters[2].querySelector('.chapter-count').textContent = t.ch3Count;
+
+  // Credits
+  const credits = document.querySelector('.credits');
+  credits.querySelector('.chapter-num').textContent = t.ch4Num;
+  credits.querySelector('.chapter-title').textContent = t.ch4Title;
+  credits.querySelector('.chapter-blurb').textContent = t.ch4Blurb;
+  credits.querySelector('.chapter-count').textContent = t.ch4Count;
+
+  // Contact / Footer
+  document.querySelector('.contact .eyebrow').textContent = t.contactEyebrow;
+  document.querySelector('.contact h2').innerHTML = t.contactH2;
+  const cols = document.querySelectorAll('.colophon span');
+  cols[1].textContent = t.colophon2;
+
+  // Lightbox aria
+  document.getElementById('lb').setAttribute('aria-label', t.lbAria);
+  document.getElementById('lbClose').setAttribute('aria-label', t.lbClose);
+  document.getElementById('lbPrev').setAttribute('aria-label', t.lbPrev);
+  document.getElementById('lbNext').setAttribute('aria-label', t.lbNext);
+
+  // Page merci
+  document.getElementById('merciTitle').innerHTML = t.merciTitle;
+  document.getElementById('merciSub').textContent = t.merciSub;
+  document.getElementById('merciBtn').textContent = t.merciBtn;
+
+  // Formulaire newsletter (stickers de traduction)
+  document.getElementById('news-overlay-title').textContent = t.formTitle;
+  document.getElementById('news-overlay-desc').textContent = t.formDesc;
+  document.getElementById('news-overlay-label-firstname').textContent = t.formLabelFirstname;
+  document.getElementById('news-overlay-hint-firstname').textContent = t.formHintFirstname;
+  document.getElementById('news-overlay-label-email').textContent = t.formLabelEmail;
+  document.getElementById('news-overlay-hint-email').textContent = t.formHintEmail;
+  document.getElementById('news-overlay-consent').textContent = t.formConsent;
+  document.getElementById('news-overlay-unsub').textContent = t.formUnsub;
+
+  // Switcher boutons (desktop + mobile)
+  document.getElementById('lbFr').classList.toggle('active', lang === 'fr');
+  document.getElementById('lbEn').classList.toggle('active', lang === 'en');
+  document.getElementById('lbFrMob').classList.toggle('active', lang === 'fr');
+  document.getElementById('lbEnMob').classList.toggle('active', lang === 'en');
+}
+
+function chooseLang(lang) {
+  sessionStorage.setItem('bt_lang', lang);
+  applyLang(lang);
+  // Masquer splash
+  const splash = document.getElementById('langSplash');
+  splash.style.transition = 'opacity .4s ease';
+  splash.style.opacity = '0';
+  setTimeout(() => { splash.style.display = 'none'; }, 420);
+  // Afficher les switchers dans la nav
+  document.getElementById('langBar').style.display = 'flex';
+  document.getElementById('langBarMob').style.display = 'flex';
+}
+
+// Init : si la langue a déjà été choisie dans cette session, on la réapplique sans splash
+(function(){
+  const saved = sessionStorage.getItem('bt_lang');
+  if (saved === 'fr' || saved === 'en') {
+    document.getElementById('langSplash').style.display = 'none';
+    document.getElementById('langBar').style.display = 'flex';
+    document.getElementById('langBarMob').style.display = 'flex';
+    applyLang(saved);
+  }
+})();
+</script>
+
+<script>
+  window.REQUIRED_CODE_ERROR_MESSAGE = 'Please choose a country code';
+  window.LOCALE = 'en';
+  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "Oups… Certaines informations semblent incorrectes. Vérifie les champs puis réessaie ♡ ";
+  window.REQUIRED_ERROR_MESSAGE = "Ce champ est obligatoire. Merci de le compléter ♡  ";
+  window.GENERIC_INVALID_MESSAGE = "Oups… Certaines informations semblent incorrectes. Vérifie les champs puis réessaie ♡ ";
+  window.INVALID_NUMBER = "Oups… Certaines informations semblent incorrectes. Vérifie les champs puis réessaie ♡ ";
+  window.INVALID_DATE = "Please enter a valid date";
+  window.REQUIRED_MULTISELECT_MESSAGE = 'Please select at least 1 option';
+  window.translation = {
+    common: {
+      selectedList: '{quantity} list selected',
+      selectedLists: '{quantity} lists selected',
+      selectedOption: '{quantity} selected',
+      selectedOptions: '{quantity} selected',
+    }
+  };
+  var AUTOHIDE = Boolean(0);
+</script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=en"></script>
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  root.classList.add("has-js");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    },{threshold:.08, rootMargin:"0px 0px -8% 0px"});
+    d.querySelectorAll(".frame").forEach(function(f){ io.observe(f); });
+  } else { d.querySelectorAll(".frame").forEach(function(f){ f.classList.add("in"); }); }
+
+  var prog=d.createElement("div"); prog.className="scroll-prog"; d.body.appendChild(prog);
+  function sp(){ var h=root, m=h.scrollHeight-h.clientHeight, s=m>0?h.scrollTop/m:0; prog.style.transform="scaleX("+s+")"; }
+  addEventListener("scroll", sp, {passive:true}); addEventListener("resize", sp); sp();
+
+  if(matchMedia("(hover:hover)").matches){
+    var g=d.createElement("div"); g.className="cursor-glow"; d.body.appendChild(g);
+    addEventListener("mousemove", function(e){ g.style.transform="translate("+e.clientX+"px,"+e.clientY+"px) translate(-50%,-50%)"; }, {passive:true});
+  }
+
+  var wm=d.querySelector(".wordmark");
+  if(wm && wm.firstChild && wm.firstChild.nodeType===3){
+    var dot=wm.querySelector(".dot");
+    var name=wm.firstChild.textContent;
+    wm.removeChild(wm.firstChild);
+    wm.classList.add("split");
+    var frag=d.createDocumentFragment();
+    name.split("").forEach(function(c,i){
+      var s=d.createElement("span"); s.className="ch";
+      s.textContent = c===" " ? String.fromCharCode(160) : c;
+      s.style.animationDelay=(0.2+i*0.045)+"s";
+      frag.appendChild(s);
+    });
+    wm.insertBefore(frag, dot);
+  }
+})();
+</script>
+</body>
+</html>
